@@ -35,6 +35,12 @@ class ChatApp:
         self.send_button.pack(expand=False, fill="x", padx=20, pady=(10, 10))
         self.app.after(100, lambda: self.message_input.focus_set())
 
+        # Bind pressing CTRL + Enter to send_message action
+        self.app.bind("<Control-Return>", self.on_control_enter)
+
+    def on_control_enter(self, event) -> None:        
+        self.send_message_thread()
+
     def send_message_thread(self) -> None:
         threading.Thread(target=self.send_message, daemon=True).start()
 
