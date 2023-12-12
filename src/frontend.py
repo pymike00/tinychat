@@ -35,10 +35,24 @@ class ChatApp:
         self.send_button.pack(expand=False, fill="x", padx=20, pady=(10, 10))
         self.app.after(100, lambda: self.message_input.focus_set())
 
-        # Bind pressing CTRL + Enter to send_message action
-        self.app.bind("<Control-Return>", self.on_control_enter)
+        # Bind Enter key press to send_message action
+        self.app.bind("<Return>", self.on_enter)
 
-    def on_control_enter(self, event) -> None:        
+        # Bind (CTRL or Shift) + Return to do nothing, so we can use to add space
+        self.app.bind("<Control-Return>", self.on_control_enter)
+        self.app.bind("<Shift-Return>", self.on_control_enter)
+
+    def on_control_enter(self, event) -> None:
+        # Handle Control + Enter key event
+        # You can leave this empty or add some other functionality
+        pass
+
+    def on_shift_enter(self, event) -> None:
+        # Handle Shift + Enter key event
+        # You can leave this empty or add some other functionality
+        pass
+
+    def on_enter(self, event) -> None:        
         self.send_message_thread()
 
     def send_message_thread(self) -> None:
