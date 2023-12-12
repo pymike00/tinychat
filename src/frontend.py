@@ -5,18 +5,20 @@ import customtkinter as ctk
 
 class ChatApp:
     def __init__(self, backend) -> None:
+        # Initialize the backend object
+        self.backend = backend
+
         # Initialize the main window
         self.app = ctk.CTk()
         self.app.title("TinyChat LLM Client")
-        self.app.geometry("1200x700")  # Full screen
-        self.backend = backend
-        # self.app.state('zoomed')  # For full screen on Windows
+        self.app.geometry("1200x700")
 
-        self.appearance_mode_optionemenu = ctk.CTkOptionMenu(
+        # Create model selection menu
+        self.model_selection_menu = ctk.CTkOptionMenu(
             self.app, values=self.backend.available_models(),
             command=self.backend.set_model
         )
-        self.appearance_mode_optionemenu.pack(padx=20, pady=(10, 0))
+        self.model_selection_menu.pack(padx=20, pady=(10, 0))
 
         # Create a big text area for displaying chat
         self.chat_display = ctk.CTkTextbox(self.app, width=100, state="disabled")
