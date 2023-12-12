@@ -1,3 +1,4 @@
+import threading
 import tkinter as tk
 import customtkinter as ctk
 
@@ -27,10 +28,13 @@ class ChatApp:
 
         # Create a button for sending messages
         self.send_button = ctk.CTkButton(
-            self.app, text="Send Message to the LM", command=self.send_message
+            self.app, text="Send Message to the LM", command=self.send_message_thread
         )
         self.send_button.pack(expand=False, fill="x", padx=20, pady=(10, 10))
         self.app.after(100, lambda: self.message_input.focus_set())
+
+    def send_message_thread(self) -> None:
+        threading.Thread(target=self.send_message, daemon=True).start()
 
     def send_message(self) -> None:
         user_input = self.message_input.get("1.0", tk.END)
