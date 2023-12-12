@@ -27,13 +27,8 @@ class Backend:
 
 
 if __name__ == "__main__":
-    try:
-        llm = GPT35Turbo()
-    except Exception as e:
-        print(f"Failed to initialize LLM: {e}")
-    else:
-        backend = Backend()
-        while True:
-            user_input = input("You: ")
-            chat_response = backend.get_chat_response(user_input)
-            print(chat_response)
+    backend = Backend()
+    while True:
+        user_input = input("You: ")
+        chat_response = backend.get_chat_response(user_input)
+        print(chat_response)
