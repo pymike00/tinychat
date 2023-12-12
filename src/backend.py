@@ -1,21 +1,20 @@
-from llms import CohereChat, GPT35Turbo, LLMProtocol 
+from llms import CohereChat, GPT35Turbo, LLMProtocol
 
 
 class Backend:
-    def __init__(self, llm: LLMProtocol):
+    def __init__(self, llm: LLMProtocol) -> None:
         self.llm = llm
 
-    def get_chat_response(self, user_input):
+    def get_chat_response(self, user_input) -> str:
         return self.llm.get_response(user_input)
 
 
 if __name__ == "__main__":
-    llm = GPT35Turbo()
     try:
-        llm.init_client()
+        llm = GPT35Turbo()
     except Exception as e:
         print(f"Failed to initialize LLM: {e}")
-    else: 
+    else:
         backend = Backend(llm=llm)
         while True:
             user_input = input("You: ")
