@@ -2,6 +2,8 @@ import threading
 import tkinter as tk
 import customtkinter as ctk
 
+from settings import MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
+
 
 class ChatApp:
     def __init__(self, backend) -> None:
@@ -10,8 +12,8 @@ class ChatApp:
 
         # Initialize the main window
         self.app = ctk.CTk()
-        self.app.title("TinyChat LLM Client")
-        self.app.geometry("1200x700")
+        self.app.title(MAIN_WINDOW_TITLE)
+        self.app.geometry(MAIN_WINDOW_RESOLUTION)
 
         # Create model selection menu
         self.model_selection_menu = ctk.CTkOptionMenu(
