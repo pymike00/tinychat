@@ -47,7 +47,7 @@ class ChatApp:
     def send_message(self) -> None:
         self.send_button.configure(state="disabled")
         user_input = self.message_input.get("1.0", tk.END)
-        self.update_chat_display(f"You: {user_input}")
+        self.update_chat_display(f"You: {user_input.strip()}")
         self.message_input.delete("1.0", tk.END)
         try:
             chat_response = self.backend.get_chat_response(user_input)
@@ -58,7 +58,7 @@ class ChatApp:
 
     def update_chat_display(self, message) -> None:
         self.chat_display.configure(state="normal")
-        self.chat_display.insert(tk.END, f"{message}\n")
+        self.chat_display.insert(tk.END, f"{message}\n\n")
         self.chat_display.configure(state="disabled")
         self.chat_display.yview(tk.END)
 
