@@ -39,6 +39,7 @@ class ChatApp:
         threading.Thread(target=self.send_message, daemon=True).start()
 
     def send_message(self) -> None:
+        self.send_button.configure(state="disabled")
         user_input = self.message_input.get("1.0", tk.END)
         self.update_chat_display(f"You: {user_input}")
         self.message_input.delete("1.0", tk.END)
@@ -47,6 +48,7 @@ class ChatApp:
             self.update_chat_display(f"LM: {chat_response}")
         except Exception as e:
             self.update_chat_display(f"Error: {e}")
+        self.send_button.configure(state="normal")
 
     def update_chat_display(self, message) -> None:
         self.chat_display.configure(state="normal")
