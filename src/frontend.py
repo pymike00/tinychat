@@ -11,9 +11,15 @@ class ChatApp:
         self.backend = backend
         # self.app.state('zoomed')  # For full screen on Windows
 
+        self.appearance_mode_optionemenu = ctk.CTkOptionMenu(
+            self.app, values=self.backend.available_models(),
+            command=self.backend.set_model
+        )
+        self.appearance_mode_optionemenu.pack(padx=20, pady=(10, 0))
+
         # Create a big text area for displaying chat
         self.chat_display = ctk.CTkTextbox(self.app, width=100, state="disabled")
-        self.chat_display.pack(expand=True, fill="both", padx=20, pady=20)
+        self.chat_display.pack(expand=True, fill="both", padx=20, pady=(10, 10))
 
         # Create a smaller text area for typing messages
         self.message_input = ctk.CTkTextbox(self.app, height=150, width=100)
@@ -23,7 +29,7 @@ class ChatApp:
         self.send_button = ctk.CTkButton(
             self.app, text="Send Message to the LM", command=self.send_message
         )
-        self.send_button.pack(expand=False, fill="x", padx=20, pady=20)
+        self.send_button.pack(expand=False, fill="x", padx=20, pady=(10, 10))
         self.app.after(100, lambda: self.message_input.focus_set())
 
     def send_message(self) -> None:
