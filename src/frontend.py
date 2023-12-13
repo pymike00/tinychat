@@ -32,7 +32,7 @@ class ChatApp:
 
         # Create a button for sending messages
         self.send_button = ctk.CTkButton(
-            self.app, text="Send Message to the LM", command=self.send_message_thread
+            self.app, text="Send Message to the LM", command=self.on_send_button
         )
         self.send_button.pack(expand=False, fill="x", padx=20, pady=(10, 10))
         self.app.after(100, lambda: self.message_input.focus_set())
@@ -54,7 +54,14 @@ class ChatApp:
         # You can leave this empty or add some other functionality
         pass
 
-    def on_enter(self, event) -> None:        
+    def on_enter(self, event) -> None:
+        if self.message_input.get("1.0", tk.END).isspace():
+            return 
+        self.send_message_thread()
+
+    def on_send_button(self) -> None:
+        if self.message_input.get("1.0", tk.END).isspace():
+            return 
         self.send_message_thread()
 
     def send_message_thread(self) -> None:
