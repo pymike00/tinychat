@@ -1,5 +1,5 @@
 import json
-from typing import Protocol, Union
+from typing import Any, Protocol
 
 from cohere import Client as CohereClient
 from openai import OpenAI as OpenAIClient
@@ -12,10 +12,9 @@ class LLMProtocol(Protocol):
     language model APIs such as Cohere or OpenAI.
     """
 
-    def _init_client(self) -> Union[CohereClient, OpenAIClient]:
+    def _init_client(self) -> Any:
         """
         Initialize and return a language model client.
-        This method can return either a Cohere client or an OpenAI client.
         """
         ...
 
