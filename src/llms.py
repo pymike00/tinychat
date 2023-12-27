@@ -89,3 +89,25 @@ class GPT35Turbo:
         )
         self.messages.append(response.choices[0].message)
         return response.choices[0].message.content
+    
+
+if __name__ == "__main__":
+    from mistralai.client import MistralClient
+    from mistralai.models.chat_completion import ChatMessage
+
+    api_key = ""
+    model = "mistral-small"
+
+    client = MistralClient(api_key=api_key)
+
+    messages = [
+        ChatMessage(role="user", content="who are you? who made you?")
+    ]
+
+    # No streaming
+    chat_response = client.chat(
+        model=model,
+        messages=messages,
+    )
+
+    print(chat_response)
