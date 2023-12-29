@@ -22,27 +22,31 @@ class ChatApp:
             values=self.backend.available_models(),
             command=self.on_model_selection,
         )
-        self.model_selection_menu.pack(padx=20, pady=(10, 0))
+        self.model_selection_menu.grid(row=0, column=0, padx=20, pady=(10, 0), sticky="ew")
 
         # Create a big text area for displaying chat
-        self.chat_display = ctk.CTkTextbox(self.app, width=100, state="disabled")
-        self.chat_display.pack(expand=True, fill="both", padx=20, pady=(10, 10))
+        self.chat_display = ctk.CTkTextbox(self.app, state="disabled")
+        self.chat_display.grid(row=1, column=0, padx=20, pady=(10, 10), sticky="nsew")
 
         # Create a smaller text area for typing messages
-        self.message_input = ctk.CTkTextbox(self.app, height=150, width=100)
-        self.message_input.pack(expand=False, fill="x", padx=20, pady=(0, 0))
+        self.message_input = ctk.CTkTextbox(self.app, height=150)
+        self.message_input.grid(row=2, column=0, padx=20, pady=(0, 0), sticky="ew")
 
         # Create a button for sending messages
         self.send_button = ctk.CTkButton(
             self.app, text="Send Message to the LM", command=self.on_send_button
         )
-        self.send_button.pack(expand=False, fill="x", padx=20, pady=(10, 10))
+        self.send_button.grid(row=3, column=0, padx=20, pady=(10, 10), sticky="ew")
         self.app.after(100, lambda: self.message_input.focus_set())
 
         # Create a progress bar to enable when getting data from the lms
         self.progress_bar = ctk.CTkProgressBar(self.app)
-        self.progress_bar.pack(expand=False, fill="both", padx=20, pady=(10, 10))
+        self.progress_bar.grid(row=4, column=0, padx=20, pady=(10, 10), sticky="ew")
         self.progress_bar.set(0.0)
+
+        # Configure the grid layout
+        self.app.grid_rowconfigure(1, weight=1)
+        self.app.grid_columnconfigure(0, weight=1)
 
         # Bind Enter key press to send_message action
         self.app.bind("<Return>", self.on_enter)
