@@ -18,7 +18,7 @@ class ChatApp:
         # Create model selection menu
         self.model_selection_menu = ctk.CTkOptionMenu(
             self.app, values=self.backend.available_models(),
-            command=self.backend.set_model
+            command=self.on_model_selection
         )
         self.model_selection_menu.pack(padx=20, pady=(10, 0))
 
@@ -63,6 +63,15 @@ class ChatApp:
         if self.message_input.get("1.0", tk.END).isspace():
             return 
         self.send_message_thread()
+
+    def on_model_selection(self, model_name) -> None:
+        self.backend.set_model(model_name=model_name)
+        self.clear_chat()
+
+    def clear_chat(self):
+        self.chat_display.configure(state="normal")
+        self.chat_display.delete("1.0", tk.END)
+        self.chat_display.configure(state="disabled")
 
     def send_message_thread(self) -> None:
         threading.Thread(target=self.send_message, daemon=True).start()
