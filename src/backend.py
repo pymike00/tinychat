@@ -1,5 +1,6 @@
 from llms.base import LLMProtocol
 from llms.cohere_wrap import CohereClientWrapper
+from llms.mistral_wrap import MistralClientWrapper
 from llms.openai_wrap import OpenAIClientWrapper
 
 
@@ -8,7 +9,10 @@ class Backend:
         self._models = {
             "GPT-4 Turbo": lambda: OpenAIClientWrapper("gpt-4-1106-preview"),
             "GPT-3.5 Turbo": lambda: OpenAIClientWrapper("gpt-3.5-turbo"),
-            "Cohere Chat": lambda: CohereClientWrapper()
+            "Mixtral-8X7B": lambda: MistralClientWrapper("mistral-small"),
+            "Mistral-7B": lambda: MistralClientWrapper("mistral-tiny"),
+            "Mixtral Medium": lambda: MistralClientWrapper("mistral-medium"),
+            "Cohere Chat": lambda: CohereClientWrapper(),
         }
         self._llm: LLMProtocol = self._models["GPT-4 Turbo"]()
 
