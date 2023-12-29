@@ -1,6 +1,6 @@
 from llms.base import LLMProtocol
-from llms.cohere import CohereClientWrapper
-from llms.openai import OpenAIClientWrapper
+from llms.cohere_wrap import CohereClientWrapper
+from llms.openai_wrap import OpenAIClientWrapper
 
 
 class Backend:
