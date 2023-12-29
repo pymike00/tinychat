@@ -37,6 +37,11 @@ class ChatApp:
         self.send_button.pack(expand=False, fill="x", padx=20, pady=(10, 10))
         self.app.after(100, lambda: self.message_input.focus_set())
 
+        # Create a progress bar to show when things are happening
+        self.progress_bar = ctk.CTkProgressBar(self.app)
+        self.progress_bar.pack(expand=False, fill="both", padx=20, pady=(10, 10))
+        self.progress_bar.set(0.0)
+
         # Bind Enter key press to send_message action
         self.app.bind("<Return>", self.on_enter)
 
@@ -73,10 +78,18 @@ class ChatApp:
         self.chat_display.delete("1.0", tk.END)
         self.chat_display.configure(state="disabled")
 
+    def toggle_progress_bar(self, start: bool):
+        if start:
+            self.progress_bar.start()
+        else:
+            self.progress_bar.stop()
+            self.progress_bar.set(0.0)
+
     def send_message_thread(self) -> None:
         threading.Thread(target=self.send_message, daemon=True).start()
 
     def send_message(self) -> None:
+        self.toggle_progress_bar(True)
         self.send_button.configure(state="disabled")
         user_input = self.message_input.get("1.0", tk.END)
         self.update_chat_display(f"You: {user_input.strip()}")
@@ -87,6 +100,7 @@ class ChatApp:
         except Exception as e:
             self.update_chat_display(f"Error: {e}")
         self.send_button.configure(state="normal")
+        self.toggle_progress_bar(False)
 
     def update_chat_display(self, message) -> None:
         self.chat_display.configure(state="normal")
