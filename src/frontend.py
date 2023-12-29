@@ -37,7 +37,7 @@ class ChatApp:
         self.send_button.pack(expand=False, fill="x", padx=20, pady=(10, 10))
         self.app.after(100, lambda: self.message_input.focus_set())
 
-        # Create a progress bar to show when things are happening
+        # Create a progress bar to enable when getting data from the lms
         self.progress_bar = ctk.CTkProgressBar(self.app)
         self.progress_bar.pack(expand=False, fill="both", padx=20, pady=(10, 10))
         self.progress_bar.set(0.0)
