@@ -24,7 +24,6 @@ class BaseLLMWrapper:
     """
 
     def __init__(self, client: Any, api_key_name: str) -> None:
-        self.messages = []
         self.client = self._init_client(client, api_key_name)
 
     def _init_client(self, client: Any, api_key_name: str) -> Any:
