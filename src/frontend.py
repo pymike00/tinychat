@@ -3,7 +3,7 @@ import tkinter as tk
 
 import customtkinter as ctk
 
-from settings import MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
+from settings import FONT_FAMILY, MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
 
 
 class SettingsFrame(ctk.CTkFrame):
@@ -22,6 +22,7 @@ class SettingsFrame(ctk.CTkFrame):
             self,
             values=available_models,
             command=on_model_select_callback,
+            font=ctk.CTkFont(family=FONT_FAMILY, size=13, weight="bold"),
         )
         self.model_selection_menu.grid(
             row=0, column=0, padx=(20, 0), pady=(10, 5), sticky="w"
@@ -29,9 +30,12 @@ class SettingsFrame(ctk.CTkFrame):
 
 
 class ChatApp(ctk.CTk):
-    
     def __init__(self, backend) -> None:
         super().__init__()
+
+        # Initialize font object to use with the chat text areas
+        chat_font = ctk.CTkFont(family=FONT_FAMILY, size=15)
+
         # Initialize the backend object
         self.backend = backend
 
@@ -55,19 +59,20 @@ class ChatApp(ctk.CTk):
         self.progress_bar.set(1.0)
 
         # Create a big text area for displaying chat
-        self.chat_display = ctk.CTkTextbox(self, state="disabled")
+        self.chat_display = ctk.CTkTextbox(self, state="disabled", font=chat_font)
         self.chat_display.grid(row=2, column=0, padx=20, pady=(10, 10), sticky="nsew")
 
         # Create a smaller text area for typing messages
-        self.message_input = ctk.CTkTextbox(self, height=150)
+        self.message_input = ctk.CTkTextbox(self, height=150, font=chat_font)
         self.message_input.grid(row=3, column=0, padx=20, pady=(0, 0), sticky="ew")
 
         # Create a button for sending messages
         self.send_button = ctk.CTkButton(
             self,
             height=40,
-            text="Send Message (or just press enter!)",
+            text="Send Message",
             command=self.on_send_button,
+            font=ctk.CTkFont(family=FONT_FAMILY, size=17),
         )
         self.send_button.grid(row=4, column=0, padx=20, pady=(10, 10), sticky="ew")
         self.after(100, lambda: self.message_input.focus_set())
