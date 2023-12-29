@@ -6,7 +6,7 @@ import customtkinter as ctk
 from settings import MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
 
 
-class ChatApp:
+class Frontend:
     def __init__(self, backend) -> None:
         # Initialize the backend object
         self.backend = backend

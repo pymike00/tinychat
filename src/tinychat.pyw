@@ -1,8 +1,8 @@
 from backend import Backend
-from frontend import ChatApp
+from frontend import Frontend
 
 
 if __name__ == "__main__":
     backend = Backend()
-    tinychat = ChatApp(backend=backend)
+    tinychat = Frontend(backend=backend)
     tinychat.run()
