@@ -3,12 +3,11 @@ from llms import CohereChat, GPT35Turbo, LLMProtocol
 
 class Backend:
     def __init__(self) -> None:
-        self._llm: LLMProtocol = GPT35Turbo()
         self._models = {
-            "GPT-3.5 Turbo": GPT35Turbo,
-            "Cohere Chat": CohereChat
-            # Add other models as needed
+            "GPT-3.5 Turbo": lambda: GPT35Turbo(),
+            "Cohere Chat": lambda: CohereChat()
         }
+        self._llm: LLMProtocol = self._models["GPT-3.5 Turbo"]()
 
     def available_models(self) -> list:
         return list(self._models.keys())
