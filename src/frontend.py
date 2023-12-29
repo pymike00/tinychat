@@ -75,6 +75,8 @@ class ChatApp(ctk.CTk):
             font=ctk.CTkFont(family=FONT_FAMILY, size=17),
         )
         self.send_button.grid(row=4, column=0, padx=20, pady=(10, 10), sticky="ew")
+
+        # Set focus (cursor) to message_input automatically
         self.after(100, lambda: self.message_input.focus_set())
 
         # Configure the grid layout
