@@ -1,11 +1,13 @@
-from llms import CohereChat, GPT35Turbo, LLMProtocol
+from llms.base import LLMProtocol
+from llms.cohere import CohereClientWrapper
+from llms.openai import OpenAIClientWrapper
 
 
 class Backend:
     def __init__(self) -> None:
         self._models = {
-            "GPT-3.5 Turbo": lambda: GPT35Turbo(),
-            "Cohere Chat": lambda: CohereChat()
+            "GPT-3.5 Turbo": lambda: OpenAIClientWrapper("gpt-3.5-turbo"),
+            "Cohere Chat": lambda: CohereClientWrapper()
         }
         self._llm: LLMProtocol = self._models["GPT-3.5 Turbo"]()
 
