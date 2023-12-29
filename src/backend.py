@@ -18,7 +18,7 @@ class Backend:
 
     def available_models(self) -> list:
         return list(self._models.keys())
-    
+
     def set_model(self, model_name: str) -> None:
         if model_name not in self.available_models():
             raise KeyError("Invalid Model Name")

@@ -1,5 +1,6 @@
 import threading
 import tkinter as tk
+
 import customtkinter as ctk
 
 from settings import MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
@@ -17,8 +18,9 @@ class ChatApp:
 
         # Create model selection menu
         self.model_selection_menu = ctk.CTkOptionMenu(
-            self.app, values=self.backend.available_models(),
-            command=self.on_model_selection
+            self.app,
+            values=self.backend.available_models(),
+            command=self.on_model_selection,
         )
         self.model_selection_menu.pack(padx=20, pady=(10, 0))
 
@@ -61,12 +63,12 @@ class ChatApp:
 
     def on_enter(self, event) -> None:
         if self.message_input.get("1.0", tk.END).isspace():
-            return 
+            return
         self.send_message_thread()
 
     def on_send_button(self) -> None:
         if self.message_input.get("1.0", tk.END).isspace():
-            return 
+            return
         self.send_message_thread()
 
     def on_model_selection(self, model_name) -> None:
@@ -111,4 +113,3 @@ class ChatApp:
     def run(self) -> None:
         # Start the application
         self.app.mainloop()
-
