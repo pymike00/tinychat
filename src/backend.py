@@ -6,10 +6,11 @@ from llms.openai_wrap import OpenAIClientWrapper
 class Backend:
     def __init__(self) -> None:
         self._models = {
+            "GPT-4 Turbo": lambda: OpenAIClientWrapper("gpt-4-1106-preview"),
             "GPT-3.5 Turbo": lambda: OpenAIClientWrapper("gpt-3.5-turbo"),
             "Cohere Chat": lambda: CohereClientWrapper()
         }
-        self._llm: LLMProtocol = self._models["GPT-3.5 Turbo"]()
+        self._llm: LLMProtocol = self._models["GPT-4 Turbo"]()
 
     def available_models(self) -> list:
         return list(self._models.keys())
