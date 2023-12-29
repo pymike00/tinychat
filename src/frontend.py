@@ -28,19 +28,20 @@ class SettingsFrame(ctk.CTkFrame):
         )
 
 
-class Frontend:
+class Frontend(ctk.CTk):
+    
     def __init__(self, backend) -> None:
+        super().__init__()
         # Initialize the backend object
         self.backend = backend
 
         # Initialize the main window
-        self.app = ctk.CTk()
-        self.app.title(MAIN_WINDOW_TITLE)
-        self.app.geometry(MAIN_WINDOW_RESOLUTION)
+        self.title(MAIN_WINDOW_TITLE)
+        self.geometry(MAIN_WINDOW_RESOLUTION)
 
         # Initialize choices frame with widgets for model selection
         self.settings_frame = SettingsFrame(
-            self.app,
+            self,
             available_models=backend.available_models(),
             on_model_select_callback=self.on_model_selection,
             corner_radius=0,
@@ -49,38 +50,38 @@ class Frontend:
         self.settings_frame.grid(row=0, column=0, rowspan=1, sticky="nsew")
 
         # Create a progress bar to enable when getting data from the lms
-        self.progress_bar = ctk.CTkProgressBar(self.app, height=10)
+        self.progress_bar = ctk.CTkProgressBar(self, height=10)
         self.progress_bar.grid(row=1, column=0, padx=20, pady=(10, 0), sticky="ew")
         self.progress_bar.set(1.0)
 
         # Create a big text area for displaying chat
-        self.chat_display = ctk.CTkTextbox(self.app, state="disabled")
+        self.chat_display = ctk.CTkTextbox(self, state="disabled")
         self.chat_display.grid(row=2, column=0, padx=20, pady=(10, 10), sticky="nsew")
 
         # Create a smaller text area for typing messages
-        self.message_input = ctk.CTkTextbox(self.app, height=150)
+        self.message_input = ctk.CTkTextbox(self, height=150)
         self.message_input.grid(row=3, column=0, padx=20, pady=(0, 0), sticky="ew")
 
         # Create a button for sending messages
         self.send_button = ctk.CTkButton(
-            self.app,
+            self,
             height=40,
             text="Send Message (or just press enter!)",
             command=self.on_send_button,
         )
         self.send_button.grid(row=4, column=0, padx=20, pady=(10, 10), sticky="ew")
-        self.app.after(100, lambda: self.message_input.focus_set())
+        self.after(100, lambda: self.message_input.focus_set())
 
         # Configure the grid layout
-        self.app.grid_rowconfigure(2, weight=1)
-        self.app.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
         # Bind Enter key press to send_message action
-        self.app.bind("<Return>", self.on_enter)
+        self.bind("<Return>", self.on_enter)
 
         # Bind (CTRL or Shift) + Return to do nothing, so we can use to add space
-        self.app.bind("<Control-Return>", self.on_control_enter)
-        self.app.bind("<Shift-Return>", self.on_control_enter)
+        self.bind("<Control-Return>", self.on_control_enter)
+        self.bind("<Shift-Return>", self.on_control_enter)
 
     def on_control_enter(self, event) -> None:
         # Handle Control + Enter key event
@@ -143,4 +144,4 @@ class Frontend:
 
     def run(self) -> None:
         # Start the application
-        self.app.mainloop()
+        self.mainloop()
