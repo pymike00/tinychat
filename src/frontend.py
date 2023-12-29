@@ -28,7 +28,7 @@ class SettingsFrame(ctk.CTkFrame):
         )
 
 
-class Frontend(ctk.CTk):
+class ChatApp(ctk.CTk):
     
     def __init__(self, backend) -> None:
         super().__init__()
