@@ -6,6 +6,28 @@ import customtkinter as ctk
 from settings import MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
 
 
+class SettingsFrame(ctk.CTkFrame):
+    """
+    Allows model selection and access to settings.
+    """
+
+    def __init__(
+        self, parent, available_models, on_model_select_callback, *args, **kwargs
+    ):
+        super().__init__(parent, *args, **kwargs)
+        self.grid_columnconfigure(2, weight=1)
+
+        # Create model selection menu
+        self.model_selection_menu = ctk.CTkOptionMenu(
+            self,
+            values=available_models,
+            command=on_model_select_callback,
+        )
+        self.model_selection_menu.grid(
+            row=0, column=0, padx=(20, 0), pady=(10, 5), sticky="w"
+        )
+
+
 class Frontend:
     def __init__(self, backend) -> None:
         # Initialize the backend object
@@ -16,13 +38,15 @@ class Frontend:
         self.app.title(MAIN_WINDOW_TITLE)
         self.app.geometry(MAIN_WINDOW_RESOLUTION)
 
-        # Create model selection menu
-        self.model_selection_menu = ctk.CTkOptionMenu(
+        # Initialize choices frame with widgets for model selection
+        self.settings_frame = SettingsFrame(
             self.app,
-            values=self.backend.available_models(),
-            command=self.on_model_selection,
+            available_models=backend.available_models(),
+            on_model_select_callback=self.on_model_selection,
+            corner_radius=0,
+            fg_color="transparent",
         )
-        self.model_selection_menu.grid(row=0, column=0, padx=20, pady=(10, 0), sticky="ew")
+        self.settings_frame.grid(row=0, column=0, rowspan=1, sticky="nsew")
 
         # Create a progress bar to enable when getting data from the lms
         self.progress_bar = ctk.CTkProgressBar(self.app, height=10)
@@ -39,7 +63,10 @@ class Frontend:
 
         # Create a button for sending messages
         self.send_button = ctk.CTkButton(
-            self.app, height=40, text="Send Message to the LM", command=self.on_send_button
+            self.app,
+            height=40,
+            text="Send Message (or just press enter!)",
+            command=self.on_send_button,
         )
         self.send_button.grid(row=4, column=0, padx=20, pady=(10, 10), sticky="ew")
         self.app.after(100, lambda: self.message_input.focus_set())
