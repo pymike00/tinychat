@@ -1,5 +1,5 @@
 from backend import Backend
-from frontend import ChatApp
+from ui.chat import ChatApp
 
 
 if __name__ == "__main__":
