@@ -33,6 +33,11 @@ cd src
 python tinychat.pyw
 ```
 
+<br>
+
+## Clean Interface
+**Select your favorite model and start chatting**
+
 <img src="./assets/tinychat-two.png">
 
 ## Supported Models
