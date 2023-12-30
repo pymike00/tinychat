@@ -1,5 +1,5 @@
 <div align="center">
-<img height="250" src="./tinychat.png">
+<img height="250" src="./assets/tinychat.png">
 
 <h1>TinyChat</h1>
 
@@ -32,6 +32,8 @@ pip install -r requirements.txt
 cd src
 python tinychat.pyw
 ```
+
+<img src="./assets/tinychat-two.png">
 
 ## Supported Models
 **Supports all major chat models from OpenAI, Mistral and Cohere official cloud APIs:**
