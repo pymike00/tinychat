@@ -10,7 +10,7 @@ FONT_FAMILY = "Ubuntu"
 # API Key storage file location
 SECRETS_FILE_PATH = "secrets.json"
 
-# API Key Constants. Used as keys in the API Key storage file
+# API Key Constants. Used as names in the API Key storage file
 OPENAI_API_KEY_NAME = "OPENAI_API_KEY"
 MISTRAL_API_KEY_NAME = "MISTRAL_API_KEY"
 COHERE_API_KEY_NAME = "COHERE_API_KEY"
