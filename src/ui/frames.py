@@ -1,7 +1,12 @@
 import customtkinter as ctk
 
 from api_keys import get_api_key, set_api_key
-from settings import FONT_FAMILY
+from settings import (
+    COHERE_API_KEY_NAME,
+    OPENAI_API_KEY_NAME,
+    MISTRAL_API_KEY_NAME,
+    FONT_FAMILY,
+)
 
 
 class SettingsFrame(ctk.CTkFrame):
@@ -57,7 +62,7 @@ class SettingsFrame(ctk.CTkFrame):
         api_key_label_1 = ctk.CTkLabel(settings_window, text="OpenAI API Key: ")
         api_key_label_1.grid(row=0, column=0, padx=(20, 2), pady=(20, 2), sticky="e")
         self.api_key_entry_1 = ctk.CTkEntry(settings_window)
-        self.api_key_entry_1.insert(0, get_api_key("OPENAI_API_KEY"))
+        self.api_key_entry_1.insert(0, get_api_key(OPENAI_API_KEY_NAME))
         self.api_key_entry_1.grid(
             row=0, column=1, padx=(2, 20), pady=(20, 2), sticky="ew"
         )
@@ -65,7 +70,7 @@ class SettingsFrame(ctk.CTkFrame):
         api_key_label_2 = ctk.CTkLabel(settings_window, text="Mistral API Key: ")
         api_key_label_2.grid(row=1, column=0, padx=(20, 2), pady=(10, 2), sticky="e")
         self.api_key_entry_2 = ctk.CTkEntry(settings_window)
-        self.api_key_entry_2.insert(0, get_api_key("MISTRAL_API_KEY"))
+        self.api_key_entry_2.insert(0, get_api_key(MISTRAL_API_KEY_NAME))
         self.api_key_entry_2.grid(
             row=1, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
         )
@@ -73,7 +78,7 @@ class SettingsFrame(ctk.CTkFrame):
         api_key_label_3 = ctk.CTkLabel(settings_window, text="Cohere API Key: ")
         api_key_label_3.grid(row=2, column=0, padx=(20, 2), pady=(10, 2), sticky="e")
         self.api_key_entry_3 = ctk.CTkEntry(settings_window)
-        self.api_key_entry_3.insert(0, get_api_key("COHERE_API_KEY"))
+        self.api_key_entry_3.insert(0, get_api_key(COHERE_API_KEY_NAME))
         self.api_key_entry_3.grid(
             row=2, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
         )
@@ -94,7 +99,7 @@ class SettingsFrame(ctk.CTkFrame):
         save.grid(row=3, column=1, padx=(150, 0), pady=(20, 0), sticky="w")
 
     def save_settings(self):
-        set_api_key("OPENAI_API_KEY", self.api_key_entry_1.get())
-        set_api_key("MISTRAL_API_KEY", self.api_key_entry_2.get())
-        set_api_key("COHERE_API_KEY", self.api_key_entry_3.get())
+        set_api_key(OPENAI_API_KEY_NAME, self.api_key_entry_1.get())
+        set_api_key(MISTRAL_API_KEY_NAME, self.api_key_entry_2.get())
+        set_api_key(COHERE_API_KEY_NAME, self.api_key_entry_3.get())
         self.status_label.configure(text="Saved.")

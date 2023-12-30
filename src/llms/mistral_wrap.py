@@ -2,6 +2,7 @@ from mistralai.client import MistralClient
 from mistralai.models.chat_completion import ChatMessage
 
 from llms.base import BaseLLMWrapper
+from settings import MISTRAL_API_KEY_NAME
 
 
 class MistralClientWrapper(BaseLLMWrapper):
@@ -10,7 +11,7 @@ class MistralClientWrapper(BaseLLMWrapper):
     """
 
     def __init__(self, model_name: str = "mistral-small") -> None:
-        super().__init__(client=MistralClient, api_key_name="mistral_api_key")
+        super().__init__(client=MistralClient, api_key_name=MISTRAL_API_KEY_NAME)
         self.model_name = model_name
         self.messages = []
 

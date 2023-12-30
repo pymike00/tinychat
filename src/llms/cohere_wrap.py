@@ -1,6 +1,7 @@
 from cohere import Client as CohereClient
 
 from llms.base import BaseLLMWrapper
+from settings import COHERE_API_KEY_NAME
 
 
 class CohereClientWrapper(BaseLLMWrapper):
@@ -9,7 +10,7 @@ class CohereClientWrapper(BaseLLMWrapper):
     """
 
     def __init__(self) -> None:
-        super().__init__(client=CohereClient, api_key_name="cohere_api_key")
+        super().__init__(client=CohereClient, api_key_name=COHERE_API_KEY_NAME)
         self.chat_history = []
 
     def get_response(self, user_input: str) -> str:

@@ -1,6 +1,7 @@
 from openai import OpenAI as OpenAIClient
 
 from llms.base import BaseLLMWrapper
+from settings import OPENAI_API_KEY_NAME
 
 
 class OpenAIClientWrapper(BaseLLMWrapper):
@@ -10,7 +11,7 @@ class OpenAIClientWrapper(BaseLLMWrapper):
     """
 
     def __init__(self, model_name: str = "gpt-3.5-turbo") -> None:
-        super().__init__(client=OpenAIClient, api_key_name="openai_api_key")
+        super().__init__(client=OpenAIClient, api_key_name=OPENAI_API_KEY_NAME)
         self.model_name = model_name
         self.messages = []
 
