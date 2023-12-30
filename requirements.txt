@@ -1,3 +1,4 @@
+customtkinter==5.2.1
 openai==1.3.7
 cohere==4.37
 mistralai==0.09
