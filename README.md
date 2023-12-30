@@ -40,7 +40,7 @@ python tinychat.pyw
 
 <img src="./assets/tinychat-two.png">
 
-## Supported Models
+## Supports all Major Models
 **Supports all major chat models from OpenAI, Mistral and Cohere official cloud APIs:**
 
 - [X] GPT-4 Turbo
@@ -50,10 +50,21 @@ python tinychat.pyw
 - [X] Mistral Medium
 - [X] Cohere Chat
 
+<br>
 
-## Lots of things to do still
+*To use the models you will need an API Key from <a href="https://platform.openai.com/api-keys">OpenAI</a> / <a href="https://console.mistral.ai/user/api-keys/">Mistral</a> / <a href="https://dashboard.cohere.com/api-keys/">Cohere</a>. Follow the links to get started!*
+
+<br>
+
+
+## Minimal Dependencies
+**TinyChat only requires the OpenAI, Mistral and Cohere clients + <a href="https://github.com/TomSchimansky/CustomTkinter">CustomTkinter</a> for the UI.**
+
+<br>
+
+## Project just started. Here is a todo list:
 
 - Support for Chat History
-- Support for 
+- Support for multimodality
 - Better API key handling (currently using a secrets.json)
 - Tests, tests, tests.
