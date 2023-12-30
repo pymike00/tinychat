@@ -177,8 +177,12 @@ class ChatApp(ctk.CTk):
         self.send_message_thread()
 
     def on_model_selection(self, model_name) -> None:
-        self.backend.set_model(model_name=model_name)
-        self.clear_chat()
+        try:
+            self.backend.set_model(model_name=model_name)
+        except KeyError as e:
+            self.update_chat_display(message=e)
+        else:
+            self.clear_chat()
 
     def clear_chat(self):
         self.chat_display.configure(state="normal")
