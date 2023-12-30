@@ -21,12 +21,3 @@ class OpenAIClientWrapper(BaseLLMWrapper):
         )
         self.messages.append(response.choices[0].message)
         return response.choices[0].message.content
-
-
-if __name__ == "__main__":
-    # Example usage:
-    model_name = "gpt-3.5-turbo"
-    user_input = "Hello, who are you?"
-    client_wrapper = OpenAIClientWrapper(model_name=model_name)
-    response = client_wrapper.get_response(user_input)
-    print(f"Response from the model: {response}")

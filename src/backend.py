@@ -36,6 +36,7 @@ class Backend:
 
 if __name__ == "__main__":
     backend = Backend()
+    backend.set_model("GPT-3.5 Turbo")
     while True:
         user_input = input("You: ")
         chat_response = backend.get_chat_response(user_input)
