@@ -1,6 +1,8 @@
 import json
 from typing import Any, Protocol
 
+from settings import SECRETS_FILE_PATH
+
 
 class LLMProtocol(Protocol):
     """
@@ -27,12 +29,11 @@ class BaseLLMWrapper:
         self.client = self._init_client(client, api_key_name)
 
     def _init_client(self, client: Any, api_key_name: str) -> Any:
+        # TODO: better secrets handling
         try:
-            with open("secrets.json") as f:
+            with open(SECRETS_FILE_PATH) as f:
                 secrets = json.load(f)
                 api_key = secrets[api_key_name]
-        except FileNotFoundError:
-            raise FileNotFoundError("The file 'secrets.json' was not found.")
         except KeyError:
-            raise KeyError(f"The '{api_key_name}' was not found in 'secrets.json'.")
+            raise KeyError(f"The '{api_key_name}' was not found at {SECRETS_FILE_PATH}.")
         return client(api_key=api_key)

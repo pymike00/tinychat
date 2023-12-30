@@ -6,3 +6,6 @@ MAIN_WINDOW_RESOLUTION = "1200x700"
 
 # Set font-family 
 FONT_FAMILY = "Ubuntu"
+
+# API Key storage file location
+SECRETS_FILE_PATH = "secrets.json"
