@@ -3,7 +3,7 @@
 
 <h1>TinyChat</h1>
 
-*A tiny GUI client for modern Language Models*
+*A simple GUI client for modern Language Models*
 
 **TinyChat is built with simplicity in mind. Its minimalistic Python code is designed for straightforward comprehension. More features will likely come, but it will stay tiny. Promised!**
 </div>
@@ -43,28 +43,25 @@ python tinychat.pyw
 ## Supports all Major Models
 **Supports all major chat models from OpenAI, Mistral and Cohere official cloud APIs:**
 
-- [X] GPT-4 Turbo
-- [X] GPT-3.5-Turbo
-- [X] Mixtral 8x7B
-- [X] Mistral 7B
-- [X] Mistral Medium
-- [X] Cohere Chat
+- [x] GPT-4 Turbo
+- [x] GPT-3.5-Turbo
+- [x] Mixtral 8x7B
+- [x] Mistral 7B
+- [x] Mistral Medium
+- [x] Cohere Chat
 
 <br>
 
 *To use the models you will need an API Key from <a href="https://platform.openai.com/api-keys">OpenAI</a> / <a href="https://console.mistral.ai/user/api-keys/">Mistral</a> / <a href="https://dashboard.cohere.com/api-keys/">Cohere</a>. Follow the links to get started!*
 
-<br>
 
-
-## Minimal Dependencies
-**TinyChat only requires the OpenAI, Mistral and Cohere clients + <a href="https://github.com/TomSchimansky/CustomTkinter">CustomTkinter</a> for the UI.**
 
 <br>
 
-## Project just started. Here is a todo list:
+## Project just started. Here is what you can expect for the future:
 
-- Support for Chat History
-- Support for multimodality
-- Better API key handling (currently using a secrets.json)
-- Tests, tests, tests.
+- [ ] Dependency-less
+- [ ] Support for chat history
+- [ ] Support for multimodality
+- [ ] Support for local models
+- [ ] Currently storing api_keys in a gitignored secrets.json. Considering better options.
