@@ -25,8 +25,10 @@ class Backend:
             raise KeyError(f"Invalid Model Name {model_name}")
         try:
             self._llm = self._models[model_name]()
-        except KeyError:
-            raise KeyError(f"Initialization Error. Have you set the API Key for {model_name}?")
+        except ValueError as e:
+            raise ValueError(
+                f"Initialization Error. Have you set the API Key for {model_name}? {e}"
+            )
 
     def get_chat_response(self, user_input: str) -> str:
         if self._llm is None:

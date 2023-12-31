@@ -91,7 +91,7 @@ class ChatApp(ctk.CTk):
     def on_model_selection(self, model_name) -> None:
         try:
             self.backend.set_model(model_name=model_name)
-        except KeyError as e:
+        except (KeyError, ValueError) as e:
             self.update_chat_display(message=e)
         else:
             self.clear_chat()
