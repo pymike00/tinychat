@@ -33,3 +33,34 @@ class BaseLLMWrapper:
         if not api_key:
             raise ValueError(f"{api_key_name} was not found in {SECRETS_FILE_PATH}.")
         return client(api_key=api_key)
+
+
+class BaseLLMClient:
+    """
+    A base client class for interacting with Language Model APIs.
+
+    :param api_key: The API key used for authenticating with the API.
+    :param temperature: The temperature setting for the language model.
+    """
+
+    def __init__(self, api_key_name: str) -> None:
+        self.api_key = api_key_name
+        self.temperature = 1.0
+
+    @property
+    def api_key(self):
+        return self._api_key
+
+    @api_key.setter
+    def api_key(self, api_key_name):
+        api_key = get_api_key(api_key_name)
+        if not api_key:
+            raise ValueError(f"{api_key_name} was not found in {SECRETS_FILE_PATH}.")
+        self._api_key = api_key
+
+    def default_headers(self):
+        return {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}",
+        }
