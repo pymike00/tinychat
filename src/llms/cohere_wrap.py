@@ -23,7 +23,7 @@ class CohereClientWrapper(BaseLLMClient):
         data = {
             "chat_history": self.chat_history,
             "message": user_input,
-            "temperature": 1.0,
+            "temperature": self.temperature,
         }
         response = requests.post(
             self.COHERE_CHAT_API_URL,
