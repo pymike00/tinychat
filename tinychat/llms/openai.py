@@ -8,6 +8,8 @@ class OpenAIClient(BaseLLMClient):
     """
     OpenAI client wrapper for various language models.
     Currently only supports chat.
+    
+    TODO: make it stateless. Chat history should be handled outside of the class.
     """
 
     OPENAI_COMPLETION_API_URL = "https://api.openai.com/v1/chat/completions"

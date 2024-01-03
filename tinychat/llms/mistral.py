@@ -7,6 +7,7 @@ from tinychat.settings import MISTRAL_API_KEY_NAME
 class MistralClient(BaseLLMClient):
     """
     Mistral chat client.
+    TODO: make it stateless. Chat history should be handled outside of the class.
     """
 
     MISTRAL_COMPLETION_API_URL = "https://api.mistral.ai/v1/chat/completions"

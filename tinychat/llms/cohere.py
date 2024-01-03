@@ -7,6 +7,7 @@ from tinychat.settings import COHERE_API_KEY_NAME
 class CohereClient(BaseLLMClient):
     """
     Cohere chat client.
+    TODO: make it stateless. Chat history should be handled outside of the class.
     """
 
     COHERE_CHAT_API_URL = "https://api.cohere.ai/v1/chat"
