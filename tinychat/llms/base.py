@@ -1,6 +1,6 @@
 from typing import Any, Protocol
 
-from tinychat.api_keys import get_api_key
+from tinychat.utils.api_keys import get_api_key
 from tinychat.settings import SECRETS_FILE_PATH
 
 

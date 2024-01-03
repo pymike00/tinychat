@@ -1,5 +1,3 @@
-# TODO: better api key handling
-
 import json
 
 from tinychat.settings import SECRETS_FILE_PATH

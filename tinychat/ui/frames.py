@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-from tinychat.api_keys import get_api_key, set_api_key
+from tinychat.utils.api_keys import get_api_key, set_api_key
 from tinychat.settings import (
     COHERE_API_KEY_NAME,
     OPENAI_API_KEY_NAME,
