@@ -1,5 +1,5 @@
-from backend import Backend
-from ui.chat import ChatApp
+from tinychat.backend import Backend
+from tinychat.ui.chat import ChatApp
 
 
 if __name__ == "__main__":

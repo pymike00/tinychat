@@ -1,7 +1,7 @@
 from typing import Any, Protocol
 
-from api_keys import get_api_key
-from settings import SECRETS_FILE_PATH
+from tinychat.api_keys import get_api_key
+from tinychat.settings import SECRETS_FILE_PATH
 
 
 class LLMProtocol(Protocol):

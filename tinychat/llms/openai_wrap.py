@@ -1,7 +1,7 @@
 import requests
 
-from llms.base import BaseLLMClient
-from settings import OPENAI_API_KEY_NAME
+from tinychat.llms.base import BaseLLMClient
+from tinychat.settings import OPENAI_API_KEY_NAME
 
 
 class OpenAIClientWrapper(BaseLLMClient):

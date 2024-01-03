@@ -2,7 +2,7 @@
 
 import json
 
-from settings import SECRETS_FILE_PATH
+from tinychat.settings import SECRETS_FILE_PATH
 
 
 def load_api_keys(file_path: str) -> dict:

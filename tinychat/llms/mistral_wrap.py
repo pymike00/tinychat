@@ -1,8 +1,8 @@
 from mistralai.client import MistralClient
 from mistralai.models.chat_completion import ChatMessage
 
-from llms.base import BaseLLMWrapper
-from settings import MISTRAL_API_KEY_NAME
+from tinychat.llms.base import BaseLLMWrapper
+from tinychat.settings import MISTRAL_API_KEY_NAME
 
 
 class MistralClientWrapper(BaseLLMWrapper):

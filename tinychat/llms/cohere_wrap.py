@@ -1,7 +1,7 @@
 import requests
 
-from llms.base import BaseLLMClient
-from settings import COHERE_API_KEY_NAME
+from tinychat.llms.base import BaseLLMClient
+from tinychat.settings import COHERE_API_KEY_NAME
 
 
 class CohereClientWrapper(BaseLLMClient):

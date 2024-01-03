@@ -3,8 +3,8 @@ import tkinter as tk
 
 import customtkinter as ctk
 
-from settings import FONT_FAMILY, MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
-from ui.frames import SettingsFrame
+from tinychat.settings import FONT_FAMILY, MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
+from tinychat.ui.frames import SettingsFrame
 
 
 class ChatApp(ctk.CTk):

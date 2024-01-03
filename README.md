@@ -29,8 +29,7 @@ source venv/bin/activate on Linux / Mac OS
 pip install -r requirements.txt
 
 # Run application
-cd tinychat
-python app.pyw
+python -m tinychat
 ```
 
 <br>

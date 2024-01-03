@@ -1,7 +1,7 @@
-from llms.base import LLMProtocol
-from llms.cohere_wrap import CohereClientWrapper
-from llms.mistral_wrap import MistralClientWrapper
-from llms.openai_wrap import OpenAIClientWrapper
+from tinychat.llms.base import LLMProtocol
+from tinychat.llms.cohere_wrap import CohereClientWrapper
+from tinychat.llms.mistral_wrap import MistralClientWrapper
+from tinychat.llms.openai_wrap import OpenAIClientWrapper
 
 
 class Backend:
