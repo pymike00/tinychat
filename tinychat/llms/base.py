@@ -20,21 +20,6 @@ class LLMProtocol(Protocol):
         ...
 
 
-class BaseLLMWrapper:
-    """
-    Base wrapper class for language model clients.
-    """
-
-    def __init__(self, client: Any, api_key_name: str) -> None:
-        self.client = self._init_client(client, api_key_name)
-
-    def _init_client(self, client: Any, api_key_name: str) -> Any:
-        api_key = get_api_key(api_key_name)
-        if not api_key:
-            raise ValueError(f"{api_key_name} was not found in {SECRETS_FILE_PATH}.")
-        return client(api_key=api_key)
-
-
 class BaseLLMClient:
     """
     A base client class for interacting with Language Model APIs.
