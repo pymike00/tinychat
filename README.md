@@ -54,13 +54,14 @@ python -m tinychat
 *To use the models you will need an API Key from <a href="https://platform.openai.com/api-keys">OpenAI</a> / <a href="https://console.mistral.ai/user/api-keys/">Mistral</a> / <a href="https://dashboard.cohere.com/api-keys/">Cohere</a>. Follow the links to get started!*
 
 
+## Dependency - less
+By making direct HTTP requests to the API endpoints, no official client needs to be installed. TinyChat only depends on requests and CustomTkinter.
+
 
 <br>
 
 ## Project just started. Here is what you can expect for the future:
 
-- [ ] Dependency-less
 - [ ] Support for chat history
 - [ ] Support for multimodality
 - [ ] Support for local models
-- [ ] Currently storing api_keys in a gitignored secrets.json. Considering better options.
