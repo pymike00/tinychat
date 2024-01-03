@@ -1,19 +1,19 @@
 from tinychat.llms.base import LLMProtocol
-from tinychat.llms.cohere_wrap import CohereClientWrapper
-from tinychat.llms.mistral_wrap import MistralClientWrapper
-from tinychat.llms.openai_wrap import OpenAIClientWrapper
+from tinychat.llms.cohere import CohereClient
+from tinychat.llms.mistral import MistralClient
+from tinychat.llms.openai import OpenAIClient
 
 
 class Backend:
     def __init__(self) -> None:
         self._models = {
             "Select Model": lambda: None,
-            "GPT-4 Turbo": lambda: OpenAIClientWrapper("gpt-4-1106-preview"),
-            "GPT-3.5 Turbo": lambda: OpenAIClientWrapper("gpt-3.5-turbo"),
-            "Mixtral-8X7B": lambda: MistralClientWrapper("mistral-small"),
-            "Mistral-7B": lambda: MistralClientWrapper("mistral-tiny"),
-            "Mixtral Medium": lambda: MistralClientWrapper("mistral-medium"),
-            "Cohere Chat": lambda: CohereClientWrapper(),
+            "GPT-4 Turbo": lambda: OpenAIClient("gpt-4-1106-preview"),
+            "GPT-3.5 Turbo": lambda: OpenAIClient("gpt-3.5-turbo"),
+            "Mixtral-8X7B": lambda: MistralClient("mistral-small"),
+            "Mistral-7B": lambda: MistralClient("mistral-tiny"),
+            "Mixtral Medium": lambda: MistralClient("mistral-medium"),
+            "Cohere Chat": lambda: CohereClient(),
         }
         self._llm: LLMProtocol = None
 

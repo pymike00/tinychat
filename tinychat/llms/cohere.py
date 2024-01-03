@@ -4,7 +4,7 @@ from tinychat.llms.base import BaseLLMClient
 from tinychat.settings import COHERE_API_KEY_NAME
 
 
-class CohereClientWrapper(BaseLLMClient):
+class CohereClient(BaseLLMClient):
     """
     Cohere chat client.
     """

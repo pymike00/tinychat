@@ -1,18 +1,19 @@
 import requests
 
 from tinychat.llms.base import BaseLLMClient
-from tinychat.settings import MISTRAL_API_KEY_NAME
+from tinychat.settings import OPENAI_API_KEY_NAME
 
 
-class MistralClientWrapper(BaseLLMClient):
+class OpenAIClient(BaseLLMClient):
     """
-    Mistral chat client.
+    OpenAI client wrapper for various language models.
+    Currently only supports chat.
     """
 
-    MISTRAL_COMPLETION_API_URL = "https://api.mistral.ai/v1/chat/completions"
+    OPENAI_COMPLETION_API_URL = "https://api.openai.com/v1/chat/completions"
 
-    def __init__(self, model_name: str = "mistral-tiny") -> None:
-        super().__init__(api_key_name=MISTRAL_API_KEY_NAME)
+    def __init__(self, model_name: str = "gpt-3.5-turbo") -> None:
+        super().__init__(api_key_name=OPENAI_API_KEY_NAME)
         self.model_name = model_name
         self.messages = []
 
@@ -23,7 +24,7 @@ class MistralClientWrapper(BaseLLMClient):
             "temperature": self.temperature,
         }
         response = requests.post(
-            self.MISTRAL_COMPLETION_API_URL,
+            self.OPENAI_COMPLETION_API_URL,
             headers=self.default_headers(),
             json=data,
         )
