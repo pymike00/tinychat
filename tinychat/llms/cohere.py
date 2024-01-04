@@ -20,7 +20,7 @@ class CohereClient(BaseLLMClient):
         self.chat_history.append({"role": "User", "message": user_input})
         self.chat_history.append({"role": "Chatbot", "message": answer})
 
-    def _make_api_request(self, user_input: str) -> None:
+    def _make_api_request(self, user_input: str) -> str:
         data = {
             "chat_history": self.chat_history,
             "message": user_input,
@@ -42,6 +42,6 @@ class CohereClient(BaseLLMClient):
         try:
             chat_response = self._make_api_request(user_input=user_input)
         except ValueError as e:
-            return e
+            return str(e)
         self._update_chat_history(user_input, chat_response)
         return chat_response

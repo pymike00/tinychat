@@ -15,7 +15,7 @@ class Backend:
             "Mixtral Medium": lambda: MistralClient("mistral-medium"),
             "Cohere Chat": lambda: CohereClient(),
         }
-        self._llm: LLMProtocol = None
+        self._llm: LLMProtocol = None # type: ignore
 
     def available_models(self) -> list:
         return list(self._models.keys())

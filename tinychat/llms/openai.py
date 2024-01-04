@@ -27,7 +27,7 @@ class OpenAIClient(BaseLLMClient):
         }
         response = requests.post(
             self.OPENAI_COMPLETION_API_URL,
-            headers=self.default_headers(),
+            headers=self.default_headers(), # type: ignore
             json=data,
         )
         if response.status_code != 200:
@@ -42,6 +42,6 @@ class OpenAIClient(BaseLLMClient):
         try:
             chat_response = self._make_api_request()
         except KeyError as e:
-            return e
+            return str(e)
         self.messages.append({"role": "assistant", "content": chat_response})
         return chat_response
