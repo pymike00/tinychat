@@ -1,4 +1,4 @@
-from typing import Any, Protocol
+from typing import Protocol
 
 from tinychat.utils.api_keys import get_api_key
 from tinychat.settings import SECRETS_FILE_PATH
@@ -6,16 +6,14 @@ from tinychat.settings import SECRETS_FILE_PATH
 
 class LLMProtocol(Protocol):
     """
-    A protocol for language model clients.
-    This can be implemented by any class that acts as a wrapper around
-    language model APIs such as Cohere or OpenAI.
+    A protocol for language model handlers.
     """
 
     def get_response(self, user_input: str) -> str:
         """
         Get a response from the language model.
         This method should be implemented to interact with the underlying
-        language model (Cohere or OpenAI) and return a response string.
+        language model and return a response string.
         """
         ...
 
@@ -26,6 +24,8 @@ class BaseLLMClient:
 
     :param api_key: The API key used for authenticating with the API.
     :param temperature: The temperature setting for the language model.
+
+    TODO: remove temperature
     """
 
     def __init__(self, api_key_name: str) -> None:
