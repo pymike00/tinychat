@@ -23,14 +23,10 @@ class BaseLLMClient:
     A base client class for interacting with Language Model APIs.
 
     :param api_key: The API key used for authenticating with the API.
-    :param temperature: The temperature setting for the language model.
-
-    TODO: remove temperature
     """
 
     def __init__(self, api_key_name: str) -> None:
         self.api_key = api_key_name
-        self.temperature = 1.0
 
     @property
     def api_key(self):

@@ -15,6 +15,7 @@ class CohereClient(BaseLLMClient):
     def __init__(self) -> None:
         super().__init__(api_key_name=COHERE_API_KEY_NAME)
         self.chat_history = []
+        self.temperature = 1.0
 
     def _update_chat_history(self, user_input: str, answer: str) -> None:
         self.chat_history.append({"role": "User", "message": user_input})
