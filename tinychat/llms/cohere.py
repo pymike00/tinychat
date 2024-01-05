@@ -39,6 +39,9 @@ class CohereHandler:
     Handler class to interact with the Cohere models.
 
     Returns chat responses and stores the chat history.
+
+    TODO: add chat message dataclass so that we can enforce validation of
+    message format that is needed for working client requests to the API?
     """
 
     def __init__(self):

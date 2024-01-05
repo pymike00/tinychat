@@ -42,6 +42,9 @@ class MistralHandler:
     Handler class to interact with the Mistral models via API.
 
     Returns chat responses and stores the chat history.
+
+    TODO: add chat message dataclass so that we can enforce validation of
+    message format that is needed for working client requests to the API?
     """
 
     def __init__(self, model_name: str):

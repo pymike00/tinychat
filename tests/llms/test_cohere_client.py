@@ -14,10 +14,12 @@ class TestCohereClient(unittest.TestCase):
         mock_response.status_code = 200
         mock_response.json.return_value = {"text": assistant_response}
         mock_post.return_value = mock_response
-
         client = CohereClient()
-        chat_history = [{"role": "user", "content": "hello"}]
-        response = client.perform_chat_request("hello", chat_history)
+        chat_history = [
+            {"role": "User", "message": "hello"},
+            {"role": "Chatbot", "message": "hello!"},
+        ]
+        response = client.perform_chat_request("how are you?", chat_history)
         self.assertEqual(response, assistant_response)
 
     @patch("tinychat.llms.cohere.requests.post")
@@ -25,11 +27,13 @@ class TestCohereClient(unittest.TestCase):
         mock_response = Mock(spec=requests.Response)
         mock_response.status_code = 400
         mock_post.return_value = mock_response
-
         client = CohereClient()
-        chat_history = [{"role": "user", "content": "hello"}]
+        chat_history = [
+            {"role": "User", "message": "hello"},
+            {"role": "Chatbot", "message": "hello!"},
+        ]
         with self.assertRaises(ValueError) as context:
-            client.perform_chat_request("hello", chat_history)
+            client.perform_chat_request("how are you?", chat_history)
         self.assertIn("Server responded with error: 400", str(context.exception))
 
     @patch("tinychat.llms.cohere.requests.post")
@@ -38,11 +42,13 @@ class TestCohereClient(unittest.TestCase):
         mock_response.status_code = 200
         mock_response.json.side_effect = ValueError
         mock_post.return_value = mock_response
-
         client = CohereClient()
-        chat_history = [{"role": "user", "content": "hello"}]
+        chat_history = [
+            {"role": "User", "message": "hello"},
+            {"role": "Chatbot", "message": "hello!"},
+        ]
         with self.assertRaises(ValueError) as context:
-            client.perform_chat_request("hello", chat_history)
+            client.perform_chat_request("how are you?", chat_history)
         self.assertIn(
             "Invalid response format received from server.", str(context.exception)
         )
