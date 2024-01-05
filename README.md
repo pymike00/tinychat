@@ -40,14 +40,14 @@ python -m tinychat
 <img src="./assets/tinychat-two.png">
 
 ## Supports all Major Models
-**Supports all major chat models from OpenAI, Mistral and Cohere official cloud APIs:**
+**Supports all major chat models from the OpenAI, Mistral, Google and Cohere cloud APIs:**
 
 - [x] GPT-4 Turbo
 - [x] GPT-3.5-Turbo
-- [x] Gemini Pro
 - [x] Mixtral 8x7B
 - [x] Mistral 7B
 - [x] Mistral Medium
+- [x] Gemini Pro
 - [x] Cohere Chat
 
 *To use the models you will need an API Key from [OpenAI](https://platform.openai.com/api-keys) / [Mistral](https://console.mistral.ai/user/api-keys/) / [Google](https://makersuite.google.com/app/apikey) / [Cohere](https://dashboard.cohere.com/api-keys/). Follow the links to get started! We chose to use the official Mistral API and not something like TogheterAI to explicitly support Mistral's open weights strategy. We will however implement a setting to change the API endpoints for those models arbitrarily soon.*
