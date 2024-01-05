@@ -7,22 +7,17 @@ from tinychat.settings import COHERE_API_KEY_NAME
 class CohereClient(BaseLLMClient):
     """
     Cohere chat client.
-    TODO: make it stateless. Chat history should be handled outside of the class.
     """
 
     COHERE_CHAT_API_URL = "https://api.cohere.ai/v1/chat"
 
-    def __init__(self) -> None:
+    def __init__(self, temperature: float = 1.0) -> None:
         super().__init__(api_key_name=COHERE_API_KEY_NAME)
-        self.chat_history = []
+        self.temperature = temperature
 
-    def _update_chat_history(self, user_input: str, answer: str) -> None:
-        self.chat_history.append({"role": "User", "message": user_input})
-        self.chat_history.append({"role": "Chatbot", "message": answer})
-
-    def _make_api_request(self, user_input: str) -> str:
+    def perform_chat_request(self, user_input: str, chat_history: list[dict]) -> str:
         data = {
-            "chat_history": self.chat_history,
+            "chat_history": chat_history,
             "message": user_input,
             "temperature": self.temperature,
         }
@@ -38,10 +33,28 @@ class CohereClient(BaseLLMClient):
         except ValueError:
             raise ValueError("Invalid response format received from server.")
 
+
+class CohereHandler:
+    """
+    Handler class to interact with the Cohere models.
+
+    Returns chat responses and stores the chat history.
+
+    TODO: add chat message dataclass so that we can enforce validation of
+    message format that is needed for working client requests to the API?
+    """
+
+    def __init__(self):
+        self._chat_history = []
+        self._client = CohereClient()
+
+    def _update_chat_history(self, user_input: str, answer: str) -> None:
+        self._chat_history.append({"role": "User", "message": user_input})
+        self._chat_history.append({"role": "Chatbot", "message": answer})
+
     def get_response(self, user_input: str) -> str:
-        try:
-            chat_response = self._make_api_request(user_input=user_input)
-        except ValueError as e:
-            return str(e)
+        chat_response = self._client.perform_chat_request(
+            user_input, self._chat_history
+        )
         self._update_chat_history(user_input, chat_response)
         return chat_response
