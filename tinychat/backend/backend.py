@@ -1,6 +1,6 @@
 from tinychat.llms.base import LLMProtocol
 from tinychat.llms.cohere import CohereClient
-from tinychat.llms.mistral import MistralClient
+from tinychat.llms.mistral import MistralHandler
 from tinychat.llms.openai import OpenAIHandler
 
 
@@ -10,9 +10,9 @@ class Backend:
             "Select Model": lambda: None,
             "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-1106-preview"),
             "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo"),
-            "Mixtral-8X7B": lambda: MistralClient("mistral-small"),
-            "Mistral-7B": lambda: MistralClient("mistral-tiny"),
-            "Mixtral Medium": lambda: MistralClient("mistral-medium"),
+            "Mixtral-8X7B": lambda: MistralHandler("mistral-small"),
+            "Mistral-7B": lambda: MistralHandler("mistral-tiny"),
+            "Mixtral Medium": lambda: MistralHandler("mistral-medium"),
             "Cohere Chat": lambda: CohereClient(),
         }
         self._llm: LLMProtocol = None # type: ignore
