@@ -10,11 +10,12 @@ class TestOpenAIClient(unittest.TestCase):
 
     @patch('tinychat.llms.openai.requests.post')
     def test_perform_chat_request_success(self, mock_post):
+        assistant_response = "test assistant response"
         mock_response = Mock(spec=Response)
         mock_response.status_code = 200
         mock_response.json.return_value = {
             "choices": [
-                {"message": {"content": "test response"}}
+                {"message": {"role": "assistant", "content": assistant_response}}
             ]
         }
         mock_post.return_value = mock_response
@@ -22,7 +23,7 @@ class TestOpenAIClient(unittest.TestCase):
         client = OpenAIClient(model_name='test_model')
         messages = [{"role": "user", "content": "hello"}]
         response = client.perform_chat_request(messages)
-        self.assertEqual(response, "test response")
+        self.assertEqual(response, assistant_response)
 
     @patch('tinychat.llms.openai.requests.post')
     def test_perform_chat_request_failure(self, mock_post):
