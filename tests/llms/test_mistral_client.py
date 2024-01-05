@@ -8,7 +8,7 @@ from tinychat.llms.mistral import MistralClient
 
 class TestMistralClient(unittest.TestCase):
 
-    @patch('tinychat.llms.openai.requests.post')
+    @patch('tinychat.llms.mistral.requests.post')
     def test_perform_chat_request_success(self, mock_post):
         mock_response = Mock(spec=Response)
         mock_response.status_code = 200
@@ -24,7 +24,7 @@ class TestMistralClient(unittest.TestCase):
         response = client.perform_chat_request(messages)
         self.assertEqual(response, "test response")
 
-    @patch('tinychat.llms.openai.requests.post')
+    @patch('tinychat.llms.mistral.requests.post')
     def test_perform_chat_request_failure(self, mock_post):
         mock_response = Mock(spec=Response)
         mock_response.status_code = 400
@@ -36,7 +36,7 @@ class TestMistralClient(unittest.TestCase):
             client.perform_chat_request(messages)
         self.assertIn('Server responded with an error. Status Code: 400', str(context.exception))
 
-    @patch('tinychat.llms.openai.requests.post')
+    @patch('tinychat.llms.mistral.requests.post')
     def test_perform_chat_request_invalid_response_format(self, mock_post):
         mock_response = Mock(spec=Response)
         mock_response.status_code = 200
