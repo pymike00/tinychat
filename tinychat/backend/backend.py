@@ -1,5 +1,5 @@
 from tinychat.llms.base import LLMProtocol
-from tinychat.llms.cohere import CohereClient
+from tinychat.llms.cohere import CohereHandler
 from tinychat.llms.mistral import MistralHandler
 from tinychat.llms.openai import OpenAIHandler
 
@@ -13,7 +13,7 @@ class Backend:
             "Mixtral-8X7B": lambda: MistralHandler("mistral-small"),
             "Mistral-7B": lambda: MistralHandler("mistral-tiny"),
             "Mixtral Medium": lambda: MistralHandler("mistral-medium"),
-            "Cohere Chat": lambda: CohereClient(),
+            "Cohere Chat": lambda: CohereHandler(),
         }
         self._llm: LLMProtocol = None # type: ignore
 
