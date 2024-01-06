@@ -59,5 +59,5 @@ class GoogleGeminiHandler:
     def get_response(self, user_input: str) -> str:
         self._messages.append({"parts": [{"text": user_input}], "role": "user"})
         chat_response = self._client.perform_chat_request(self._messages)
-        self._messages.append({"parts": [{"text": user_input}], "role": "model"})
+        self._messages.append({"parts": [{"text": chat_response}], "role": "model"})
         return chat_response
