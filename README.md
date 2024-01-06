@@ -34,7 +34,11 @@ python -m tinychat
 
 <br>
 
-## Clean Interface
+## Important
+**Currently, the app does not use response streaming, i.e. the app waits for the whole response to be available before showing the reply. With some models this is fine, as the amounts of token/s provided by the API is very high. Others, such as Mistral's, may be slower. Streaming response is on the TODO list.**
+
+<br>
+
 **Select your favorite model and start chatting**
 
 <img src="./assets/tinychat-two.png">
