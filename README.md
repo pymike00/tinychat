@@ -64,6 +64,7 @@ By making direct HTTP requests to the API endpoints, no official client needs to
 
 ## Project just started. Here is what you can expect for the future:
 
+- [ ] Text formatting
 - [ ] Support for chat history
 - [ ] Support for multimodality
 - [ ] Support for local models
