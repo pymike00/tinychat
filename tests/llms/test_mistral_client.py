@@ -42,7 +42,7 @@ class TestMistralClient(unittest.TestCase):
     def test_perform_chat_request_invalid_response_format(self, mock_post):
         mock_response = Mock(spec=Response)
         mock_response.status_code = 200
-        mock_response.json.return_value = {}
+        mock_response.json.return_value = {"text": "invalid-response-w/-text-key"}
         mock_post.return_value = mock_response
 
         client = MistralClient(model_name="test_model")

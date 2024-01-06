@@ -3,6 +3,7 @@ import customtkinter as ctk
 from tinychat.utils.api_keys import get_api_key, set_api_key
 from tinychat.settings import (
     COHERE_API_KEY_NAME,
+    GOOGLE_API_KEY_NAME,
     OPENAI_API_KEY_NAME,
     MISTRAL_API_KEY_NAME,
     FONT_FAMILY,
@@ -52,7 +53,7 @@ class SettingsFrame(ctk.CTkFrame):
         # Create a new top-level window for settings
         settings_window = ctk.CTkToplevel(self)
         settings_window.title("API Key Settings")
-        settings_window.geometry("600x200")  # Adjusted size to fit API key entries
+        settings_window.geometry("600x240")  # Adjusted size to fit API key entries
         settings_window.transient(self)  # Set to be on top of the main window
 
         # Configure grid layout
@@ -83,23 +84,32 @@ class SettingsFrame(ctk.CTkFrame):
             row=2, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
         )
 
+        api_key_label_4 = ctk.CTkLabel(settings_window, text="Google API Key: ")
+        api_key_label_4.grid(row=3, column=0, padx=(20, 2), pady=(10, 2), sticky="e")
+        self.api_key_entry_4 = ctk.CTkEntry(settings_window)
+        self.api_key_entry_4.insert(0, get_api_key(GOOGLE_API_KEY_NAME))
+        self.api_key_entry_4.grid(
+            row=3, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
+        )
+
         self.status_label = ctk.CTkLabel(settings_window, text="")
-        self.status_label.grid(row=3, column=0, padx=(20, 2), pady=(10, 2), sticky="w")
+        self.status_label.grid(row=4, column=0, padx=(20, 2), pady=(10, 2), sticky="w")
 
         # Add a close button to the settings window
         close = ctk.CTkButton(
             settings_window, text="Close", command=settings_window.destroy
         )
-        close.grid(row=3, column=1, padx=(0, 0), pady=(20, 0), sticky="w")
+        close.grid(row=4, column=1, padx=(0, 0), pady=(20, 0), sticky="w")
 
         # Add a save button to the settings window
         save = ctk.CTkButton(
             settings_window, text="Save Settings", command=self.save_settings
         )
-        save.grid(row=3, column=1, padx=(150, 0), pady=(20, 0), sticky="w")
+        save.grid(row=4, column=1, padx=(150, 0), pady=(20, 0), sticky="w")
 
     def save_settings(self):
         set_api_key(OPENAI_API_KEY_NAME, self.api_key_entry_1.get())
         set_api_key(MISTRAL_API_KEY_NAME, self.api_key_entry_2.get())
         set_api_key(COHERE_API_KEY_NAME, self.api_key_entry_3.get())
+        set_api_key(GOOGLE_API_KEY_NAME, self.api_key_entry_4.get())
         self.status_label.configure(text="Saved.")

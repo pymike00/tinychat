@@ -34,34 +34,42 @@ python -m tinychat
 
 <br>
 
-## Clean Interface
+## Important
+**Currently, the app does not use response streaming, i.e. the app waits for the whole response to be available before showing the reply. With some models this is fine, as the amounts of token/s provided by the API is very high. Others, such as Mistral's, may be slower. Streaming response is on the TODO list.**
+
+<br>
+
 **Select your favorite model and start chatting**
 
 <img src="./assets/tinychat-two.png">
 
 ## Supports all Major Models
-**Supports all major chat models from OpenAI, Mistral and Cohere official cloud APIs:**
+**Supports all major chat models from the OpenAI, Mistral, Google and Cohere cloud APIs:**
 
 - [x] GPT-4 Turbo
 - [x] GPT-3.5-Turbo
 - [x] Mixtral 8x7B
 - [x] Mistral 7B
 - [x] Mistral Medium
+- [x] Gemini Pro
 - [x] Cohere Chat
 
-*To use the models you will need an API Key from <a href="https://platform.openai.com/api-keys">OpenAI</a> / <a href="https://console.mistral.ai/user/api-keys/">Mistral</a> / <a href="https://dashboard.cohere.com/api-keys/">Cohere</a>. Follow the links to get started! We chose to use the official Mistral API and not something like TogheterAI to explicitly support Mistral's open weights strategy. We will however implement a setting to change the API endpoints for those models arbitrarily soon.*
+*To use the models you will need an API Key from [OpenAI](https://platform.openai.com/api-keys) / [Mistral](https://console.mistral.ai/user/api-keys/) / [Google](https://makersuite.google.com/app/apikey) / [Cohere](https://dashboard.cohere.com/api-keys/). Follow the links to get started! We chose to use the official Mistral API and not something like TogheterAI to explicitly support Mistral's open weights strategy. We will however implement a setting to change the API endpoints for those models arbitrarily soon.*
+
 
 
 <br>
 
 ## Dependency - less
-By making direct HTTP requests to the API endpoints, no official client needs to be installed. TinyChat only depends on requests and CustomTkinter.
+By making direct HTTP requests to the API endpoints, no official client needs to be installed. TinyChat only depends on the [requests](https://requests.readthedocs.io/en/latest/) module and [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter).
 
 
 <br>
 
 ## Project just started. Here is what you can expect for the future:
 
+- [ ] Text formatting in chat textarea
+- [ ] Streaming Response?
 - [ ] Support for chat history
 - [ ] Support for multimodality
 - [ ] Support for local models
