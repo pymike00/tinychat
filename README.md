@@ -57,14 +57,14 @@ python -m tinychat
 <br>
 
 ## Dependency - less
-By making direct HTTP requests to the API endpoints, no official client needs to be installed. TinyChat only depends on requests and CustomTkinter.
+By making direct HTTP requests to the API endpoints, no official client needs to be installed. TinyChat only depends on the [requests](https://requests.readthedocs.io/en/latest/) module and [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter).
 
 
 <br>
 
 ## Project just started. Here is what you can expect for the future:
 
-- [ ] Text formatting
+- [ ] Text formatting in chat responses
 - [ ] Support for chat history
 - [ ] Support for multimodality
 - [ ] Support for local models
