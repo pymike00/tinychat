@@ -4,7 +4,7 @@ from tinychat.llms.base import BaseLLMClient
 from tinychat.settings import GOOGLE_API_KEY_NAME
 
 
-class GoogleGeminiClient(BaseLLMClient):
+class GoogleAIClient(BaseLLMClient):
     """
     Simple client for interacting with the Google API.
     Currently only supports the chat completions endpoint.
@@ -39,10 +39,12 @@ class GoogleGeminiClient(BaseLLMClient):
         try:
             return response.json()["candidates"][0]["content"]["parts"][0]["text"]
         except KeyError as e:
-            raise KeyError(f"Invalid response format received from server. {e}")
+            raise KeyError(
+                f"Invalid response format received from server. Exception: {e}. Response: {response.json()}"
+            )
 
 
-class GoogleGeminiHandler:
+class GoogleAIHandler:
     """
     Handler class to interact with the OpenAI models.
 
@@ -54,7 +56,7 @@ class GoogleGeminiHandler:
 
     def __init__(self):
         self._messages = []
-        self._client = GoogleGeminiClient()
+        self._client = GoogleAIClient()
 
     def get_response(self, user_input: str) -> str:
         self._messages.append({"parts": [{"text": user_input}], "role": "user"})
