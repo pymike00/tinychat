@@ -13,6 +13,24 @@ class GoogleAIClient(BaseLLMClient):
     """
 
     BASE_GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
+    SAFETY_SETTINGS = [
+        {
+            "category": "HARM_CATEGORY_HARASSMENT",
+            "threshold": "BLOCK_NONE",
+        },
+        {
+            "category": "HARM_CATEGORY_HATE_SPEECH",
+            "threshold": "BLOCK_NONE",
+        },
+        {
+            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+            "threshold": "BLOCK_NONE",
+        },
+        {
+            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            "threshold": "BLOCK_NONE",
+        },
+    ]
 
     def __init__(self) -> None:
         super().__init__(api_key_name=GOOGLE_API_KEY_NAME)
@@ -26,7 +44,7 @@ class GoogleAIClient(BaseLLMClient):
         return {"Content-Type": "application/json"}
 
     def perform_chat_request(self, messages: list[dict]) -> str:
-        data = {"contents": messages}
+        data = {"contents": messages, "safetySettings": self.SAFETY_SETTINGS}
         response = requests.post(
             self.gemini_endpoint,
             headers=self.gemini_headers,  # type: ignore
