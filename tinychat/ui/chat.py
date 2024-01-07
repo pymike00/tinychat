@@ -122,11 +122,11 @@ class ChatApp(ctk.CTk):
         user_input = self.message_input.get("1.0", tk.END)
         self.update_chat_display(f"You: {user_input.strip()}")
         self.message_input.delete("1.0", tk.END)
+        self.update_chat_display(f"\n\nLM: ")
         try:
-            stream = self.backend.get_stream_response(user_input)            
-            for event in stream.events():
-                if event.data != "[DONE]":
-                    self.update_chat_display(json.loads(event.data)["choices"][0]["delta"]["content"])
+            stream_generator = self.backend.get_stream_response(user_input)
+            for data in stream_generator:
+                self.update_chat_display(data)
         except Exception as e:
             self.update_chat_display(f"Error: {e}")
         self.send_button.configure(state="normal")

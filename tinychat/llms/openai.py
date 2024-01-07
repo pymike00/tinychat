@@ -1,3 +1,6 @@
+import json
+from typing import Generator
+
 import requests
 from sseclient import SSEClient
 
@@ -40,7 +43,7 @@ class OpenAIClient(BaseLLMClient):
         except KeyError as e:
             raise KeyError(f"Invalid response format received from server. {e}")
 
-    def perform_stream_request(self, messages: list[dict]) -> SSEClient:
+    def perform_stream_request(self, messages: list[dict]) -> Generator[str, None, None]:
         data = {
             "model": self.model_name,
             "messages": messages,
@@ -57,7 +60,11 @@ class OpenAIClient(BaseLLMClient):
             raise ValueError(
                 f"Server responded with an error. Status Code: {response.status_code}"
             )
-        return SSEClient(event_source=response) # type: ignore
+        for event in SSEClient(event_source=response).events(): # type: ignore
+            if event.data != "[DONE]":
+                json_load = json.loads(event.data)["choices"][0]["delta"]
+                if "content" in json_load.keys():
+                    yield json_load["content"]
 
 
 class OpenAIHandler:
@@ -80,7 +87,7 @@ class OpenAIHandler:
         self._messages.append({"role": "assistant", "content": chat_response})
         return chat_response
     
-    def stream_response(self, user_input):
+    def stream_response(self, user_input: str) -> Generator[str, None, None]:
         """Return stream response from client"""
         self._messages.append({"role": "user", "content": user_input})
         return self._client.perform_stream_request(self._messages)
