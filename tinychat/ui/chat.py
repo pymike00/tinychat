@@ -11,6 +11,7 @@ from tinychat.ui.frames import SettingsFrame
 class ChatApp(ctk.CTk):
     def __init__(self, backend) -> None:
         super().__init__()
+        self.stream_response = True
 
         # Initialize font object to use with the chat text areas
         chat_font = ctk.CTkFont(family=FONT_FAMILY, size=15)
@@ -110,9 +111,12 @@ class ChatApp(ctk.CTk):
             self.progress_bar.set(1.0)
 
     def send_message_thread(self) -> None:
-        threading.Thread(target=self.send_message, daemon=True).start()
+        if self.stream_response:
+            threading.Thread(target=self.send_message_streaming, daemon=True).start()
+        else:
+            threading.Thread(target=self.send_message, daemon=True).start()
 
-    def send_message(self) -> None:
+    def send_message_streaming(self) -> None:
         self.toggle_progress_bar(True)
         self.send_button.configure(state="disabled")
         user_input = self.message_input.get("1.0", tk.END)
@@ -123,6 +127,20 @@ class ChatApp(ctk.CTk):
             for event in stream.events():
                 if event.data != "[DONE]":
                     self.update_chat_display(json.loads(event.data)["choices"][0]["delta"]["content"])
+        except Exception as e:
+            self.update_chat_display(f"Error: {e}")
+        self.send_button.configure(state="normal")
+        self.toggle_progress_bar(False)
+
+    def send_message(self) -> None:
+        self.toggle_progress_bar(True)
+        self.send_button.configure(state="disabled")
+        user_input = self.message_input.get("1.0", tk.END)
+        self.update_chat_display(f"You: {user_input.strip()}")
+        self.message_input.delete("1.0", tk.END)
+        try:
+            chat_response = self.backend.get_chat_response(user_input)
+            self.update_chat_display(f"LM: {chat_response}")
         except Exception as e:
             self.update_chat_display(f"Error: {e}")
         self.send_button.configure(state="normal")
