@@ -1,5 +1,7 @@
 from typing import Protocol
 
+from sseclient import SSEClient
+
 from tinychat.utils.api_keys import get_api_key
 from tinychat.settings import SECRETS_FILE_PATH
 
@@ -11,11 +13,16 @@ class LLMProtocol(Protocol):
 
     def get_response(self, user_input: str) -> str:
         """
-        Get a response from the language model.
-        This method should be implemented to interact with the underlying
-        language model and return a response string.
+        Get a complete response from the language model API.
         """
         ...
+
+    def stream_response(self, user_input: str) -> SSEClient:
+        """
+        Get a stream response from the language model API.
+        """
+        ...
+
 
 
 class BaseLLMClient:
