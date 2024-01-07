@@ -24,20 +24,28 @@ class OpenAIClient(BaseLLMClient):
             "model": self.model_name,
             "messages": messages,
             "temperature": self.temperature,
+            "stream": True
         }
         response = requests.post(
             self.OPENAI_COMPLETION_API_URL,
             headers=self.default_headers(),  # type: ignore
             json=data,
+            stream=True
         )
-        if response.status_code != 200:
-            raise ValueError(
-                f"Server responded with an error. Status Code: {response.status_code}"
-            )
-        try:
-            return response.json()["choices"][0]["message"]["content"]
-        except KeyError as e:
-            raise KeyError(f"Invalid response format received from server. {e}")
+        import sseclient
+        stream = sseclient.SSEClient(response)
+        return stream
+        # if response.status_code != 200:
+        #     raise ValueError(
+        #         f"Server responded with an error. Status Code: {response.status_code}"
+        #     )
+        # try:
+        #     return response.json()["choices"][0]["message"]["content"]
+        # except KeyError as e:
+        #     raise KeyError(f"Invalid response format received from server. {e}")
+
+
+
 
 
 class OpenAIHandler:
@@ -53,8 +61,26 @@ class OpenAIHandler:
         self._messages = []
         self._client = OpenAIClient(model_name=model_name)
 
-    def get_response(self, user_input: str) -> str:
+    # def get_responsex(self, user_input: str) -> str:
+    #     self._messages.append({"role": "user", "content": user_input})
+    #     chat_response = self._client.perform_chat_request(self._messages)
+    #     self._messages.append({"role": "assistant", "content": chat_response})
+    #     return chat_response
+    
+    def stream_response(self, user_input):
         self._messages.append({"role": "user", "content": user_input})
-        chat_response = self._client.perform_chat_request(self._messages)
-        self._messages.append({"role": "assistant", "content": chat_response})
-        return chat_response
+        return self._client.perform_chat_request(self._messages)
+
+    # def stream_responsex(self, user_input: str):
+    #     from openai import OpenAI
+
+    #     client = OpenAI(api_key="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")
+
+    #     stream = client.chat.completions.create(
+    #         model="gpt-4",
+    #         messages=[{"role": "user", "content": user_input}],
+    #         stream=True,
+    #     )
+    #     return stream
+
+

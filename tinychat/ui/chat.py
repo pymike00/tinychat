@@ -117,9 +117,84 @@ class ChatApp(ctk.CTk):
         user_input = self.message_input.get("1.0", tk.END)
         self.update_chat_display(f"You: {user_input.strip()}")
         self.message_input.delete("1.0", tk.END)
+        import json
         try:
-            chat_response = self.backend.get_chat_response(user_input)
-            self.update_chat_display(f"LM: {chat_response}")
+            stream = self.backend.get_stream_response(user_input)            
+            for event in stream.events():
+                if event.data != "[DONE]":
+                    self.update_chat_display(json.loads(event.data)["choices"][0]["delta"]["content"])
+            return
+            for piece in stream:
+                buffer += piece.decode("utf-8")  # Append the current piece to the buffer
+
+                # Try to find a complete JSON object in the buffer
+                start = buffer.find('{')
+                end = -1
+                brace_count = 0
+
+                for i, char in enumerate(buffer):
+                    if char == '{':
+                        brace_count += 1
+                        if start == -1:
+                            start = i
+                    elif char == '}':
+                        brace_count -= 1
+                        if brace_count == 0:
+                            end = i
+                            break
+
+                # If a complete JSON object is found, parse it
+                if start != -1 and end != -1:
+                    try:
+                        json_obj = json.loads(buffer[start:end+1])
+                        json_objects.append(json_obj)
+                        print(json_obj)
+                        self.update_chat_display(json_obj["choices"][0]["delta"]["content"])
+                        # self.update_chat_display("\n\n")
+                        buffer = buffer[end+1:]  # Remove the parsed JSON from the buffer
+                    except json.JSONDecodeError:
+                        # Handle JSON parsing error (e.g., malformed JSON)
+                        pass
+                    
+                    
+            # buffer = ''
+            # import json
+            # counter = 0
+            # for chunk in stream:
+            #     if chunk:
+            #         # print(chunk.decode("utf-8"))
+            #         decoded_chunk = chunk.decode("utf-8")
+            #         # json_data = decoded_chunk.replace('data: ', '')
+            #         print(decoded_chunk)                    
+            #         counter += 1
+            #         print()
+
+
+            #         continue
+                    # self.update_chat_display(f"{dict(chunk.decode('utf-8')).choices[0].delta.content}") 
+                    # continue
+                    # decoded_chunk = chunk.decode('utf-8')
+                    
+                    # # Append chunk to buffer if it's not complete
+                    # if not decoded_chunk.endswith('\n\n'):
+                    #     buffer += decoded_chunk
+                    #     continue
+
+                    # # Add the current chunk to the buffer and process it
+                    # chunk_data = buffer + decoded_chunk
+                    # print(chunk_data)
+                    # self.update_chat_display(f"{str(chunk_data)}") 
+                    # print()
+                    # buffer = ''  # Reset buffer
+
+                    # # Process each line in the chunk data
+                    # for line in chunk_data.split('\n'):
+                    #     if line.startswith('data: '):
+                    #         data = json.loads(line[len('data: '):])
+                    #         print(data)
+
+
+
         except Exception as e:
             self.update_chat_display(f"Error: {e}")
         self.send_button.configure(state="normal")
@@ -127,7 +202,7 @@ class ChatApp(ctk.CTk):
 
     def update_chat_display(self, message) -> None:
         self.chat_display.configure(state="normal")
-        self.chat_display.insert(tk.END, f"{message}\n\n")
+        self.chat_display.insert(tk.END, f"{message}")
         self.chat_display.configure(state="disabled")
         self.chat_display.yview(tk.END)
 
