@@ -6,7 +6,6 @@ from tinychat.settings import (
     GOOGLE_API_KEY_NAME,
     OPENAI_API_KEY_NAME,
     MISTRAL_API_KEY_NAME,
-    FONT_FAMILY,
 )
 
 

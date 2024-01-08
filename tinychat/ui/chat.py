@@ -1,4 +1,3 @@
-import json
 import threading
 import tkinter as tk
 
