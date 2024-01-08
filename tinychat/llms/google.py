@@ -1,4 +1,8 @@
+import json
+from typing import Generator
+
 import requests
+from sseclient import SSEClient
 
 from tinychat.llms.base import BaseLLMClient
 from tinychat.settings import GOOGLE_API_KEY_NAME
@@ -12,7 +16,7 @@ class GoogleAIClient(BaseLLMClient):
     :param model_name: The name of the model to be used for chat requests.
     """
 
-    BASE_GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
+    BASE_GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:streamGenerateContent"
     SAFETY_SETTINGS = [
         {
             "category": "HARM_CATEGORY_HARASSMENT",
@@ -37,7 +41,7 @@ class GoogleAIClient(BaseLLMClient):
 
     @property
     def gemini_endpoint(self):
-        return f"{self.BASE_GEMINI_ENDPOINT}?key={self.api_key}"
+        return f"{self.BASE_GEMINI_ENDPOINT}?alt=sse&key={self.api_key}"
 
     @property
     def gemini_headers(self):
@@ -61,6 +65,22 @@ class GoogleAIClient(BaseLLMClient):
                 f"Invalid response format received from server. Exception: {e}. Response: {response.json()}"
             )
 
+    def perform_stream_request(self, messages: list[dict]) -> SSEClient:
+        # info: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events
+        data = {"contents": messages, "safetySettings": self.SAFETY_SETTINGS}
+        response = requests.post(
+            self.gemini_endpoint,
+            headers=self.gemini_headers,  # type: ignore
+            json=data,
+            stream=True
+        )
+        if response.status_code != 200:
+            print(response.content)
+            raise ValueError(
+                f"Server responded with an error. Status Code: {response.status_code}"
+            )
+        return SSEClient(event_source=response)  # type: ignore
+
 
 class GoogleAIHandler:
     """
@@ -81,3 +101,27 @@ class GoogleAIHandler:
         chat_response = self._client.perform_chat_request(self._messages)
         self._messages.append({"parts": [{"text": chat_response}], "role": "model"})
         return chat_response
+
+    def stream_response(self, user_input: str) -> Generator[str, None, None]:
+        """
+        Yield stream responses from the client as they are received.
+
+        This method sends the user input to the client and then yields each piece
+        of the language model's response as it is received in real-time. After the
+        streaming is complete, it updates the message list with the user input and
+        the full language model response.
+
+        :param user_input: The input string from the user to be sent to the model.
+        :return: A generator yielding the model's response in streamed parts.
+        """
+        self._messages.append({"parts": [{"text": user_input}], "role": "user"})
+        stream = self._client.perform_stream_request(self._messages)
+        lm_response = ""
+        for event in stream.events():  # type: ignore
+            if event.data != "[DONE]":
+                print(json.loads(event.data))
+                json_load = json.loads(event.data)["candidates"][0]["content"]["parts"][0]
+                response_piece = json_load["text"]
+                lm_response += response_piece
+                yield response_piece
+        self._messages.append({"parts": [{"text": lm_response}], "role": "model"})
