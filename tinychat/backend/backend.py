@@ -1,5 +1,3 @@
-from sseclient import SSEClient
-
 from tinychat.llms.base import LLMProtocol
 from tinychat.llms.cohere import CohereHandler
 from tinychat.llms.google import GoogleAIHandler
@@ -39,7 +37,7 @@ class Backend:
             return "No LM has been set."
         return self._llm.get_response(user_input)
     
-    def get_stream_response(self, user_input: str) -> SSEClient:
+    def get_stream_response(self, user_input: str):
         if self._llm is None:
             raise ValueError("No LM has been set.")
         return self._llm.stream_response(user_input)
