@@ -5,7 +5,7 @@ MAIN_WINDOW_TITLE = "TinyChat LM Client"
 MAIN_WINDOW_RESOLUTION = "1200x700"
 
 # Set font-family 
-FONT_FAMILY = "Ubuntu"
+FONT_FAMILY = "Verdana" # Consolas
 
 # API Key storage file location
 SECRETS_FILE_PATH = "secrets.json"

@@ -26,8 +26,8 @@ class SettingsFrame(ctk.CTkFrame):
             self,
             values=available_models,
             command=on_model_select_callback,
-            font=ctk.CTkFont(family=FONT_FAMILY, size=13, weight="bold"),
-            dropdown_font=ctk.CTkFont(family=FONT_FAMILY, size=13, weight="bold"),
+            font=ctk.CTkFont(family="Arial", size=13, weight="bold"),
+            dropdown_font=ctk.CTkFont(family="Arial", size=13, weight="bold"),
         )
         self.model_selection_menu.grid(
             row=0, column=0, padx=(20, 0), pady=(10, 5), sticky="w"
@@ -38,7 +38,7 @@ class SettingsFrame(ctk.CTkFrame):
             self,
             text="Settings",
             command=self.open_settings_window,
-            font=ctk.CTkFont(family=FONT_FAMILY, size=13, weight="bold"),
+            font=ctk.CTkFont(family="Arial", size=13, weight="bold"),
         )
         self.settings_button.grid(
             row=0, column=1, padx=(10, 20), pady=(10, 5), sticky="w"

@@ -14,7 +14,7 @@ class ChatApp(ctk.CTk):
         self.stream_response = True
 
         # Initialize font object to use with the chat text areas
-        chat_font = ctk.CTkFont(family=FONT_FAMILY, size=15)
+        chat_font = ctk.CTkFont(family=FONT_FAMILY, size=14)
 
         # Initialize the backend object
         self.backend = backend
@@ -33,17 +33,21 @@ class ChatApp(ctk.CTk):
         )
         self.settings_frame.grid(row=0, column=0, rowspan=1, sticky="nsew")
 
-        # Create a progress bar to enable when getting data from the lms
+        # Create a progress bar to enable when getting data from the LLMs
         self.progress_bar = ctk.CTkProgressBar(self, height=10)
         self.progress_bar.grid(row=1, column=0, padx=20, pady=(10, 0), sticky="ew")
         self.progress_bar.set(1.0)
 
         # Create a big text area for displaying chat
-        self.chat_display = ctk.CTkTextbox(self, state="disabled", font=chat_font)
+        self.chat_display = ctk.CTkTextbox(
+            self, state="disabled", font=chat_font, wrap="word", border_spacing=5
+        )
         self.chat_display.grid(row=2, column=0, padx=20, pady=(10, 10), sticky="nsew")
 
         # Create a smaller text area for typing messages
-        self.message_input = ctk.CTkTextbox(self, height=150, font=chat_font)
+        self.message_input = ctk.CTkTextbox(
+            self, height=150, font=chat_font, wrap="word", border_spacing=5
+        )
         self.message_input.grid(row=3, column=0, padx=20, pady=(0, 0), sticky="ew")
 
         # Create a button for sending messages
@@ -122,13 +126,14 @@ class ChatApp(ctk.CTk):
         user_input = self.message_input.get("1.0", tk.END)
         self.update_chat_display(f"You: {user_input.strip()}")
         self.message_input.delete("1.0", tk.END)
-        self.update_chat_display(f"\n\nLM: ")
         try:
             stream_generator = self.backend.get_stream_response(user_input)
+            self.update_chat_display(f"\n\n\nLLM: ")
             for data in stream_generator:
                 self.update_chat_display(data)
         except Exception as e:
             self.update_chat_display(f"Error: {e}")
+        self.update_chat_display("\n\n\n")
         self.send_button.configure(state="normal")
         self.toggle_progress_bar(False)
 
@@ -140,7 +145,7 @@ class ChatApp(ctk.CTk):
         self.message_input.delete("1.0", tk.END)
         try:
             chat_response = self.backend.get_chat_response(user_input)
-            self.update_chat_display(f"LM: {chat_response}")
+            self.update_chat_display(f"LLM: {chat_response}")
         except Exception as e:
             self.update_chat_display(f"Error: {e}")
         self.send_button.configure(state="normal")
