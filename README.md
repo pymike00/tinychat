@@ -34,11 +34,6 @@ python -m tinychat
 
 <br>
 
-## Important
-**Currently, the app does not use response streaming, i.e. the app waits for the whole response to be available before showing the reply. With some models this is fine, as the amounts of token/s provided by the API is very high. Others, such as Mistral's, may be slower. Streaming response is on the TODO list.**
-
-<br>
-
 **Select your favorite model and start chatting**
 
 <img src="./assets/tinychat-two.png">
@@ -61,7 +56,7 @@ python -m tinychat
 <br>
 
 ## Dependency - less
-By making direct HTTP requests to the API endpoints, no official client needs to be installed. TinyChat only depends on the [requests](https://requests.readthedocs.io/en/latest/) module and [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter).
+By making direct HTTP requests to the API endpoints, no official client needs to be installed. TinyChat only depends on [requests](https://requests.readthedocs.io/en/latest/), [sseclient-py](https://github.com/mpetazzoni/sseclient) and [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter).
 
 
 <br>
