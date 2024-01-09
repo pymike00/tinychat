@@ -75,7 +75,6 @@ class GoogleAIClient(BaseLLMClient):
             stream=True
         )
         if response.status_code != 200:
-            print(response.content)
             raise ValueError(
                 f"Server responded with an error. Status Code: {response.status_code}"
             )
@@ -119,7 +118,6 @@ class GoogleAIHandler:
         lm_response = ""
         for event in stream.events():  # type: ignore
             if event.data != "[DONE]":
-                print(json.loads(event.data))
                 json_load = json.loads(event.data)["candidates"][0]["content"]["parts"][0]
                 response_piece = json_load["text"]
                 lm_response += response_piece
