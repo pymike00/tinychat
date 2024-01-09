@@ -1,5 +1,5 @@
 <div align="center">
-<img height="250" src="./assets/tinychat.png">
+<img height="250" src="./tinychat/tinychat.ico">
 
 <h1>TinyChat</h1>
 
