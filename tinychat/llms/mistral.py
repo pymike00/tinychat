@@ -54,7 +54,6 @@ class MistralClient(BaseLLMClient):
             stream=True,
         )
         if response.status_code != 200:
-            print(response.content)
             raise ValueError(
                 f"Server responded with an error. Status Code: {response.status_code}"
             )
