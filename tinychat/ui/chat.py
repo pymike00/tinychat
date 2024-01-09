@@ -33,7 +33,12 @@ class ChatApp(ctk.CTk):
         self.settings_frame.grid(row=0, column=0, rowspan=1, sticky="nsew")
 
         # Create a progress bar to enable when getting data from the LLMs
-        self.progress_bar = ctk.CTkProgressBar(self, height=10)
+        self.progress_bar = ctk.CTkProgressBar(
+            self,
+            height=10,
+            fg_color=("#0C955A", "#106A43"),
+            progress_color=("#0C955A", "#106A43"),
+        )
         self.progress_bar.grid(row=1, column=0, padx=20, pady=(10, 0), sticky="ew")
         self.progress_bar.set(1.0)
 
@@ -53,9 +58,11 @@ class ChatApp(ctk.CTk):
         self.send_button = ctk.CTkButton(
             self,
             height=40,
-            text="Send Message",
+            text="Get Response",
             command=self.on_send_button,
             font=ctk.CTkFont(family=FONT_FAMILY, size=17),
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
         )
         self.send_button.grid(row=4, column=0, padx=20, pady=(10, 10), sticky="ew")
 
@@ -97,7 +104,7 @@ class ChatApp(ctk.CTk):
         try:
             self.backend.set_model(model_name=model_name)
         except (KeyError, ValueError) as e:
-            self.update_chat_display(message=e)
+            self.update_chat_display(message=f"\n{e}")
         else:
             self.clear_chat()
 
@@ -131,7 +138,7 @@ class ChatApp(ctk.CTk):
             for data in stream_generator:
                 self.update_chat_display(data)
         except Exception as e:
-            self.update_chat_display(f"Error: {e}")
+            self.update_chat_display(f"\n\nError: {e}")
         self.update_chat_display("\n\n\n")
         self.send_button.configure(state="normal")
         self.toggle_progress_bar(False)
