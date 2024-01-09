@@ -15,7 +15,7 @@ class SettingsFrame(ctk.CTkFrame):
     """
 
     def __init__(
-        self, parent, available_models, on_model_select_callback, *args, **kwargs
+        self, parent, available_models, on_model_select_callback, on_reset_callback, *args, **kwargs
     ):
         super().__init__(parent, *args, **kwargs)
         self.grid_columnconfigure(2, weight=1)
@@ -43,7 +43,20 @@ class SettingsFrame(ctk.CTkFrame):
             hover_color="#2c6e49",
         )
         self.settings_button.grid(
-            row=0, column=1, padx=(10, 20), pady=(10, 5), sticky="w"
+            row=0, column=1, padx=(10, 20), pady=(10, 5), sticky="e"
+        )
+
+        # Create settings button
+        self.reset_button = ctk.CTkButton(
+            self,
+            text="New Chat",
+            command=on_reset_callback,
+            font=ctk.CTkFont(family="Arial", size=13, weight="bold"),
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
+        )
+        self.reset_button.grid(
+            row=0, column=2, padx=(10, 20), pady=(10, 5), sticky="e"
         )
 
     def open_settings_window(self):

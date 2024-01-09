@@ -13,6 +13,7 @@ class ChatApp(ctk.CTk):
         super().__init__()
         self.iconbitmap(default=get_icon_path())
         self.stream_response = True
+        self.model_name = ""
 
         # Initialize font object to use with the chat text areas
         chat_font = ctk.CTkFont(family=FONT_FAMILY, size=14)
@@ -29,6 +30,7 @@ class ChatApp(ctk.CTk):
             self,
             available_models=backend.available_models(),
             on_model_select_callback=self.on_model_selection,
+            on_reset_callback=self.on_reset_callback,
             corner_radius=0,
             fg_color="transparent",
         )
@@ -38,7 +40,7 @@ class ChatApp(ctk.CTk):
         self.progress_bar = ctk.CTkProgressBar(
             self,
             height=10,
-            progress_color=("#0C955A", "#106A43"),
+            progress_color="#2c6e49",
         )
         self.progress_bar.grid(row=1, column=0, padx=20, pady=(10, 0), sticky="ew")
         self.progress_bar.set(1.0)
@@ -103,11 +105,16 @@ class ChatApp(ctk.CTk):
 
     def on_model_selection(self, model_name) -> None:
         try:
+            self.model_name = model_name
             self.backend.set_model(model_name=model_name)
         except (KeyError, ValueError) as e:
             self.update_chat_display(message=f"\n{e}")
         else:
             self.clear_chat()
+
+    def on_reset_callback(self) -> None:
+        self.clear_chat()
+        self.backend.set_model(model_name=self.model_name)
 
     def clear_chat(self):
         self.chat_display.configure(state="normal")
