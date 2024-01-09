@@ -73,3 +73,7 @@ By making direct HTTP requests to the API endpoints, no official client needs to
 - [ ] Support for chat history
 - [ ] Support for multimodality
 - [ ] Support for local models
+
+<br>
+
+[Crystal ball icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/crystal-ball)

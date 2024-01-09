@@ -4,12 +4,14 @@ import tkinter as tk
 import customtkinter as ctk
 
 from tinychat.settings import FONT_FAMILY, MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
+from tinychat.settings import get_icon_path
 from tinychat.ui.frames import SettingsFrame
 
 
 class ChatApp(ctk.CTk):
     def __init__(self, backend) -> None:
         super().__init__()
+        self.iconbitmap(default=get_icon_path())
         self.stream_response = True
 
         # Initialize font object to use with the chat text areas
