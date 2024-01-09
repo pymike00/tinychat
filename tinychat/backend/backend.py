@@ -34,12 +34,12 @@ class Backend:
 
     def get_chat_response(self, user_input: str) -> str:
         if self._llm is None:
-            return "No LM has been set."
+            return "No Language Model Has Been Selected."
         return self._llm.get_response(user_input)
     
     def get_stream_response(self, user_input: str):
         if self._llm is None:
-            raise ValueError("No LM has been set.")
+            raise ValueError("No Language Model Has Been Selected.")
         return self._llm.stream_response(user_input)
     
 
