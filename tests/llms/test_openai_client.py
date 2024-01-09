@@ -1,6 +1,6 @@
 import json
 import unittest
-from unittest.mock import patch, MagicMock, Mock
+from unittest.mock import MagicMock, Mock, patch
 
 from requests.models import Response
 
