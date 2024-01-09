@@ -36,7 +36,6 @@ class ChatApp(ctk.CTk):
         self.progress_bar = ctk.CTkProgressBar(
             self,
             height=10,
-            fg_color=("#0C955A", "#106A43"),
             progress_color=("#0C955A", "#106A43"),
         )
         self.progress_bar.grid(row=1, column=0, padx=20, pady=(10, 0), sticky="ew")

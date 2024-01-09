@@ -99,13 +99,21 @@ class SettingsFrame(ctk.CTkFrame):
 
         # Add a close button to the settings window
         close = ctk.CTkButton(
-            settings_window, text="Close", command=settings_window.destroy
+            settings_window,
+            text="Close",
+            command=settings_window.destroy,
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
         )
         close.grid(row=4, column=1, padx=(0, 0), pady=(20, 0), sticky="w")
 
         # Add a save button to the settings window
         save = ctk.CTkButton(
-            settings_window, text="Save Settings", command=self.save_settings
+            settings_window,
+            text="Save Settings",
+            command=self.save_settings,
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
         )
         save.grid(row=4, column=1, padx=(150, 0), pady=(20, 0), sticky="w")
 
