@@ -1,3 +1,5 @@
+from typing import Generator
+
 import requests
 
 from tinychat.llms.base import BaseLLMClient
@@ -78,7 +80,7 @@ class CohereHandler:
         self._update_chat_history(user_input, chat_response)
         return chat_response
 
-    def stream_response(self, user_input: str):
+    def stream_response(self, user_input: str) -> Generator[str, None, None]:
         """
         Yield stream responses from the client as they are received.
 

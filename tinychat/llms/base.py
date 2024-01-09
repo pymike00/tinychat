@@ -1,6 +1,4 @@
-from typing import Protocol
-
-from sseclient import SSEClient
+from typing import Generator, Protocol
 
 from tinychat.utils.api_keys import get_api_key
 from tinychat.settings import SECRETS_FILE_PATH
@@ -17,7 +15,7 @@ class LLMProtocol(Protocol):
         """
         ...
 
-    def stream_response(self, user_input: str) -> SSEClient:
+    def stream_response(self, user_input: str) -> Generator[str, None, None]:
         """
         Get a stream response from the language model API.
         """
