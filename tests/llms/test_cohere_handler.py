@@ -20,5 +20,30 @@ class TestCohereHandler(unittest.TestCase):
         self.assertEqual(handler._chat_history, expected_chat_history)
 
 
-if __name__ == "__main__":
-    unittest.main()
+class TestCohereHandlerStreaming(unittest.TestCase):
+    @patch.object(CohereClient, "perform_stream_request")
+    def test_stream_response(self, mock_perform_stream_request):
+        # Create a mock generator to simulate streaming response
+        mock_stream = iter(
+            [
+                "response part 1",
+                "response part 2",
+                "response part 3"
+            ]
+        )
+        mock_perform_stream_request.return_value = mock_stream
+
+        handler = CohereHandler()
+        generator = handler.stream_response("hello")
+
+        # Extracting and verifying the stream response
+        responses = []
+        for part in generator:
+            responses.append(part)
+
+        self.assertEqual(responses, ["response part 1", "response part 2", "response part 3"])
+        expected_chat_history = [
+            {"role": "User", "message": "hello"},
+            {"role": "Chatbot", "message": "response part 1response part 2response part 3"},
+        ]
+        self.assertEqual(handler._chat_history, expected_chat_history)
