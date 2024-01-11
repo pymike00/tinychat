@@ -38,8 +38,8 @@ python -m tinychat
 
 <img src="./assets/tinychat-two.png">
 
-## Supports all Major Models
-**Supports all major chat models from the OpenAI, Mistral, Google and Cohere cloud APIs:**
+## Supports all major models via cloud API
+**You can talk with all major models from the OpenAI, Mistral, Google and Cohere cloud APIs:**
 
 - [x] GPT-4 Turbo
 - [x] GPT-3.5-Turbo
@@ -63,11 +63,9 @@ By making direct HTTP requests to the API endpoints, no official client needs to
 
 ## Project just started. Here is what you can expect for the future:
 
-- [ ] Text formatting in chat textarea
-- [ ] Streaming Response?
-- [ ] Support for chat history
-- [ ] Support for multimodality
-- [ ] Support for local models
+- Chat history
+- Multimodality
+- Support for local models
 
 <br>
 
