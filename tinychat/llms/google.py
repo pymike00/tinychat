@@ -84,9 +84,9 @@ class GoogleAIHandler:
             if message["role"] == "user":
                 if string_conversation != "":
                     string_conversation += "\n\n"
-                string_conversation += f"You: {message["parts"][0]["text"]}"
+                string_conversation += f"You: {message['parts'][0]['text']}"
             else:
-                string_conversation += f"LLM: {message["parts"][0]["text"]}"
+                string_conversation += f"LLM: {message['parts'][0]['text']}"
         return string_conversation
 
     def stream_response(self, user_input: str) -> Generator[str, None, None]:

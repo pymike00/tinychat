@@ -61,9 +61,9 @@ class CohereHandler:
             if message["role"] == "User":
                 if string_conversation != "":
                     string_conversation += "\n\n"
-                string_conversation += f"You: {message["message"]}"
+                string_conversation += f"You: {message['message']}"
             else:
-                string_conversation += f"LLM: {message["message"]}"
+                string_conversation += f"LLM: {message['message']}"
         return string_conversation
 
     def stream_response(self, user_input: str) -> Generator[str, None, None]:

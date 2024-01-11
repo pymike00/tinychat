@@ -61,9 +61,9 @@ class OpenAIHandler:
             if message["role"] == "user":
                 if string_conversation != "":
                     string_conversation += "\n\n"
-                string_conversation += f"You: {message["content"]}"
+                string_conversation += f"You: {message['content']}"
             else:
-                string_conversation += f"LLM: {message["content"]}"
+                string_conversation += f"LLM: {message['content']}"
         return string_conversation
 
     def stream_response(self, user_input: str) -> Generator[str, None, None]:
