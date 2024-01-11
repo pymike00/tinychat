@@ -5,22 +5,19 @@ from tinychat.settings import SECRETS_FILE_PATH
 
 
 class LLMProtocol(Protocol):
-    """
-    A protocol for language model handlers.
-    """
+    """A protocol for language model handlers."""
 
     def get_response(self, user_input: str) -> str:
-        """
-        Get a complete response from the language model API.
-        """
+        """Get a complete response from the language model API."""
         ...
 
     def stream_response(self, user_input: str) -> Generator[str, None, None]:
-        """
-        Get a stream response from the language model API.
-        """
+        """Get a stream response from the language model API."""
         ...
 
+    def export_conversation(self) -> str:
+        """Return the conversation as string."""
+        ...
 
 
 class BaseLLMClient:
@@ -50,6 +47,3 @@ class BaseLLMClient:
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}",
         }
-
-
-
