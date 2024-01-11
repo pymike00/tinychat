@@ -12,7 +12,6 @@ class ChatApp(ctk.CTk):
     def __init__(self, backend) -> None:
         super().__init__()
         self.iconbitmap(default=get_icon_path())
-        self.stream_response = True
         self.model_name = ""
 
         # Initialize font object to use with the chat text areas
@@ -133,12 +132,9 @@ class ChatApp(ctk.CTk):
             self.progress_bar.set(1.0)
 
     def send_message_thread(self) -> None:
-        if self.stream_response:
-            threading.Thread(target=self.send_message_streaming, daemon=True).start()
-        else:
-            threading.Thread(target=self.send_message, daemon=True).start()
+        threading.Thread(target=self.get_response, daemon=True).start()
 
-    def send_message_streaming(self) -> None:
+    def get_response(self) -> None:
         self.toggle_progress_bar(True)
         self.send_button.configure(state="disabled")
         user_input = self.message_input.get("1.0", tk.END)
@@ -152,20 +148,6 @@ class ChatApp(ctk.CTk):
         except Exception as e:
             self.update_chat_display(f"\n\nError: {e}")
         self.update_chat_display("\n\n\n")
-        self.send_button.configure(state="normal")
-        self.toggle_progress_bar(False)
-
-    def send_message(self) -> None:
-        self.toggle_progress_bar(True)
-        self.send_button.configure(state="disabled")
-        user_input = self.message_input.get("1.0", tk.END)
-        self.update_chat_display(f"You: {user_input.strip()}")
-        self.message_input.delete("1.0", tk.END)
-        try:
-            chat_response = self.backend.get_chat_response(user_input)
-            self.update_chat_display(f"LLM: {chat_response}")
-        except Exception as e:
-            self.update_chat_display(f"Error: {e}")
         self.send_button.configure(state="normal")
         self.toggle_progress_bar(False)
 

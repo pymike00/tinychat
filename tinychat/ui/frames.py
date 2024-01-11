@@ -87,7 +87,7 @@ class SettingsFrame(ctk.CTkFrame):
         settings_window = ctk.CTkToplevel(self)
         settings_window.title("API Key Settings")
         settings_window.geometry("600x240")  # Adjusted size to fit API key entries
-        settings_window.transient(self)  # Set to be on top of the main window
+        settings_window.transient(self)  # type:ignore - Set to be on top of the main window
 
         # Configure grid layout
         settings_window.grid_columnconfigure(1, weight=1)

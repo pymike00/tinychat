@@ -5,22 +5,6 @@ from unittest.mock import MagicMock, Mock, patch
 from tinychat.llms.mistral import MistralClient, MistralHandler
 
 
-class TestMistralHandler(unittest.TestCase):
-    @patch.object(MistralClient, "perform_chat_request")
-    def test_get_response(self, mock_perform_chat_request):
-        mock_perform_chat_request.return_value = "test response"
-        handler = MistralHandler(model_name="test_model")
-        response = handler.get_response("hello")
-        self.assertEqual(response, "test response")
-        self.assertEqual(
-            handler._messages,
-            [
-                {"role": "user", "content": "hello"},
-                {"role": "assistant", "content": "test response"},
-            ],
-        )
-
-
 class TestMistralHandlerStreaming(unittest.TestCase):
     @patch.object(MistralClient, "perform_stream_request")
     def test_stream_response(self, mock_perform_stream_request):

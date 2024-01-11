@@ -20,26 +20,6 @@ class MistralClient(BaseLLMClient):
         self.model_name = model_name
         self.temperature = temperature
 
-    def perform_chat_request(self, messages: list[dict]) -> str:
-        data = {
-            "model": self.model_name,
-            "messages": messages,
-            "temperature": self.temperature,
-        }
-        response = requests.post(
-            self.MISTRAL_COMPLETION_API_URL,
-            headers=self.default_headers(),  # type: ignore
-            json=data,
-        )
-        if response.status_code != 200:
-            raise ValueError(
-                f"Server responded with an error. Status Code: {response.status_code}"
-            )
-        try:
-            return response.json()["choices"][0]["message"]["content"]
-        except KeyError as e:
-            raise KeyError(f"Invalid response format received from server. {e}")
-
     def perform_stream_request(self, messages: list[dict]) -> SSEClient:
         data = {
             "model": self.model_name,
@@ -84,13 +64,6 @@ class MistralHandler:
             else:
                 string_conversation += f"LLM: {message["content"]}"
         return string_conversation
-
-    def get_response(self, user_input: str) -> str:
-        """Return complete chat response from client"""
-        self._messages.append({"role": "user", "content": user_input})
-        chat_response = self._client.perform_chat_request(self._messages)
-        self._messages.append({"role": "assistant", "content": chat_response})
-        return chat_response
 
     def stream_response(self, user_input: str) -> Generator[str, None, None]:
         """

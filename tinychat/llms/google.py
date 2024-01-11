@@ -47,24 +47,6 @@ class GoogleAIClient(BaseLLMClient):
     def gemini_headers(self):
         return {"Content-Type": "application/json"}
 
-    def perform_chat_request(self, messages: list[dict]) -> str:
-        data = {"contents": messages, "safetySettings": self.SAFETY_SETTINGS}
-        response = requests.post(
-            self.gemini_endpoint,
-            headers=self.gemini_headers,  # type: ignore
-            json=data,
-        )
-        if response.status_code != 200:
-            raise ValueError(
-                f"Server responded with an error. Status Code: {response.status_code}"
-            )
-        try:
-            return response.json()["candidates"][0]["content"]["parts"][0]["text"]
-        except KeyError as e:
-            raise KeyError(
-                f"Invalid response format received from server. Exception: {e}. Response: {response.json()}"
-            )
-
     def perform_stream_request(self, messages: list[dict]) -> SSEClient:
         # info: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events
         data = {"contents": messages, "safetySettings": self.SAFETY_SETTINGS}
@@ -106,12 +88,6 @@ class GoogleAIHandler:
             else:
                 string_conversation += f"LLM: {message["parts"][0]["text"]}"
         return string_conversation
-
-    def get_response(self, user_input: str) -> str:
-        self._messages.append({"parts": [{"text": user_input}], "role": "user"})
-        chat_response = self._client.perform_chat_request(self._messages)
-        self._messages.append({"parts": [{"text": chat_response}], "role": "model"})
-        return chat_response
 
     def stream_response(self, user_input: str) -> Generator[str, None, None]:
         """
