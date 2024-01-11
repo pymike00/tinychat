@@ -103,7 +103,7 @@ class CohereHandler:
             try:
                 data = json.loads(response_piece.decode("utf-8"))
             except ValueError as e:
-                # HACK. Cohere's stream last response should have the whole response but for some reasons it breaks
+                # HACK. Cohere's stream last response should include the whole response but for some reasons it comes back broken
                 # Info: https://docs.cohere.com/reference/chat
                 continue
             if not "event_type" in data.keys():
