@@ -8,7 +8,7 @@ MAIN_WINDOW_RESOLUTION = "1200x700"
 FONT_FAMILY = "Verdana"  # Consolas
 
 # API Key storage file location
-SECRETS_FILE_PATH = "secrets.json"
+SECRETS_FILE_PATH = "tinychat.json"
 
 # API Key Constants. Used as names in the API Key storage file
 OPENAI_API_KEY_NAME = "OPENAI_API_KEY"
