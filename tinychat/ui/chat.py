@@ -31,6 +31,7 @@ class ChatApp(ctk.CTk):
             available_models=backend.available_models(),
             on_model_select_callback=self.on_model_selection,
             on_reset_callback=self.on_reset_callback,
+            on_export_callback=self.on_export_callback,
             corner_radius=0,
             fg_color="transparent",
         )
@@ -115,6 +116,9 @@ class ChatApp(ctk.CTk):
     def on_reset_callback(self) -> None:
         self.clear_chat()
         self.backend.set_model(model_name=self.model_name)
+
+    def on_export_callback(self) -> None:
+        threading.Thread(target=self.backend.export_conversation, daemon=True).start()
 
     def clear_chat(self):
         self.chat_display.configure(state="normal")

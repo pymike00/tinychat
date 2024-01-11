@@ -15,7 +15,14 @@ class SettingsFrame(ctk.CTkFrame):
     """
 
     def __init__(
-        self, parent, available_models, on_model_select_callback, on_reset_callback, *args, **kwargs
+        self,
+        parent,
+        available_models,
+        on_model_select_callback,
+        on_reset_callback,
+        on_export_callback,
+        *args,
+        **kwargs
     ):
         super().__init__(parent, *args, **kwargs)
         self.grid_columnconfigure(2, weight=1)
@@ -46,7 +53,7 @@ class SettingsFrame(ctk.CTkFrame):
             row=0, column=1, padx=(10, 20), pady=(10, 5), sticky="e"
         )
 
-        # Create settings button
+        # Create the new_chat button
         self.reset_button = ctk.CTkButton(
             self,
             text="New Chat",
@@ -55,8 +62,19 @@ class SettingsFrame(ctk.CTkFrame):
             fg_color=("#0C955A", "#106A43"),
             hover_color="#2c6e49",
         )
-        self.reset_button.grid(
-            row=0, column=2, padx=(10, 20), pady=(10, 5), sticky="e"
+        self.reset_button.grid(row=0, column=2, padx=(10, 0), pady=(10, 5), sticky="e")
+
+        # Create the export chat button
+        self.export_button = ctk.CTkButton(
+            self,
+            text="Export Conversation",
+            command=on_export_callback,
+            font=ctk.CTkFont(family="Arial", size=13, weight="bold"),
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
+        )
+        self.export_button.grid(
+            row=0, column=3, padx=(10, 20), pady=(10, 5), sticky="e"
         )
 
     def open_settings_window(self):
