@@ -7,10 +7,16 @@
 
 **TinyChat is built with simplicity in mind. Its minimalistic Python code is designed for straightforward comprehension. More features will likely come, but it will stay tiny. Promised!**
 </div>
+<br>
 
 
-## How to Use
-**The project was just started, so right now you need to go the developer route**
+
+https://github.com/pymike00/tinychat/assets/32687496/aec0cfb4-de53-4399-b952-b1c636194718
+
+
+
+## How to Use it
+**Development Setup:**
 
 
 ```
