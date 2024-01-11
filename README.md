@@ -10,13 +10,12 @@
 <br>
 
 
-
+## Here is a quick demo:
 https://github.com/pymike00/tinychat/assets/32687496/aec0cfb4-de53-4399-b952-b1c636194718
 
+<br>
 
-
-## How to Use it
-**Development Setup:**
+### You can either use it as a Python package:
 
 
 ```
@@ -38,6 +37,31 @@ pip install -r requirements.txt
 python -m tinychat
 ```
 
+<br>
+
+### Or you can build an executable. I will release some builds in the very near future:
+
+
+```
+# Clone repo and enter main folder
+git clone https://github.com/pymike00/tinychat.git
+cd tinychat
+
+# Create Virtual Environment
+python -m venv venv
+
+# Activate Virtual Environment
+source venv/bin/activate on Linux / Mac OS
+.\venv\Scripts\Activate.ps1 on Windows Powershell
+
+# Install requirements
+pip install -r requirements-build.txt
+
+# Run build commands
+pyinstaller build.spec
+
+# You should now have a new tinychat executable file in a newly created dist folder
+```
 <br>
 
 ## Select your favorite model and start chatting
