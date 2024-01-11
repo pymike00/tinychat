@@ -72,6 +72,17 @@ class CohereHandler:
     def __init__(self):
         self._chat_history = []
         self._client = CohereClient()
+    
+    def export_conversation(self) -> str:
+        string_conversation = ""
+        for message in self._chat_history:
+            if message["role"] == "User":
+                if string_conversation != "":
+                    string_conversation += "\n\n"
+                string_conversation += f"You: {message["message"]}"
+            else:
+                string_conversation += f"LLM: {message["message"]}"
+        return string_conversation
 
     def _update_chat_history(self, user_input: str, answer: str) -> None:
         self._chat_history.append({"role": "User", "message": user_input})
