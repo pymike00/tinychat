@@ -1,3 +1,4 @@
+import os
 import threading
 import tkinter as tk
 
@@ -11,7 +12,8 @@ from tinychat.ui.frames import SettingsFrame
 class ChatApp(ctk.CTk):
     def __init__(self, backend) -> None:
         super().__init__()
-        self.iconbitmap(default=get_icon_path())
+        if os.name == "nt":
+            self.iconbitmap(default=get_icon_path())
         self.model_name = ""
 
         # Initialize font object to use with the chat text areas
