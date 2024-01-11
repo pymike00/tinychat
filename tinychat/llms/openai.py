@@ -74,6 +74,17 @@ class OpenAIHandler:
     def __init__(self, model_name: str):
         self._messages = []
         self._client = OpenAIClient(model_name=model_name)
+    
+    def export_conversation(self) -> str:
+        string_conversation = ""
+        for message in self._messages:
+            if message["role"] == "user":
+                if string_conversation != "":
+                    string_conversation += "\n\n"
+                string_conversation += f"You: {message["content"]}"
+            else:
+                string_conversation += f"LLM: {message["content"]}"
+        return string_conversation
 
     def get_response(self, user_input: str) -> str:
         """Return complete chat response from client"""
