@@ -12,9 +12,9 @@ class Backend:
             "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-1106-preview"),
             "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo"),
             "Gemini Pro": lambda: GoogleAIHandler(),
-            "Mixtral-8X7B": lambda: MistralHandler("mistral-small"),
-            "Mistral-7B": lambda: MistralHandler("mistral-tiny"),
-            "Mixtral Medium": lambda: MistralHandler("mistral-medium"),
+            "Mistral Medium": lambda: MistralHandler("mistral-medium"),
+            "Mixtral 8X7B": lambda: MistralHandler("mistral-small"),
+            "Mistral 7B": lambda: MistralHandler("mistral-tiny"),
             "Cohere Chat": lambda: CohereHandler(),
         }
         self._llm: LLMProtocol = None # type: ignore
