@@ -10,7 +10,7 @@
 <br>
 
 
-## Here is a quick demo:
+### Here is a quick demo:
 https://github.com/pymike00/tinychat/assets/32687496/aec0cfb4-de53-4399-b952-b1c636194718
 
 <br>
@@ -64,7 +64,7 @@ pyinstaller build.spec
 ```
 <br>
 
-## Select your favorite model and start chatting
+### Select your favorite model and start chatting
 **You can talk with all major models from the OpenAI, Mistral, Google and Cohere cloud APIs:**
 
 - [x] GPT-4 Turbo
@@ -81,13 +81,13 @@ pyinstaller build.spec
 
 <br>
 
-## Dependency - less
+### Dependency - less
 By making direct HTTP requests to the API endpoints, no official client needs to be installed. TinyChat only depends on [requests](https://requests.readthedocs.io/en/latest/), [sseclient-py](https://github.com/mpetazzoni/sseclient) and [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter).
 
 
 <br>
 
-## Roadmap:
+### Roadmap:
 
 - Chat history
 - Multimodality
