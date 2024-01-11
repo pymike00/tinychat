@@ -1,3 +1,5 @@
+from tkinter import filedialog
+
 from tinychat.llms.base import LLMProtocol
 from tinychat.llms.cohere import CohereHandler
 from tinychat.llms.google import GoogleAIHandler
@@ -17,7 +19,7 @@ class Backend:
             "Mistral 7B": lambda: MistralHandler("mistral-tiny"),
             "Cohere Chat": lambda: CohereHandler(),
         }
-        self._llm: LLMProtocol = None # type: ignore
+        self._llm: LLMProtocol = None  # type: ignore
 
     def available_models(self) -> list:
         return list(self._models.keys())
@@ -36,12 +38,22 @@ class Backend:
         if self._llm is None:
             return "No Language Model Has Been Selected."
         return self._llm.get_response(user_input)
-    
+
     def get_stream_response(self, user_input: str):
         if self._llm is None:
             raise ValueError("No Language Model Has Been Selected.")
         return self._llm.stream_response(user_input)
-    
+
+    def export_conversation(self):
+        if self._llm is None:
+            return
+        new_file = filedialog.asksaveasfilename(
+            initialfile="Untitled.txt",
+            defaultextension=".txt",
+            filetypes=[("File di Testo", "*.txt")],
+        )
+        with open(new_file, "w") as f:
+            f.write(self._llm.export_conversation())
 
 
 if __name__ == "__main__":
