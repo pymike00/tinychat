@@ -40,11 +40,7 @@ python -m tinychat
 
 <br>
 
-**Select your favorite model and start chatting**
-
-<img src="./assets/tinychat-two.png">
-
-## Supports all major models via cloud API
+## Select your favorite model and start chatting
 **You can talk with all major models from the OpenAI, Mistral, Google and Cohere cloud APIs:**
 
 - [x] GPT-4 Turbo
@@ -67,7 +63,7 @@ By making direct HTTP requests to the API endpoints, no official client needs to
 
 <br>
 
-## Project just started. Here is what you can expect for the future:
+## Roadmap:
 
 - Chat history
 - Multimodality
