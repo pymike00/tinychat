@@ -1,5 +1,5 @@
 <div align="center">
-<img height="250" src="./assets/tinychat.png">
+<img height="300" style="border-radius: 3%;" src="./assets/tinychat.jpg">
 
 <h1>TinyChat</h1>
 
@@ -7,10 +7,16 @@
 
 **TinyChat is built with simplicity in mind. Its minimalistic Python code is designed for straightforward comprehension. More features will likely come, but it will stay tiny. Promised!**
 </div>
+<br>
 
 
-## How to Use
-**The project was just started, so right now you need to go the developer route**
+
+https://github.com/pymike00/tinychat/assets/32687496/aec0cfb4-de53-4399-b952-b1c636194718
+
+
+
+## How to Use it
+**Development Setup:**
 
 
 ```
@@ -34,17 +40,8 @@ python -m tinychat
 
 <br>
 
-## Important
-**Currently, the app does not use response streaming, i.e. the app waits for the whole response to be available before showing the reply. With some models this is fine, as the amounts of token/s provided by the API is very high. Others, such as Mistral's, may be slower. Streaming response is on the TODO list.**
-
-<br>
-
-**Select your favorite model and start chatting**
-
-<img src="./assets/tinychat-two.png">
-
-## Supports all Major Models
-**Supports all major chat models from the OpenAI, Mistral, Google and Cohere cloud APIs:**
+## Select your favorite model and start chatting
+**You can talk with all major models from the OpenAI, Mistral, Google and Cohere cloud APIs:**
 
 - [x] GPT-4 Turbo
 - [x] GPT-3.5-Turbo
@@ -61,15 +58,17 @@ python -m tinychat
 <br>
 
 ## Dependency - less
-By making direct HTTP requests to the API endpoints, no official client needs to be installed. TinyChat only depends on the [requests](https://requests.readthedocs.io/en/latest/) module and [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter).
+By making direct HTTP requests to the API endpoints, no official client needs to be installed. TinyChat only depends on [requests](https://requests.readthedocs.io/en/latest/), [sseclient-py](https://github.com/mpetazzoni/sseclient) and [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter).
 
 
 <br>
 
-## Project just started. Here is what you can expect for the future:
+## Roadmap:
 
-- [ ] Text formatting in chat textarea
-- [ ] Streaming Response?
-- [ ] Support for chat history
-- [ ] Support for multimodality
-- [ ] Support for local models
+- Chat history
+- Multimodality
+- Support for local models
+
+<br>
+
+[Crystal ball icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/crystal-ball)

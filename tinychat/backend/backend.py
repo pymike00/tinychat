@@ -1,3 +1,5 @@
+from tkinter import filedialog
+
 from tinychat.llms.base import LLMProtocol
 from tinychat.llms.cohere import CohereHandler
 from tinychat.llms.google import GoogleAIHandler
@@ -8,16 +10,16 @@ from tinychat.llms.openai import OpenAIHandler
 class Backend:
     def __init__(self) -> None:
         self._models = {
-            "Select Model": lambda: None,
+            "Language Model ": lambda: None,
             "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-1106-preview"),
             "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo"),
             "Gemini Pro": lambda: GoogleAIHandler(),
-            "Mixtral-8X7B": lambda: MistralHandler("mistral-small"),
-            "Mistral-7B": lambda: MistralHandler("mistral-tiny"),
-            "Mixtral Medium": lambda: MistralHandler("mistral-medium"),
+            "Mistral Medium": lambda: MistralHandler("mistral-medium"),
+            "Mixtral 8X7B": lambda: MistralHandler("mistral-small"),
+            "Mistral 7B": lambda: MistralHandler("mistral-tiny"),
             "Cohere Chat": lambda: CohereHandler(),
         }
-        self._llm: LLMProtocol = None # type: ignore
+        self._llm: LLMProtocol = None  # type: ignore
 
     def available_models(self) -> list:
         return list(self._models.keys())
@@ -34,8 +36,26 @@ class Backend:
 
     def get_chat_response(self, user_input: str) -> str:
         if self._llm is None:
-            return "No LM has been set."
+            return "No Language Model Has Been Selected."
         return self._llm.get_response(user_input)
+
+    def get_stream_response(self, user_input: str):
+        if self._llm is None:
+            raise ValueError("No Language Model Has Been Selected.")
+        return self._llm.stream_response(user_input)
+
+    def export_conversation(self):
+        if self._llm is None:
+            return
+        new_file = filedialog.asksaveasfilename(
+            initialfile="Untitled.txt",
+            defaultextension=".txt",
+            filetypes=[("File di Testo", "*.txt")],
+        )
+        if not new_file:
+            return
+        with open(new_file, "w") as f:
+            f.write(self._llm.export_conversation())
 
 
 if __name__ == "__main__":

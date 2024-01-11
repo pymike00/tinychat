@@ -6,7 +6,6 @@ from tinychat.settings import (
     GOOGLE_API_KEY_NAME,
     OPENAI_API_KEY_NAME,
     MISTRAL_API_KEY_NAME,
-    FONT_FAMILY,
 )
 
 
@@ -16,7 +15,14 @@ class SettingsFrame(ctk.CTkFrame):
     """
 
     def __init__(
-        self, parent, available_models, on_model_select_callback, *args, **kwargs
+        self,
+        parent,
+        available_models,
+        on_model_select_callback,
+        on_reset_callback,
+        on_export_callback,
+        *args,
+        **kwargs
     ):
         super().__init__(parent, *args, **kwargs)
         self.grid_columnconfigure(2, weight=1)
@@ -26,8 +32,9 @@ class SettingsFrame(ctk.CTkFrame):
             self,
             values=available_models,
             command=on_model_select_callback,
-            font=ctk.CTkFont(family=FONT_FAMILY, size=13, weight="bold"),
-            dropdown_font=ctk.CTkFont(family=FONT_FAMILY, size=13, weight="bold"),
+            font=ctk.CTkFont(family="Arial", size=13, weight="bold"),
+            dropdown_font=ctk.CTkFont(family="Arial", size=13, weight="bold"),
+            fg_color=("#0C955A", "#106A43"),
         )
         self.model_selection_menu.grid(
             row=0, column=0, padx=(20, 0), pady=(10, 5), sticky="w"
@@ -38,10 +45,36 @@ class SettingsFrame(ctk.CTkFrame):
             self,
             text="Settings",
             command=self.open_settings_window,
-            font=ctk.CTkFont(family=FONT_FAMILY, size=13, weight="bold"),
+            font=ctk.CTkFont(family="Arial", size=13, weight="bold"),
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
         )
         self.settings_button.grid(
-            row=0, column=1, padx=(10, 20), pady=(10, 5), sticky="w"
+            row=0, column=1, padx=(10, 20), pady=(10, 5), sticky="e"
+        )
+
+        # Create the new_chat button
+        self.reset_button = ctk.CTkButton(
+            self,
+            text="New Chat",
+            command=on_reset_callback,
+            font=ctk.CTkFont(family="Arial", size=13, weight="bold"),
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
+        )
+        self.reset_button.grid(row=0, column=2, padx=(10, 0), pady=(10, 5), sticky="e")
+
+        # Create the export chat button
+        self.export_button = ctk.CTkButton(
+            self,
+            text="Export Conversation",
+            command=on_export_callback,
+            font=ctk.CTkFont(family="Arial", size=13, weight="bold"),
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
+        )
+        self.export_button.grid(
+            row=0, column=3, padx=(10, 20), pady=(10, 5), sticky="e"
         )
 
     def open_settings_window(self):
@@ -54,7 +87,7 @@ class SettingsFrame(ctk.CTkFrame):
         settings_window = ctk.CTkToplevel(self)
         settings_window.title("API Key Settings")
         settings_window.geometry("600x240")  # Adjusted size to fit API key entries
-        settings_window.transient(self)  # Set to be on top of the main window
+        settings_window.transient(self)  # type:ignore - Set to be on top of the main window
 
         # Configure grid layout
         settings_window.grid_columnconfigure(1, weight=1)
@@ -97,13 +130,21 @@ class SettingsFrame(ctk.CTkFrame):
 
         # Add a close button to the settings window
         close = ctk.CTkButton(
-            settings_window, text="Close", command=settings_window.destroy
+            settings_window,
+            text="Close",
+            command=settings_window.destroy,
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
         )
         close.grid(row=4, column=1, padx=(0, 0), pady=(20, 0), sticky="w")
 
         # Add a save button to the settings window
         save = ctk.CTkButton(
-            settings_window, text="Save Settings", command=self.save_settings
+            settings_window,
+            text="Save Settings",
+            command=self.save_settings,
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
         )
         save.grid(row=4, column=1, padx=(150, 0), pady=(20, 0), sticky="w")
 

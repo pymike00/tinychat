@@ -4,15 +4,18 @@ import tkinter as tk
 import customtkinter as ctk
 
 from tinychat.settings import FONT_FAMILY, MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
+from tinychat.settings import get_icon_path
 from tinychat.ui.frames import SettingsFrame
 
 
 class ChatApp(ctk.CTk):
     def __init__(self, backend) -> None:
         super().__init__()
+        self.iconbitmap(default=get_icon_path())
+        self.model_name = ""
 
         # Initialize font object to use with the chat text areas
-        chat_font = ctk.CTkFont(family=FONT_FAMILY, size=15)
+        chat_font = ctk.CTkFont(family=FONT_FAMILY, size=14)
 
         # Initialize the backend object
         self.backend = backend
@@ -26,31 +29,43 @@ class ChatApp(ctk.CTk):
             self,
             available_models=backend.available_models(),
             on_model_select_callback=self.on_model_selection,
+            on_reset_callback=self.on_reset_callback,
+            on_export_callback=self.on_export_callback,
             corner_radius=0,
             fg_color="transparent",
         )
         self.settings_frame.grid(row=0, column=0, rowspan=1, sticky="nsew")
 
-        # Create a progress bar to enable when getting data from the lms
-        self.progress_bar = ctk.CTkProgressBar(self, height=10)
+        # Create a progress bar to enable when getting data from the LLMs
+        self.progress_bar = ctk.CTkProgressBar(
+            self,
+            height=10,
+            progress_color="#2c6e49",
+        )
         self.progress_bar.grid(row=1, column=0, padx=20, pady=(10, 0), sticky="ew")
         self.progress_bar.set(1.0)
 
         # Create a big text area for displaying chat
-        self.chat_display = ctk.CTkTextbox(self, state="disabled", font=chat_font)
+        self.chat_display = ctk.CTkTextbox(
+            self, state="disabled", font=chat_font, wrap="word", border_spacing=5
+        )
         self.chat_display.grid(row=2, column=0, padx=20, pady=(10, 10), sticky="nsew")
 
         # Create a smaller text area for typing messages
-        self.message_input = ctk.CTkTextbox(self, height=150, font=chat_font)
+        self.message_input = ctk.CTkTextbox(
+            self, height=150, font=chat_font, wrap="word", border_spacing=5
+        )
         self.message_input.grid(row=3, column=0, padx=20, pady=(0, 0), sticky="ew")
 
         # Create a button for sending messages
         self.send_button = ctk.CTkButton(
             self,
             height=40,
-            text="Send Message",
+            text="Get Response",
             command=self.on_send_button,
             font=ctk.CTkFont(family=FONT_FAMILY, size=17),
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
         )
         self.send_button.grid(row=4, column=0, padx=20, pady=(10, 10), sticky="ew")
 
@@ -90,11 +105,19 @@ class ChatApp(ctk.CTk):
 
     def on_model_selection(self, model_name) -> None:
         try:
+            self.model_name = model_name
             self.backend.set_model(model_name=model_name)
         except (KeyError, ValueError) as e:
-            self.update_chat_display(message=e)
+            self.update_chat_display(message=f"\n{e}")
         else:
             self.clear_chat()
+
+    def on_reset_callback(self) -> None:
+        self.clear_chat()
+        self.backend.set_model(model_name=self.model_name)
+
+    def on_export_callback(self) -> None:
+        threading.Thread(target=self.backend.export_conversation, daemon=True).start()
 
     def clear_chat(self):
         self.chat_display.configure(state="normal")
@@ -109,25 +132,28 @@ class ChatApp(ctk.CTk):
             self.progress_bar.set(1.0)
 
     def send_message_thread(self) -> None:
-        threading.Thread(target=self.send_message, daemon=True).start()
+        threading.Thread(target=self.get_response, daemon=True).start()
 
-    def send_message(self) -> None:
+    def get_response(self) -> None:
         self.toggle_progress_bar(True)
         self.send_button.configure(state="disabled")
         user_input = self.message_input.get("1.0", tk.END)
         self.update_chat_display(f"You: {user_input.strip()}")
         self.message_input.delete("1.0", tk.END)
         try:
-            chat_response = self.backend.get_chat_response(user_input)
-            self.update_chat_display(f"LM: {chat_response}")
+            stream_generator = self.backend.get_stream_response(user_input)
+            self.update_chat_display(f"\n\n\nLLM: ")
+            for data in stream_generator:
+                self.update_chat_display(data)
         except Exception as e:
-            self.update_chat_display(f"Error: {e}")
+            self.update_chat_display(f"\n\nError: {e}")
+        self.update_chat_display("\n\n\n")
         self.send_button.configure(state="normal")
         self.toggle_progress_bar(False)
 
     def update_chat_display(self, message) -> None:
         self.chat_display.configure(state="normal")
-        self.chat_display.insert(tk.END, f"{message}\n\n")
+        self.chat_display.insert(tk.END, f"{message}")
         self.chat_display.configure(state="disabled")
         self.chat_display.yview(tk.END)
 

@@ -1,20 +1,18 @@
-from typing import Protocol
+from typing import Generator, Protocol
 
 from tinychat.utils.api_keys import get_api_key
 from tinychat.settings import SECRETS_FILE_PATH
 
 
 class LLMProtocol(Protocol):
-    """
-    A protocol for language model handlers.
-    """
+    """A protocol for language model handlers."""
 
-    def get_response(self, user_input: str) -> str:
-        """
-        Get a response from the language model.
-        This method should be implemented to interact with the underlying
-        language model and return a response string.
-        """
+    def stream_response(self, user_input: str) -> Generator[str, None, None]:
+        """Get a stream response from the language model API."""
+        ...
+
+    def export_conversation(self) -> str:
+        """Return the conversation as string."""
         ...
 
 
@@ -45,6 +43,3 @@ class BaseLLMClient:
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}",
         }
-
-
-
