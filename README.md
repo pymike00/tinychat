@@ -1,5 +1,5 @@
 <div align="center">
-<img height="300" style="border-radius: 3%;" src="./assets/tinychat.jpg">
+<img style="max-height:300px" style="border-radius: 3%;" src="./assets/tinychat.jpg">
 
 <h1>TinyChat</h1>
 
