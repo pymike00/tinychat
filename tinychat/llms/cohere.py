@@ -1,3 +1,4 @@
+import json
 from typing import Generator
 
 import requests
@@ -35,22 +36,25 @@ class CohereClient(BaseLLMClient):
         except ValueError:
             raise ValueError("Invalid response format received from server.")
 
-    def perform_stream_request(self, user_input: str, chat_history: list[dict]) -> str:
+    def perform_stream_request(
+        self, user_input: str, chat_history: list[dict]
+    ) -> requests.Response:
         data = {
             "chat_history": chat_history,
             "message": user_input,
             "temperature": self.temperature,
+            "stream": True,
         }
         response = requests.post(
             self.COHERE_CHAT_API_URL,
             headers=self.default_headers(),
             json=data,
-            stream=True
+            stream=True,
         )
         if response.status_code != 200:
             raise ValueError(f"Server responded with error: {response.status_code}")
         try:
-            return response.json().get("text", "No response text found")
+            return response
         except ValueError:
             raise ValueError("Invalid response format received from server.")
 
@@ -96,6 +100,15 @@ class CohereHandler:
         stream = self._client.perform_stream_request(user_input, self._chat_history)
         lm_response = ""
         for response_piece in stream:  # type: ignore
-            lm_response += response_piece
-            yield response_piece
+            try:
+                data = json.loads(response_piece.decode("utf-8"))
+            except ValueError as e:
+                # HACK. Cohere's stream last response should have the whole response but for some reasons it breaks
+                # Info: https://docs.cohere.com/reference/chat
+                continue
+            if not "event_type" in data.keys():
+                continue
+            if data["event_type"] == "text-generation":
+                lm_response += data["text"]
+                yield data["text"]
         self._chat_history.append({"role": "Chatbot", "message": lm_response})

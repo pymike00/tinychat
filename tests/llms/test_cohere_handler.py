@@ -22,28 +22,25 @@ class TestCohereHandler(unittest.TestCase):
 
 class TestCohereHandlerStreaming(unittest.TestCase):
     @patch.object(CohereClient, "perform_stream_request")
-    def test_stream_response(self, mock_perform_stream_request):
-        # Create a mock generator to simulate streaming response
-        mock_stream = iter(
-            [
-                "response part 1",
-                "response part 2",
-                "response part 3"
-            ]
-        )
+    def test_stream_response_success(self, mock_perform_stream_request):
+        # Mocking the stream of responses
+        mock_stream = [b'{"event_type": "text-generation", "text": "Hi!"}', 
+                       b'{"event_type": "text-generation", "text": "How can I help?"}']
         mock_perform_stream_request.return_value = mock_stream
 
         handler = CohereHandler()
-        generator = handler.stream_response("hello")
+        user_input = "hello"
+        generator = handler.stream_response(user_input)
+        
+        # Collecting responses from the generator
+        responses = [resp for resp in generator]
 
-        # Extracting and verifying the stream response
-        responses = []
-        for part in generator:
-            responses.append(part)
-
-        self.assertEqual(responses, ["response part 1", "response part 2", "response part 3"])
+        # Expected responses and chat history
+        expected_responses = ["Hi!", "How can I help?"]
         expected_chat_history = [
-            {"role": "User", "message": "hello"},
-            {"role": "Chatbot", "message": "response part 1response part 2response part 3"},
+            {"role": "User", "message": user_input},
+            {"role": "Chatbot", "message": "".join(expected_responses)}
         ]
+
+        self.assertEqual(responses, expected_responses)
         self.assertEqual(handler._chat_history, expected_chat_history)
