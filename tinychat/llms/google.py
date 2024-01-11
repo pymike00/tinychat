@@ -94,6 +94,18 @@ class GoogleAIHandler:
     def __init__(self):
         self._messages = []
         self._client = GoogleAIClient()
+    
+    def export_conversation(self) -> str:
+        string_conversation = ""
+        for message in self._messages:
+            print(message)
+            if message["role"] == "user":
+                if string_conversation != "":
+                    string_conversation += "\n\n"
+                string_conversation += f"You: {message["parts"][0]["text"]}"
+            else:
+                string_conversation += f"LLM: {message["parts"][0]["text"]}"
+        return string_conversation
 
     def get_response(self, user_input: str) -> str:
         self._messages.append({"parts": [{"text": user_input}], "role": "user"})
