@@ -52,6 +52,8 @@ class Backend:
             defaultextension=".txt",
             filetypes=[("File di Testo", "*.txt")],
         )
+        if not new_file:
+            return
         with open(new_file, "w") as f:
             f.write(self._llm.export_conversation())
 
