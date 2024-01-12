@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['tinychat\\__main__.py'],
+    ['tinychat/__main__.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -19,6 +19,7 @@ exe = EXE(
     pyz,
     a.scripts,
     a.binaries + [('tinychat.ico', './tinychat/tinychat.ico', 'DATA')],
+    a.binaries + [('tinychat.png', './tinychat/tinychat.png', 'DATA')],
     a.datas,
     [],
     name='tinychat',
