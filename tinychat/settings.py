@@ -1,5 +1,7 @@
+APP_VERSION = "0.7.0"
+
 # Title for the main GUI window of the application
-MAIN_WINDOW_TITLE = "TinyChat LM Client"
+MAIN_WINDOW_TITLE = f"TinyChat LM Client - v{APP_VERSION}"
 
 # Resolution for the main GUI window of the application (e.g. 1440x900)
 MAIN_WINDOW_RESOLUTION = "1200x700"
