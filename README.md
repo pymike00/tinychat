@@ -5,7 +5,7 @@
 
 *A simple GUI client for modern Language Models*
 
-**TinyChat is built with simplicity in mind. Its minimalistic Python code is designed for straightforward comprehension. More features will likely come, but it will stay tiny. Promised!**
+**TinyChat is built with simplicity in mind. Its minimalistic Python code is designed for straightforward comprehension. More features will likely come, but we are going to do our best to keep it simple.**
 </div>
 <br>
 
