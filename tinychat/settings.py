@@ -22,8 +22,11 @@ GOOGLE_API_KEY_NAME = "GOOGLE_API_KEY"
 import os, sys
 
 def get_icon_path():
-    icon_file_path = "tinychat.ico"
-    if not hasattr(sys, "frozen"):
-        return os.path.join(os.path.dirname(__file__), icon_file_path)
+    if os.name == "nt":
+        icon_file_name = "tinychat.ico"
     else:
-        return os.path.join(sys.prefix, icon_file_path)
+        icon_file_name = "tinychat.png"    
+    if not hasattr(sys, "frozen"):
+        return os.path.join(os.path.dirname(__file__), icon_file_name)
+    else:
+        return os.path.join(sys.prefix, icon_file_name)

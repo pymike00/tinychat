@@ -1,6 +1,7 @@
 import os
 import threading
 import tkinter as tk
+from tkinter import PhotoImage
 
 import customtkinter as ctk
 
@@ -12,8 +13,7 @@ from tinychat.ui.frames import SettingsFrame
 class ChatApp(ctk.CTk):
     def __init__(self, backend) -> None:
         super().__init__()
-        if os.name == "nt":
-            self.iconbitmap(default=get_icon_path())
+        self.set_icon()
         self.model_name = ""
 
         # Initialize font object to use with the chat text areas
@@ -84,6 +84,13 @@ class ChatApp(ctk.CTk):
         # Bind (CTRL or Shift) + Return to do nothing, so we can use to add space
         self.bind("<Control-Return>", self.on_control_enter)
         self.bind("<Shift-Return>", self.on_control_enter)
+
+    def set_icon(self):
+        if os.name == "nt":
+            self.iconbitmap(default=get_icon_path())
+        else:
+            # TODO: check if it works on Mac OS
+            self.call('wm', 'iconphoto', self._w, PhotoImage(file=get_icon_path()))
 
     def on_control_enter(self, event) -> None:
         # Handle Control + Enter key event
