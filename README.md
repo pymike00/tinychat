@@ -10,12 +10,12 @@
 <br>
 
 
-### Here is a quick demo:
+## Here is a quick demo:
 https://github.com/pymike00/tinychat/assets/32687496/aec0cfb4-de53-4399-b952-b1c636194718
 
 <br>
 
-### Select your favorite model and start chatting!
+## Select your favorite model and start chatting!
 **You can talk with all major models from the OpenAI, Mistral, Google and Cohere cloud APIs:**
 
 - [x] GPT-4 Turbo
@@ -28,12 +28,14 @@ https://github.com/pymike00/tinychat/assets/32687496/aec0cfb4-de53-4399-b952-b1c
 
 *To use the models you will need an API Key from [OpenAI](https://platform.openai.com/api-keys) / [Mistral](https://console.mistral.ai/user/api-keys/) / [Google](https://makersuite.google.com/app/apikey) / [Cohere](https://dashboard.cohere.com/api-keys/). Follow the links to get started! We chose to use the official Mistral API and not something like TogheterAI to explicitly support Mistral's open weights strategy. We will however implement a setting to change the API endpoints for those models arbitrarily soon.*
 
-### Dependency - less (almost)
+<br>
+
+## Dependency - less (almost)
 By making direct HTTP requests to the API endpoints, no official client needs to be installed. TinyChat only depends on [requests](https://requests.readthedocs.io/en/latest/), [sseclient-py](https://github.com/mpetazzoni/sseclient) and [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter).
 
 <br>
 
-### You can either use it as a Python package:
+## You can either use it as a Python package:
 
 
 ```
@@ -55,9 +57,8 @@ pip install -r requirements.txt
 python -m tinychat
 ```
 
-<br>
 
-### Or you can build an executable as follows:
+## Or you can build an executable as follows:
 
 
 ```
@@ -82,7 +83,7 @@ pyinstaller build.spec
 ```
 <br>
 
-### If the project is found to be useful, I am considering the following roadmap:
+## If the project is found to be useful, I am considering the following roadmap:
 
 - 1) Chat history
 - 2) Support for local models
@@ -90,5 +91,7 @@ pyinstaller build.spec
 
 <br>
 
+
+## Credits:
 [Crystal ball icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/crystal-ball)
 
