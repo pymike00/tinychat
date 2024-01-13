@@ -85,9 +85,9 @@ pyinstaller build.spec
 
 ## If the project is found to be useful, I am considering the following roadmap:
 
-- 1) Chat history
-- 2) Support for local models
-- 3) Multimodality
+1. Chat History
+2. Support For Local Models
+3. Multimodality
 
 <br>
 
