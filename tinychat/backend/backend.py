@@ -47,7 +47,7 @@ class Backend:
         new_file = filedialog.asksaveasfilename(
             initialfile="Untitled.txt",
             defaultextension=".txt",
-            filetypes=[("File di Testo", "*.txt")],
+            filetypes=[("Text File", "*.txt")],
         )
         if not new_file:
             return
