@@ -1,3 +1,5 @@
+from typing import Optional
+
 from tkinter import filedialog
 
 from tinychat.llms.base import LLMProtocol
@@ -19,7 +21,7 @@ class Backend:
             "Mistral 7B": lambda: MistralHandler("mistral-tiny"),
             "Cohere Chat": lambda: CohereHandler(),
         }
-        self._llm: LLMProtocol = None  # type: ignore
+        self._llm: Optional[LLMProtocol] = None
 
     def available_models(self) -> list:
         return list(self._models.keys())
