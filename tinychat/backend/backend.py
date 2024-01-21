@@ -34,11 +34,6 @@ class Backend:
                 f"Initialization Error. Have you set the API Key for {model_name}? {e}"
             )
 
-    def get_chat_response(self, user_input: str) -> str:
-        if self._llm is None:
-            return "No Language Model Has Been Selected."
-        return self._llm.get_response(user_input)
-
     def get_stream_response(self, user_input: str):
         if self._llm is None:
             raise ValueError("No Language Model Has Been Selected.")
@@ -56,12 +51,3 @@ class Backend:
             return
         with open(new_file, "w") as f:
             f.write(self._llm.export_conversation())
-
-
-if __name__ == "__main__":
-    backend = Backend()
-    backend.set_model("GPT-3.5 Turbo")
-    while True:
-        user_input = input("You: ")
-        chat_response = backend.get_chat_response(user_input)
-        print(chat_response)
