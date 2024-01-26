@@ -13,7 +13,7 @@ class Backend:
     def __init__(self) -> None:
         self._models = {
             "Language Model ": lambda: None,
-            "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-1106-preview"),
+            "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-turbo-preview"),
             "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo"),
             "Gemini Pro": lambda: GoogleAIHandler(),
             "Mistral Medium": lambda: MistralHandler("mistral-medium"),
