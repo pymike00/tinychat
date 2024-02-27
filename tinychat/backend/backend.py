@@ -17,9 +17,10 @@ class Backend:
             "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo"),
             "Gemini Pro": lambda: GoogleAIHandler(),
             "Mistral Large": lambda: MistralHandler("mistral-large-latest"),
-            "Mistral Medium": lambda: MistralHandler("mistral-medium"),
-            "Mixtral 8X7B": lambda: MistralHandler("mistral-small"),
-            "Mistral 7B": lambda: MistralHandler("mistral-tiny"),
+            "Mistral Medium": lambda: MistralHandler("mistral-medium-latest"),
+            "Mistral Small": lambda: MistralHandler("mistral-small-latest"),
+            "Mistral 7B": lambda: MistralHandler("open-mistral-7b"),
+            "Mixtral 8X7B": lambda: MistralHandler("mistral-tiny-2312"),
             "Cohere Chat": lambda: CohereHandler(),
         }
         self._llm: Optional[LLMProtocol] = None
