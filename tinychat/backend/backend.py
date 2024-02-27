@@ -7,6 +7,7 @@ from tinychat.llms.cohere import CohereHandler
 from tinychat.llms.google import GoogleAIHandler
 from tinychat.llms.mistral import MistralHandler
 from tinychat.llms.openai import OpenAIHandler
+from tinychat.llms.custom import CustomHandler
 
 
 class Backend:
@@ -20,6 +21,7 @@ class Backend:
             "Mixtral 8X7B": lambda: MistralHandler("mistral-small"),
             "Mistral 7B": lambda: MistralHandler("mistral-tiny"),
             "Cohere Chat": lambda: CohereHandler(),
+            "Custom GGUF": lambda: CustomHandler(r"D:\GGUF_Models\mistral-7b-instruct-v0.2.Q2_K.gguf")
         }
         self._llm: Optional[LLMProtocol] = None
 
