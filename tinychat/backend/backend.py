@@ -16,6 +16,7 @@ class Backend:
             "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-turbo-preview"),
             "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo"),
             "Gemini Pro": lambda: GoogleAIHandler(),
+            "Mistral Large": lambda: MistralHandler("mistral-large-latest"),
             "Mistral Medium": lambda: MistralHandler("mistral-medium"),
             "Mixtral 8X7B": lambda: MistralHandler("mistral-small"),
             "Mistral 7B": lambda: MistralHandler("mistral-tiny"),
