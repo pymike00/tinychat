@@ -9,7 +9,7 @@ To reduce magic to a minimum, no official API client is used: it's only just pos
 - [x] GPT-3.5-Turbo
 - [x] Mixtral 8x7B
 - [x] Mistral 7B
-- [x] Mistral Medium
+- [x] Mistral Large, Medium and Small
 - [x] Gemini Pro
 - [x] Cohere Chat
 
