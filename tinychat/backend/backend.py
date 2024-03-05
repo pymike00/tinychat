@@ -2,6 +2,7 @@ from typing import Optional
 
 from tkinter import filedialog
 
+from tinychat.llms.anthropic import AnthropicAIHandler
 from tinychat.llms.base import LLMProtocol
 from tinychat.llms.cohere import CohereHandler
 from tinychat.llms.google import GoogleAIHandler
@@ -15,6 +16,7 @@ class Backend:
             "Language Model ": lambda: None,
             "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-turbo-preview"),
             "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo"),
+            "Claude 3 Opus": lambda: AnthropicAIHandler("claude-3-opus-20240229"),
             "Gemini Pro": lambda: GoogleAIHandler(),
             "Mistral Large": lambda: MistralHandler("mistral-large-latest"),
             "Mistral Medium": lambda: MistralHandler("mistral-medium-latest"),
