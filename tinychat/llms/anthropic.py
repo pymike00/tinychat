@@ -18,7 +18,7 @@ class AnthropicAIClient(BaseLLMClient):
 
     ANTHROPIC_MESSAGES_API_URL = "https://api.anthropic.com/v1/messages"
 
-    def __init__(self, model_name: str, temperature: float = 1.0) -> None:
+    def __init__(self, model_name: str, temperature: float = 0.0) -> None:
         super().__init__(api_key_name=ANTHROPIC_API_KEY_NAME)
         self.model_name = model_name
         self.temperature = temperature
@@ -39,7 +39,7 @@ class AnthropicAIClient(BaseLLMClient):
             "messages": messages,
             "temperature": self.temperature,
             "stream": True,
-            "max_tokens": 1024
+            "max_tokens": 2048
         }
         response = requests.post(
             self.ANTHROPIC_MESSAGES_API_URL,
@@ -92,11 +92,9 @@ class AnthropicAIHandler:
         stream = self._client.perform_stream_request(self._messages)
         lm_response = ""
         for event in stream.events():  # type: ignore
-            # event_data = json.loads(event.data)
-            print(json.loads(event.data))
-            continue
+            event_data = json.loads(event.data)
             if event_data["type"] == "content_block_delta":
-                response_piece = event_data["content_block"]["text"]
+                response_piece = event_data["delta"]["text"]
                 lm_response += response_piece
                 yield response_piece
         self._messages.append({"role": "assistant", "content": lm_response})
