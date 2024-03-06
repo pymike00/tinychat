@@ -11,7 +11,7 @@ class TestAnthropicAIClientStreaming(unittest.TestCase):
     @patch("tinychat.llms.anthropic.requests.post")
     @patch("tinychat.llms.base.BaseLLMClient.api_key", new_callable=MagicMock)
     def test_perform_stream_request_success(self, mock_api_key, mock_post):
-        # Setting a dummy value for mock_api_key is not strictly needed
+        # Setting a dummy value for mock_api_key is not strictly needed here
 
         # Mocking the response
         mock_response = Mock(spec=Response)
@@ -51,7 +51,7 @@ class TestAnthropicAIClientStreaming(unittest.TestCase):
     @patch("tinychat.llms.anthropic.requests.post")
     @patch("tinychat.llms.base.BaseLLMClient.api_key", new_callable=MagicMock)
     def test_perform_stream_request_failure(self, mock_api_key, mock_post):
-        # Setting a dummy value for mock_api_key is not strictly needed
+        # Setting a dummy value for mock_api_key is not strictly needed here
 
         # Mocking the response with an error status code
         mock_response = Mock(spec=Response)

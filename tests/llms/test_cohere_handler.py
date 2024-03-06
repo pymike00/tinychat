@@ -8,7 +8,7 @@ class TestCohereHandlerStreaming(unittest.TestCase):
     @patch.object(CohereClient, "perform_stream_request")
     @patch("tinychat.llms.base.BaseLLMClient.api_key", new_callable=MagicMock)
     def test_stream_response_success(self, mock_api_key, mock_perform_stream_request):
-        # Setting a dummy value for mock_api_key is not strictly needed
+        # Setting a dummy value for mock_api_key is not strictly needed here
 
         # Mocking the stream of responses
         mock_stream = [b'{"event_type": "text-generation", "text": "Hi!"}', 
