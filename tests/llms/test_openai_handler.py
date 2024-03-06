@@ -7,7 +7,10 @@ from tinychat.llms.openai import OpenAIClient, OpenAIHandler
 
 class TestOpenAIHandlerStreaming(unittest.TestCase):
     @patch.object(OpenAIClient, "perform_stream_request")
-    def test_stream_response(self, mock_perform_stream_request):
+    @patch("tinychat.llms.base.BaseLLMClient.api_key", new_callable=MagicMock)
+    def test_stream_response(self, mock_api_key, mock_perform_stream_request):
+        # Setting a dummy value for mock_api_key is not strictly needed
+
         # Create a mock SSEClient with a mock events method
         mock_sse_client = MagicMock()
         mock_stream = iter(

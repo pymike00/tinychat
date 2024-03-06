@@ -1,12 +1,15 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from tinychat.llms.cohere import CohereHandler, CohereClient
 
 
 class TestCohereHandlerStreaming(unittest.TestCase):
     @patch.object(CohereClient, "perform_stream_request")
-    def test_stream_response_success(self, mock_perform_stream_request):
+    @patch("tinychat.llms.base.BaseLLMClient.api_key", new_callable=MagicMock)
+    def test_stream_response_success(self, mock_api_key, mock_perform_stream_request):
+        # Setting a dummy value for mock_api_key is not strictly needed
+
         # Mocking the stream of responses
         mock_stream = [b'{"event_type": "text-generation", "text": "Hi!"}', 
                        b'{"event_type": "text-generation", "text": "How can I help?"}']

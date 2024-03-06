@@ -8,9 +8,15 @@ from tinychat.llms.openai import OpenAIClient
 
 
 class TestOpenAIClientStreaming(unittest.TestCase):
+
     @patch("tinychat.llms.openai.requests.post")
     @patch("tinychat.llms.openai.SSEClient")
-    def test_perform_stream_request_success(self, mock_sse_client, mock_post):
+    @patch("tinychat.llms.base.BaseLLMClient.api_key", new_callable=MagicMock)
+    def test_perform_stream_request_success(
+        self, mock_api_key, mock_sse_client, mock_post
+    ):
+        # Setting a dummy value for mock_api_key is not strictly needed
+
         # Mocking SSEClient and the response
         mock_response = Mock(spec=Response)
         mock_response.status_code = 200
@@ -46,7 +52,10 @@ class TestOpenAIClientStreaming(unittest.TestCase):
         self.assertEqual(responses, ["part1", "part2"])
 
     @patch("tinychat.llms.openai.requests.post")
-    def test_perform_stream_request_failure(self, mock_post):
+    @patch("tinychat.llms.base.BaseLLMClient.api_key", new_callable=MagicMock)
+    def test_perform_stream_request_failure(self, mock_api_key, mock_post):
+        # Setting a dummy value for mock_api_key is not strictly needed
+
         # Mocking the response with an error status code
         mock_response = Mock(spec=Response)
         mock_response.status_code = 400
