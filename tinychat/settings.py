@@ -1,10 +1,10 @@
-APP_VERSION = "0.7.3"
+APP_VERSION = "0.7.4"
 
 # Title for the main GUI window of the application
 MAIN_WINDOW_TITLE = f"TinyChat LM Client - v{APP_VERSION}"
 
 # Resolution for the main GUI window of the application (e.g. 1440x900)
-MAIN_WINDOW_RESOLUTION = "1200x700"
+MAIN_WINDOW_RESOLUTION = "1200x750"
 
 # Set font-family
 FONT_FAMILY = "Verdana"  # Consolas
