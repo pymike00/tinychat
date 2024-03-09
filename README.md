@@ -13,7 +13,9 @@ To reduce magic to a minimum, no official API client is used: it's only just pos
 
 
 ### Here is a quick demo:
-https://github.com/pymike00/tinychat/assets/32687496/f7b1dbc6-abd0-468d-b5c5-71c2eddb5a19
+https://github.com/pymike00/tinychat/assets/32687496/9610b45f-efd8-4a4a-8b53-5ceb979a29ba
+
+
 
 
 
