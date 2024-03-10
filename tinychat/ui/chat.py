@@ -47,17 +47,29 @@ class ChatApp(ctk.CTk):
         self.progress_bar.grid(row=1, column=0, padx=20, pady=(10, 0), sticky="ew")
         self.progress_bar.set(1.0)
 
+        # Create a frame to hold the text areas
+        self.text_frame = ctk.CTkFrame(self)
+        self.text_frame.grid(row=2, column=0, padx=20, pady=(10, 10), sticky="nsew")
+        self.text_frame.grid_rowconfigure(0, weight=1)
+        self.text_frame.grid_rowconfigure(2, weight=1)
+        self.text_frame.grid_columnconfigure(0, weight=1)
+
         # Create a big text area for displaying chat
         self.chat_display = ctk.CTkTextbox(
-            self, state="disabled", font=chat_font, wrap="word", border_spacing=5
+            self.text_frame, state="disabled", font=chat_font, wrap="word", border_spacing=5
         )
-        self.chat_display.grid(row=2, column=0, padx=20, pady=(10, 10), sticky="nsew")
+        self.chat_display.grid(row=0, column=0, sticky="nsew")
+
+        # Create a separator frame for resizing
+        self.separator_frame = ctk.CTkFrame(self.text_frame, height=5, cursor="sb_v_double_arrow")
+        self.separator_frame.grid(row=1, column=0, sticky="ew")
+        self.separator_frame.bind("<B1-Motion>", self.resize_text_areas)
 
         # Create a smaller text area for typing messages
         self.message_input = ctk.CTkTextbox(
-            self, font=chat_font, wrap="word", border_spacing=5
+            self.text_frame, font=chat_font, wrap="word", border_spacing=5
         )
-        self.message_input.grid(row=3, column=0, padx=20, pady=(0, 0), sticky="nsew")
+        self.message_input.grid(row=2, column=0, sticky="nsew")
 
         # Create a button for sending messages
         self.send_button = ctk.CTkButton(
@@ -69,14 +81,13 @@ class ChatApp(ctk.CTk):
             fg_color=("#0C955A", "#106A43"),
             hover_color="#2c6e49",
         )
-        self.send_button.grid(row=4, column=0, padx=20, pady=(10, 10), sticky="ew")
+        self.send_button.grid(row=3, column=0, padx=20, pady=(10, 10), sticky="ew")
 
         # Set focus (cursor) to message_input automatically
         self.after(100, lambda: self.message_input.focus_set())
 
         # Configure the grid layout
-        self.grid_rowconfigure(2, weight=2)
-        self.grid_rowconfigure(3, weight=1)
+        self.grid_rowconfigure(2, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
         # Bind Enter key press to send_message action
@@ -85,6 +96,8 @@ class ChatApp(ctk.CTk):
         # Bind (CTRL or Shift) + Return to do nothing, so we can use to add space
         self.bind("<Control-Return>", self.on_control_enter)
         self.bind("<Shift-Return>", self.on_control_enter)
+
+        self.resize_delay = 20
 
     def set_icon(self):
         if os.name == "nt":
@@ -166,6 +179,23 @@ class ChatApp(ctk.CTk):
         self.chat_display.insert(tk.END, f"{message}")
         self.chat_display.configure(state="disabled")
         self.chat_display.yview(tk.END)
+
+    def resize_text_areas(self, event):
+        if not hasattr(self, "resize_event_id") or self.resize_event_id is None:
+            self.resize_event_id = self.after(self.resize_delay, self.do_resize, event)
+        else:
+            self.after_cancel(self.resize_event_id)
+            self.resize_event_id = self.after(self.resize_delay, self.do_resize, event)
+
+    def do_resize(self, event):
+        total_height = self.text_frame.winfo_height()
+        separator_position = event.y
+        chat_display_height = separator_position
+        message_input_height = total_height - separator_position
+
+        self.chat_display.configure(height=chat_display_height)
+        self.message_input.configure(height=message_input_height)
+        self.resize_event_id = None
 
     def run(self) -> None:
         # start w/ fullscreen https://github.com/TomSchimansky/CustomTkinter/discussions/1500
