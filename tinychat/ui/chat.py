@@ -55,9 +55,9 @@ class ChatApp(ctk.CTk):
 
         # Create a smaller text area for typing messages
         self.message_input = ctk.CTkTextbox(
-            self, height=150, font=chat_font, wrap="word", border_spacing=5
+            self, font=chat_font, wrap="word", border_spacing=5
         )
-        self.message_input.grid(row=3, column=0, padx=20, pady=(0, 0), sticky="ew")
+        self.message_input.grid(row=3, column=0, padx=20, pady=(0, 0), sticky="nsew")
 
         # Create a button for sending messages
         self.send_button = ctk.CTkButton(
@@ -75,7 +75,8 @@ class ChatApp(ctk.CTk):
         self.after(100, lambda: self.message_input.focus_set())
 
         # Configure the grid layout
-        self.grid_rowconfigure(2, weight=1)
+        self.grid_rowconfigure(2, weight=2)
+        self.grid_rowconfigure(3, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
         # Bind Enter key press to send_message action
@@ -90,7 +91,7 @@ class ChatApp(ctk.CTk):
             self.iconbitmap(default=get_icon_path())
         else:
             # TODO: check if it works on Mac OS
-            self.call('wm', 'iconphoto', self._w, PhotoImage(file=get_icon_path()))
+            self.call("wm", "iconphoto", self._w, PhotoImage(file=get_icon_path()))
 
     def on_control_enter(self, event) -> None:
         # Handle Control + Enter key event
@@ -167,5 +168,8 @@ class ChatApp(ctk.CTk):
         self.chat_display.yview(tk.END)
 
     def run(self) -> None:
+        # start w/ fullscreen https://github.com/TomSchimansky/CustomTkinter/discussions/1500
+        self._state_before_windows_set_titlebar_color = "zoomed"
+
         # Start the application
         self.mainloop()

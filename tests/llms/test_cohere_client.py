@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, Mock
+from unittest.mock import MagicMock, patch, Mock
 
 import requests
 
@@ -8,7 +8,10 @@ from tinychat.llms.cohere import CohereClient
 
 class TestCohereClientStreaming(unittest.TestCase):
     @patch("tinychat.llms.cohere.requests.post")
-    def test_perform_stream_request_success(self, mock_post):
+    @patch("tinychat.llms.base.BaseLLMClient.api_key", new_callable=MagicMock)
+    def test_perform_stream_request_success(self, mock_api_key, mock_post):
+        # Setting a dummy value for mock_api_key is not strictly needed here
+        
         mock_response = Mock(spec=requests.Response)
         mock_response.status_code = 200
         mock_post.return_value = mock_response
@@ -22,7 +25,10 @@ class TestCohereClientStreaming(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     @patch("tinychat.llms.cohere.requests.post")
-    def test_perform_stream_request_failure(self, mock_post):
+    @patch("tinychat.llms.base.BaseLLMClient.api_key", new_callable=MagicMock)
+    def test_perform_stream_request_failure(self, mock_api_key, mock_post):
+        # Setting a dummy value for mock_api_key is not strictly needed here
+        
         mock_response = Mock(spec=requests.Response)
         mock_response.status_code = 400
         mock_post.return_value = mock_response

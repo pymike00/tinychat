@@ -2,6 +2,7 @@ from typing import Optional
 
 from tkinter import filedialog
 
+from tinychat.llms.anthropic import AnthropicAIHandler
 from tinychat.llms.base import LLMProtocol
 from tinychat.llms.cohere import CohereHandler
 from tinychat.llms.google import GoogleAIHandler
@@ -16,10 +17,13 @@ class Backend:
             "Language Model ": lambda: None,
             "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-turbo-preview"),
             "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo"),
+            "Claude 3 Opus": lambda: AnthropicAIHandler("claude-3-opus-20240229"),
             "Gemini Pro": lambda: GoogleAIHandler(),
-            "Mistral Medium": lambda: MistralHandler("mistral-medium"),
-            "Mixtral 8X7B": lambda: MistralHandler("mistral-small"),
-            "Mistral 7B": lambda: MistralHandler("mistral-tiny"),
+            "Mistral Large": lambda: MistralHandler("mistral-large-latest"),
+            "Mistral Medium": lambda: MistralHandler("mistral-medium-latest"),
+            "Mistral Small": lambda: MistralHandler("mistral-small-latest"),
+            "Mistral 7B": lambda: MistralHandler("open-mistral-7b"),
+            "Mixtral 8X7B": lambda: MistralHandler("mistral-tiny-2312"),
             "Cohere Chat": lambda: CohereHandler(),
             "Custom GGUF": lambda: CustomHandler(r"D:\GGUF_Models\mistral-7b-instruct-v0.2.Q2_K.gguf")
         }
