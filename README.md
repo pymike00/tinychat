@@ -21,7 +21,7 @@ https://github.com/pymike00/tinychat/assets/32687496/9610b45f-efd8-4a4a-8b53-5ce
 
 
 ### Notes:
-- *To use the models you will need an API Key from [OpenAI](https://platform.openai.com/api-keys) / [Anthropic](https://console.anthropic.com/settings/keys) / [Mistral](https://console.mistral.ai/user/api-keys/) / [Google](https://makersuite.google.com/app/apikey) / [Cohere](https://dashboard.cohere.com/api-keys/). Follow the links to get started! The keys will be saved in a "tinychat.json" file that by default is created on the same level as the tinychat package / exe file. You can change the SECRETS_FILE_PATH from the settings.py file.*
+- *To use the models you will need an API Key from [OpenAI](https://platform.openai.com/api-keys) / [Anthropic](https://console.anthropic.com/settings/keys) / [Mistral](https://console.mistral.ai/api-keys/) / [Google](https://makersuite.google.com/app/apikey) / [Cohere](https://dashboard.cohere.com/api-keys/). Follow the links to get started! The keys will be saved in a "tinychat.json" file that by default is created on the same level as the tinychat package / exe file. You can change the SECRETS_FILE_PATH from the settings.py file.*
 - *I chose to use the official Mistral API and not something like TogheterAI to explicitly support Mistral's open weights strategy. You should however be able to easily adapt the code in llms.mistral to change the endpoint in case you feel like it.*
 
 <br>
