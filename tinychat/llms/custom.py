@@ -29,13 +29,13 @@ class CustomHandler:
         self._messages.append({"role": "user", "content": user_input})
         lm_response = ""
         stream = self.llm.create_chat_completion(
-            messages=[
-                {"role": "user", "content": user_input},
-            ],
+            messages=self._messages,
             stream=True,
             temperature=1.0
         )
         for piece in stream:
             if "content" in piece["choices"][0]["delta"].keys():
-                yield piece["choices"][0]["delta"]["content"]
+                response_piece = piece["choices"][0]["delta"]["content"]
+                lm_response += response_piece
+                yield response_piece
         self._messages.append({"role": "assistant", "content": lm_response})
