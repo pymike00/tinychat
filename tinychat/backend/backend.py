@@ -17,12 +17,10 @@ class Backend:
             "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-turbo-preview"),
             "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo"),
             "Claude 3 Opus": lambda: AnthropicAIHandler("claude-3-opus-20240229"),
-            "Gemini Pro": lambda: GoogleAIHandler(),
+            "Claude 3 Sonnet": lambda: AnthropicAIHandler("claude-3-sonnet-20240229"),
+            "Gemini Pro 1.5": lambda: GoogleAIHandler(),
             "Mistral Large": lambda: MistralHandler("mistral-large-latest"),
             "Mistral Medium": lambda: MistralHandler("mistral-medium-latest"),
-            "Mistral Small": lambda: MistralHandler("mistral-small-latest"),
-            "Mistral 7B": lambda: MistralHandler("open-mistral-7b"),
-            "Mixtral 8X7B": lambda: MistralHandler("mistral-tiny-2312"),
             "Cohere Chat": lambda: CohereHandler(),
         }
         self._llm: Optional[LLMProtocol] = None
