@@ -21,7 +21,7 @@ class Backend:
             "Gemini Pro 1.5": lambda: GoogleAIHandler(),
             "Mistral Large": lambda: MistralHandler("mistral-large-latest"),
             "Mistral Medium": lambda: MistralHandler("mistral-medium-latest"),
-            "Cohere Chat": lambda: CohereHandler(),
+            "Cohere Command R": lambda: CohereHandler(),
         }
         self._llm: Optional[LLMProtocol] = None
 
