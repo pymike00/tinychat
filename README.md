@@ -5,11 +5,11 @@
 To reduce magic to a minimum, no official API client is used: it's only just post requests and Server-Sent Events handling. The program only depends on [requests](https://requests.readthedocs.io/en/latest/), [sseclient-py](https://github.com/mpetazzoni/sseclient) and [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter).
 
 **You can talk with all major models from the OpenAI, Mistral, Anthropic, Google and Cohere cloud APIs:**
-- [x] OpenAI: GPT-4 Turbo and GPT-3.5-Turbo
-- [x] Anthropic: Claude 3 Opus
-- [x] Mistral: Mixtral 8x7B, Mistral 7B, Large, Medium and Small
-- [x] Google: Gemini Pro
-- [x] Cohere: Cohere Chat
+- [x] OpenAI: GPT-4 Turbo, GPT-3.5-Turbo
+- [x] Anthropic: Claude 3 Opus, Claude 3 Sonnet
+- [x] Mistral: Large, Medium
+- [x] Google: Gemini Pro 1.5
+- [x] Cohere: Cohere Command R
 
 
 ### Here is a quick demo:
