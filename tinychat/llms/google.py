@@ -16,7 +16,7 @@ class GoogleAIClient(BaseLLMClient):
     :param model_name: The name of the model to be used for chat requests.
     """
 
-    BASE_GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:streamGenerateContent"
+    BASE_GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:streamGenerateContent"
     SAFETY_SETTINGS = [
         {
             "category": "HARM_CATEGORY_HARASSMENT",
@@ -105,9 +105,10 @@ class GoogleAIHandler:
         stream = self._client.perform_stream_request(self._messages)
         lm_response = ""
         for event in stream.events():  # type: ignore
-            if event.data != "[DONE]":
-                json_load = json.loads(event.data)["candidates"][0]["content"]["parts"][0]
-                response_piece = json_load["text"]
+            event_data = json.loads(event.data)
+            # TODO: improve
+            if "candidates" in event_data:
+                response_piece = event_data["candidates"][0]["content"]["parts"][0]["text"]
                 lm_response += response_piece
                 yield response_piece
         self._messages.append({"parts": [{"text": lm_response}], "role": "model"})
