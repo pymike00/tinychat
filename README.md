@@ -9,7 +9,7 @@ To reduce magic to a minimum, no official API client is used: it's only just pos
 - [x] Anthropic: Claude 3 Opus, Claude 3 Sonnet
 - [x] Mistral: Large, Medium
 - [x] Google: Gemini Pro 1.5
-- [x] Cohere: Cohere Command R
+- [x] Cohere: Command R
 
 
 ### Here is a quick demo:
