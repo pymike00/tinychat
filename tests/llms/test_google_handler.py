@@ -33,7 +33,6 @@ class TestGoogleGeminiHandlerStreaming(unittest.TestCase):
                         }
                     )
                 ),
-                Mock(data="[DONE]"),
             ]
         )
         mock_sse_client.events.return_value = mock_stream
