@@ -63,7 +63,7 @@ class Backend:
         """
         from tinychat.utils.secrets import get_secret
 
-        default_temperature = 0.3
+        default_temperature = 0.7
         try:
             temperature = float(get_secret("temperature"))
         except ValueError:
