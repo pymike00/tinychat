@@ -9,6 +9,7 @@ from tinychat.llms.google import GoogleAIHandler
 from tinychat.llms.mistral import MistralHandler
 from tinychat.llms.openai import OpenAIHandler
 from tinychat.llms.together import TogetherHandler
+from tinychat.utils.secrets import get_secret, set_secret
 
 
 class Backend:
@@ -46,10 +47,8 @@ class Backend:
         """
         Get the value of temperature from tinychat.json if available
         else return default_temperature.
-        """
-        from tinychat.utils.secrets import get_secret, set_secret
-
-        default_temperature = 0.2
+        """      
+        default_temperature = 0.7
         try:
             temperature = float(get_secret("temperature"))
         except ValueError:
