@@ -65,7 +65,7 @@ class GoogleAIClient(BaseLLMClient):
 
 class GoogleAIHandler:
     """
-    Handler class to interact with the OpenAI models.
+    Handler class to interact with the Google AI models.
 
     Returns chat responses and stores the chat history.
 
