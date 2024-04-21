@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-from tinychat.utils.api_keys import get_api_key, set_api_key
+from tinychat.utils.secrets import get_secret, set_secret
 from tinychat.settings import (
     ANTHROPIC_API_KEY_NAME,
     COHERE_API_KEY_NAME,
@@ -98,7 +98,7 @@ class SettingsFrame(ctk.CTkFrame):
         api_key_label_1 = ctk.CTkLabel(settings_window, text="OpenAI API Key: ")
         api_key_label_1.grid(row=0, column=0, padx=(20, 2), pady=(20, 2), sticky="e")
         self.api_key_entry_1 = ctk.CTkEntry(settings_window)
-        self.api_key_entry_1.insert(0, get_api_key(OPENAI_API_KEY_NAME))
+        self.api_key_entry_1.insert(0, get_secret(OPENAI_API_KEY_NAME))
         self.api_key_entry_1.grid(
             row=0, column=1, padx=(2, 20), pady=(20, 2), sticky="ew"
         )
@@ -106,7 +106,7 @@ class SettingsFrame(ctk.CTkFrame):
         api_key_label_2 = ctk.CTkLabel(settings_window, text="Mistral API Key: ")
         api_key_label_2.grid(row=1, column=0, padx=(20, 2), pady=(10, 2), sticky="e")
         self.api_key_entry_2 = ctk.CTkEntry(settings_window)
-        self.api_key_entry_2.insert(0, get_api_key(MISTRAL_API_KEY_NAME))
+        self.api_key_entry_2.insert(0, get_secret(MISTRAL_API_KEY_NAME))
         self.api_key_entry_2.grid(
             row=1, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
         )
@@ -114,7 +114,7 @@ class SettingsFrame(ctk.CTkFrame):
         api_key_label_3 = ctk.CTkLabel(settings_window, text="Cohere API Key: ")
         api_key_label_3.grid(row=2, column=0, padx=(20, 2), pady=(10, 2), sticky="e")
         self.api_key_entry_3 = ctk.CTkEntry(settings_window)
-        self.api_key_entry_3.insert(0, get_api_key(COHERE_API_KEY_NAME))
+        self.api_key_entry_3.insert(0, get_secret(COHERE_API_KEY_NAME))
         self.api_key_entry_3.grid(
             row=2, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
         )
@@ -122,7 +122,7 @@ class SettingsFrame(ctk.CTkFrame):
         api_key_label_4 = ctk.CTkLabel(settings_window, text="Google API Key: ")
         api_key_label_4.grid(row=3, column=0, padx=(20, 2), pady=(10, 2), sticky="e")
         self.api_key_entry_4 = ctk.CTkEntry(settings_window)
-        self.api_key_entry_4.insert(0, get_api_key(GOOGLE_API_KEY_NAME))
+        self.api_key_entry_4.insert(0, get_secret(GOOGLE_API_KEY_NAME))
         self.api_key_entry_4.grid(
             row=3, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
         )
@@ -130,7 +130,7 @@ class SettingsFrame(ctk.CTkFrame):
         api_key_label_5 = ctk.CTkLabel(settings_window, text="Anthropic API Key: ")
         api_key_label_5.grid(row=4, column=0, padx=(20, 2), pady=(10, 2), sticky="e")
         self.api_key_entry_5 = ctk.CTkEntry(settings_window)
-        self.api_key_entry_5.insert(0, get_api_key(ANTHROPIC_API_KEY_NAME))
+        self.api_key_entry_5.insert(0, get_secret(ANTHROPIC_API_KEY_NAME))
         self.api_key_entry_5.grid(
             row=4, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
         )
@@ -138,7 +138,7 @@ class SettingsFrame(ctk.CTkFrame):
         api_key_label_6 = ctk.CTkLabel(settings_window, text="Together API Key: ")
         api_key_label_6.grid(row=5, column=0, padx=(20, 2), pady=(10, 2), sticky="e")
         self.api_key_entry_6 = ctk.CTkEntry(settings_window)
-        self.api_key_entry_6.insert(0, get_api_key(TOGETHER_API_KEY_NAME))
+        self.api_key_entry_6.insert(0, get_secret(TOGETHER_API_KEY_NAME))
         self.api_key_entry_6.grid(
             row=5, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
         )
@@ -167,10 +167,10 @@ class SettingsFrame(ctk.CTkFrame):
         save.grid(row=6, column=1, padx=(150, 0), pady=(20, 0), sticky="w")
 
     def save_settings(self):
-        set_api_key(OPENAI_API_KEY_NAME, self.api_key_entry_1.get())
-        set_api_key(MISTRAL_API_KEY_NAME, self.api_key_entry_2.get())
-        set_api_key(COHERE_API_KEY_NAME, self.api_key_entry_3.get())
-        set_api_key(GOOGLE_API_KEY_NAME, self.api_key_entry_4.get())
-        set_api_key(ANTHROPIC_API_KEY_NAME, self.api_key_entry_5.get())
-        set_api_key(TOGETHER_API_KEY_NAME, self.api_key_entry_6.get())
+        set_secret(OPENAI_API_KEY_NAME, self.api_key_entry_1.get())
+        set_secret(MISTRAL_API_KEY_NAME, self.api_key_entry_2.get())
+        set_secret(COHERE_API_KEY_NAME, self.api_key_entry_3.get())
+        set_secret(GOOGLE_API_KEY_NAME, self.api_key_entry_4.get())
+        set_secret(ANTHROPIC_API_KEY_NAME, self.api_key_entry_5.get())
+        set_secret(TOGETHER_API_KEY_NAME, self.api_key_entry_6.get())
         self.status_label.configure(text="Saved.")

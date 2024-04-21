@@ -1,6 +1,6 @@
 from typing import Generator, Protocol
 
-from tinychat.utils.api_keys import get_api_key
+from tinychat.utils.secrets import get_secret
 from tinychat.settings import SECRETS_FILE_PATH
 
 
@@ -32,7 +32,7 @@ class BaseLLMClient:
 
     @api_key.setter
     def api_key(self, api_key_name):
-        api_key = get_api_key(api_key_name)
+        api_key = get_secret(api_key_name)
         if not api_key:
             raise ValueError(f"{api_key_name} was not found in {SECRETS_FILE_PATH}.")
         self._api_key = api_key
