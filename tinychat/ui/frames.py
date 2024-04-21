@@ -88,7 +88,7 @@ class SettingsFrame(ctk.CTkFrame):
         # Create a new top-level window for settings
         settings_window = ctk.CTkToplevel(self)
         settings_window.title("API Key Settings")
-        settings_window.geometry("700x320")  # Adjusted size to fit API key entries
+        settings_window.geometry("700x370")  # Adjusted size to fit API key entries
         settings_window.transient(self)  # type:ignore - Set to be on top of the main window
 
         # Configure grid layout
@@ -143,8 +143,20 @@ class SettingsFrame(ctk.CTkFrame):
             row=5, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
         )
 
+        self.temperature_slider_label = ctk.CTkLabel(settings_window, text="Temperature: ")
+        self.temperature_slider_label.grid(row=6, column=0, padx=(20, 2), pady=(10, 2), sticky="w")
+        self.temperature_slider = ctk.CTkSlider(
+            settings_window, 
+            from_=0, 
+            to=10,
+            number_of_steps=10,
+            command=self.on_temp_slider_event
+        )
+        self.temperature_slider.grid(row=6, column=1, padx=(20, 2), pady=(10, 2), sticky="w")
+        self.init_temperature_values()
+
         self.status_label = ctk.CTkLabel(settings_window, text="")
-        self.status_label.grid(row=6, column=0, padx=(20, 2), pady=(10, 2), sticky="w")
+        self.status_label.grid(row=7, column=0, padx=(20, 2), pady=(0, 2), sticky="w")
 
         # Add a close button to the settings window
         close = ctk.CTkButton(
@@ -154,7 +166,7 @@ class SettingsFrame(ctk.CTkFrame):
             fg_color=("#0C955A", "#106A43"),
             hover_color="#2c6e49",
         )
-        close.grid(row=6, column=1, padx=(0, 0), pady=(20, 0), sticky="w")
+        close.grid(row=8, column=1, padx=(0, 0), pady=(10, 0), sticky="w")
 
         # Add a save button to the settings window
         save = ctk.CTkButton(
@@ -164,7 +176,24 @@ class SettingsFrame(ctk.CTkFrame):
             fg_color=("#0C955A", "#106A43"),
             hover_color="#2c6e49",
         )
-        save.grid(row=6, column=1, padx=(150, 0), pady=(20, 0), sticky="w")
+        save.grid(row=8, column=1, padx=(150, 0), pady=(10, 0), sticky="w")
+
+    def init_temperature_values(self):
+        temperature = get_secret("temperature")
+        if not temperature:
+            temperature = 0.0
+        self.temperature_slider_label.configure(text=f"Temperature: {str(temperature)}")
+        self.temperature_slider.set(temperature * 10)
+
+    def on_temp_slider_event(self, value):
+        """Update the temperature_slider_label.
+        
+        TODO: currently you must restart the app if temperature is changed.
+        Update the code so that the backend send temperature to update the backend
+        and the llm handler.
+        """
+        temperature = value / 10
+        self.temperature_slider_label.configure(text=f"Temperature: {str(temperature)}")
 
     def save_settings(self):
         set_secret(OPENAI_API_KEY_NAME, self.api_key_entry_1.get())
@@ -173,4 +202,5 @@ class SettingsFrame(ctk.CTkFrame):
         set_secret(GOOGLE_API_KEY_NAME, self.api_key_entry_4.get())
         set_secret(ANTHROPIC_API_KEY_NAME, self.api_key_entry_5.get())
         set_secret(TOGETHER_API_KEY_NAME, self.api_key_entry_6.get())
+        set_secret("temperature", self.temperature_slider.get() / 10)
         self.status_label.configure(text="Saved.")

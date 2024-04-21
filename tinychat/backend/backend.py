@@ -46,28 +46,15 @@ class Backend:
         """
         Get the value of temperature from tinychat.json if available
         else return default_temperature.
-
-        TODO:
-        This needs to be actually implemented to be usable from the interface.
-        Right now you need to manually add a "temperature": x.x pair in tinychat.json,
-        so at the moment it's more like a "secret feature".
-
-        I am adding it to be able to set the temperature after building to exe, as the
-        collection of supported models is getting big.
-
-        The idea is to add a slider in frontend to change the value from the actual UI
-        https://customtkinter.tomschimansky.com/documentation/widgets/slider/
-        However this will probably require a few hours of work and the refactoring
-        of several elements of the application to keep everything elegant and simple
-        to understand for newcomers.
         """
-        from tinychat.utils.secrets import get_secret
+        from tinychat.utils.secrets import get_secret, set_secret
 
-        default_temperature = 0.7
+        default_temperature = 0.2
         try:
             temperature = float(get_secret("temperature"))
         except ValueError:
             temperature = default_temperature
+            set_secret("temperature", default_temperature)
         return temperature
 
     def get_stream_response(self, user_input: str):
