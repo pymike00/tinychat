@@ -51,7 +51,7 @@ class OpenAIHandler:
     Returns chat responses and stores the chat history.
     """
 
-    def __init__(self, model_name: str, temperature: float):
+    def __init__(self, model_name: str, temperature: float = 0.0):
         self._messages = []
         self._client = OpenAIClient(model_name=model_name, temperature=temperature)
 
