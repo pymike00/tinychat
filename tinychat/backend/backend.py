@@ -13,7 +13,7 @@ from tinychat.llms.together import TogetherHandler
 
 class Backend:
     def __init__(self) -> None:
-        self.temperature: float = 0.0
+        self.temperature: float = self.get_default_temperature()
         self._models = {
             "Language Model ": lambda: None,
             "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-turbo-preview", self.temperature),
@@ -41,12 +41,34 @@ class Backend:
             raise ValueError(
                 f"Initialization Error. Have you set the API Key for {model_name}? {e}"
             )
-        
-    def set_temperature(self, temperature: float) -> None:
-        if 0.0 <= temperature <= 1.0:
-            self.temperature = temperature
-        else:
-            raise ValueError("Temperature must be between 0.0 and 1.0.")
+
+    def get_default_temperature(self):
+        """
+        Get the value of temperature from tinychat.json if available
+        else return default_temperature.
+
+        TODO:
+        This needs to be actually implemented to be usable from the interface.
+        Right now you need to manually add a "temperature": x.x pair in tinychat.json,
+        so at the moment it's more like a "secret feature".
+
+        I am adding it to be able to set the temperature after building to exe, as the
+        collection of supported models is getting big.
+
+        The idea is to add a slider in frontend to change the value from the actual UI
+        https://customtkinter.tomschimansky.com/documentation/widgets/slider/
+        However this will probably require a few hours of work and the refactoring
+        of several elements of the application to keep everything elegant and simple
+        to understand for newcomers.
+        """
+        from tinychat.utils.secrets import get_secret
+
+        default_temperature = 0.3
+        try:
+            temperature = float(get_secret("temperature"))
+        except ValueError:
+            temperature = default_temperature
+        return temperature
 
     def get_stream_response(self, user_input: str):
         if self._llm is None:
