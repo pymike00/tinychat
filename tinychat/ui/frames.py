@@ -87,8 +87,8 @@ class SettingsFrame(ctk.CTkFrame):
 
         # Create a new top-level window for settings
         settings_window = ctk.CTkToplevel(self)
-        settings_window.title("API Key Settings")
-        settings_window.geometry("700x370")  # Adjusted size to fit API key entries
+        settings_window.title("TinyChat - Settings")
+        settings_window.geometry("700x360")  # Adjusted size to fit API key entries
         settings_window.transient(self)  # type:ignore - Set to be on top of the main window
 
         # Configure grid layout
@@ -166,7 +166,7 @@ class SettingsFrame(ctk.CTkFrame):
             fg_color=("#0C955A", "#106A43"),
             hover_color="#2c6e49",
         )
-        close.grid(row=8, column=1, padx=(0, 0), pady=(10, 0), sticky="w")
+        close.grid(row=8, column=1, padx=(0, 0), pady=(0, 0), sticky="w")
 
         # Add a save button to the settings window
         save = ctk.CTkButton(
@@ -176,7 +176,7 @@ class SettingsFrame(ctk.CTkFrame):
             fg_color=("#0C955A", "#106A43"),
             hover_color="#2c6e49",
         )
-        save.grid(row=8, column=1, padx=(150, 0), pady=(10, 0), sticky="w")
+        save.grid(row=8, column=1, padx=(150, 0), pady=(0, 0), sticky="w")
 
     def init_temperature_values(self):
         temperature = get_secret("temperature")
