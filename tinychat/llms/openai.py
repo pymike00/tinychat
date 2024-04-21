@@ -53,7 +53,7 @@ class OpenAIHandler:
 
     def __init__(self, model_name: str, temperature: float = 0.0):
         self._messages = []
-        self._client = OpenAIClient(model_name=model_name, temperature=temperature)
+        self._client = OpenAIClient(model_name, temperature)
 
     def export_conversation(self) -> str:
         string_conversation = ""
