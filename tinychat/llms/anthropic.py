@@ -18,7 +18,7 @@ class AnthropicAIClient(BaseLLMClient):
 
     ANTHROPIC_MESSAGES_API_URL = "https://api.anthropic.com/v1/messages"
 
-    def __init__(self, model_name: str, temperature: float = 0.0) -> None:
+    def __init__(self, model_name: str, temperature: float) -> None:
         super().__init__(api_key_name=ANTHROPIC_API_KEY_NAME)
         self.model_name = model_name
         self.temperature = temperature
@@ -29,7 +29,7 @@ class AnthropicAIClient(BaseLLMClient):
             "Content-Type": "application/json",
             "anthropic-version": "2023-06-01",
             "anthropic-beta": "messages-2023-12-15",
-            "x-api-key": self.api_key
+            "x-api-key": self.api_key,
         }
 
     def perform_stream_request(self, messages: list[dict]) -> SSEClient:
@@ -39,7 +39,7 @@ class AnthropicAIClient(BaseLLMClient):
             "messages": messages,
             "temperature": self.temperature,
             "stream": True,
-            "max_tokens": 2048
+            "max_tokens": 2048,
         }
         response = requests.post(
             self.ANTHROPIC_MESSAGES_API_URL,
@@ -61,10 +61,10 @@ class AnthropicAIHandler:
     Returns chat responses and stores the chat history.
     """
 
-    def __init__(self, model_name: str):
+    def __init__(self, model_name: str, temperature: float = 0.0):
         self._messages = []
-        self._client = AnthropicAIClient(model_name=model_name)
-    
+        self._client = AnthropicAIClient(model_name, temperature)
+
     def export_conversation(self) -> str:
         string_conversation = ""
         for message in self._messages:

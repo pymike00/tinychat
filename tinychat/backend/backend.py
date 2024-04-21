@@ -13,18 +13,19 @@ from tinychat.llms.together import TogetherHandler
 
 class Backend:
     def __init__(self) -> None:
+        self.temperature: float = 0.0
         self._models = {
             "Language Model ": lambda: None,
-            "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-turbo-preview"),
-            "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo"),
-            "Claude 3 Opus": lambda: AnthropicAIHandler("claude-3-opus-20240229"),
-            "Claude 3 Sonnet": lambda: AnthropicAIHandler("claude-3-sonnet-20240229"),
-            "Llama3 70B": lambda: TogetherHandler("meta-llama/Llama-3-70b-chat-hf"),
-            "Llama3 8B": lambda: TogetherHandler("meta-llama/Llama-3-8b-chat-hf"),
-            "Gemini Pro 1.5": lambda: GoogleAIHandler(),
-            "Mistral Large": lambda: MistralHandler("mistral-large-latest"),
-            "Mistral Medium": lambda: MistralHandler("mistral-medium-latest"),
-            "Cohere Command R": lambda: CohereHandler(),
+            "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-turbo-preview", self.temperature),
+            "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo", self.temperature),
+            "Claude 3 Opus": lambda: AnthropicAIHandler("claude-3-opus-20240229", self.temperature),
+            "Claude 3 Sonnet": lambda: AnthropicAIHandler("claude-3-sonnet-20240229", self.temperature),
+            "Llama3 70B": lambda: TogetherHandler("meta-llama/Llama-3-70b-chat-hf", self.temperature),
+            "Llama3 8B": lambda: TogetherHandler("meta-llama/Llama-3-8b-chat-hf", self.temperature),
+            "Gemini Pro 1.5": lambda: GoogleAIHandler(self.temperature),
+            "Mistral Large": lambda: MistralHandler("mistral-large-latest", self.temperature),
+            "Mistral Medium": lambda: MistralHandler("mistral-medium-latest", self.temperature),
+            "Cohere Command R": lambda: CohereHandler(self.temperature),
         }
         self._llm: Optional[LLMProtocol] = None
 
@@ -40,6 +41,12 @@ class Backend:
             raise ValueError(
                 f"Initialization Error. Have you set the API Key for {model_name}? {e}"
             )
+        
+    def set_temperature(self, temperature: float) -> None:
+        if 0.0 <= temperature <= 1.0:
+            self.temperature = temperature
+        else:
+            raise ValueError("Temperature must be between 0.0 and 1.0.")
 
     def get_stream_response(self, user_input: str):
         if self._llm is None:

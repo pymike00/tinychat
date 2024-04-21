@@ -18,7 +18,7 @@ class OpenAIClient(BaseLLMClient):
 
     OPENAI_COMPLETION_API_URL = "https://api.openai.com/v1/chat/completions"
 
-    def __init__(self, model_name: str, temperature: float = 1.0) -> None:
+    def __init__(self, model_name: str, temperature: float = 0.0) -> None:
         super().__init__(api_key_name=OPENAI_API_KEY_NAME)
         self.model_name = model_name
         self.temperature = temperature
@@ -51,10 +51,10 @@ class OpenAIHandler:
     Returns chat responses and stores the chat history.
     """
 
-    def __init__(self, model_name: str):
+    def __init__(self, model_name: str, temperature: float):
         self._messages = []
-        self._client = OpenAIClient(model_name=model_name)
-    
+        self._client = OpenAIClient(model_name=model_name, temperature=temperature)
+
     def export_conversation(self) -> str:
         string_conversation = ""
         for message in self._messages:

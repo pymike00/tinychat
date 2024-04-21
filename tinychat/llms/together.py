@@ -18,7 +18,7 @@ class TogetherClient(BaseLLMClient):
 
     TOGHETER_COMPLETION_API_URL = "https://api.together.xyz/v1/chat/completions"
 
-    def __init__(self, model_name: str, temperature: float = 1.0) -> None:
+    def __init__(self, model_name: str, temperature: float) -> None:
         super().__init__(api_key_name=TOGETHER_API_KEY_NAME)
         self.model_name = model_name
         self.temperature = temperature
@@ -51,9 +51,9 @@ class TogetherHandler:
     Returns chat responses and stores the chat history.
     """
 
-    def __init__(self, model_name: str):
+    def __init__(self, model_name: str, temperature: float = 0.0):
         self._messages = []
-        self._client = TogetherClient(model_name=model_name)
+        self._client = TogetherClient(model_name, temperature)
     
     def export_conversation(self) -> str:
         string_conversation = ""

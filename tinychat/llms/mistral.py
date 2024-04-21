@@ -15,7 +15,7 @@ class MistralClient(BaseLLMClient):
 
     MISTRAL_COMPLETION_API_URL = "https://api.mistral.ai/v1/chat/completions"
 
-    def __init__(self, model_name: str, temperature: float = 1.0) -> None:
+    def __init__(self, model_name: str, temperature: float) -> None:
         super().__init__(api_key_name=MISTRAL_API_KEY_NAME)
         self.model_name = model_name
         self.temperature = temperature
@@ -50,10 +50,10 @@ class MistralHandler:
     message format that is needed for working client requests to the API?
     """
 
-    def __init__(self, model_name: str):
+    def __init__(self, model_name: str, temperature: float = 0.0):
         self._messages = []
-        self._client = MistralClient(model_name=model_name)
-    
+        self._client = MistralClient(model_name, temperature)
+
     def export_conversation(self) -> str:
         string_conversation = ""
         for message in self._messages:

@@ -14,7 +14,7 @@ class CohereClient(BaseLLMClient):
 
     COHERE_CHAT_API_URL = "https://api.cohere.ai/v1/chat"
 
-    def __init__(self, temperature: float = 1.0) -> None:
+    def __init__(self, temperature: float) -> None:
         super().__init__(api_key_name=COHERE_API_KEY_NAME)
         self.temperature = temperature
 
@@ -51,10 +51,10 @@ class CohereHandler:
     message format that is needed for working client requests to the API?
     """
 
-    def __init__(self):
+    def __init__(self, temperature: float = 0.0):
         self._chat_history = []
-        self._client = CohereClient()
-    
+        self._client = CohereClient(temperature)
+
     def export_conversation(self) -> str:
         string_conversation = ""
         for message in self._chat_history:

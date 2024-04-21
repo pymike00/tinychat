@@ -36,8 +36,15 @@ class GoogleAIClient(BaseLLMClient):
         },
     ]
 
-    def __init__(self) -> None:
+    def __init__(self, temperature: float) -> None:
         super().__init__(api_key_name=GOOGLE_API_KEY_NAME)
+        self.generation_config = {
+            "stopSequences": ["Title"],
+            "temperature": temperature,
+            "maxOutputTokens": 4096,
+            "topP": 0.8,
+            "topK": 10,
+        }
 
     @property
     def gemini_endpoint(self):
@@ -49,12 +56,16 @@ class GoogleAIClient(BaseLLMClient):
 
     def perform_stream_request(self, messages: list[dict]) -> SSEClient:
         # info: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events
-        data = {"contents": messages, "safetySettings": self.SAFETY_SETTINGS}
+        data = {
+            "contents": messages,
+            "safetySettings": self.SAFETY_SETTINGS,
+            "generationConfig": self.generation_config,
+        }
         response = requests.post(
             self.gemini_endpoint,
             headers=self.gemini_headers,  # type: ignore
             json=data,
-            stream=True
+            stream=True,
         )
         if response.status_code != 200:
             raise ValueError(
@@ -73,10 +84,10 @@ class GoogleAIHandler:
     message format that is needed for working client requests to the API?
     """
 
-    def __init__(self):
+    def __init__(self, temperature: float = 0.0):
         self._messages = []
-        self._client = GoogleAIClient()
-    
+        self._client = GoogleAIClient(temperature)
+
     def export_conversation(self) -> str:
         string_conversation = ""
         for message in self._messages:
@@ -108,7 +119,9 @@ class GoogleAIHandler:
             event_data = json.loads(event.data)
             # TODO: improve
             if "candidates" in event_data:
-                response_piece = event_data["candidates"][0]["content"]["parts"][0]["text"]
+                response_piece = event_data["candidates"][0]["content"]["parts"][0][
+                    "text"
+                ]
                 lm_response += response_piece
                 yield response_piece
         self._messages.append({"parts": [{"text": lm_response}], "role": "model"})
