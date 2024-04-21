@@ -5,8 +5,9 @@ from tinychat.settings import (
     ANTHROPIC_API_KEY_NAME,
     COHERE_API_KEY_NAME,
     GOOGLE_API_KEY_NAME,
-    OPENAI_API_KEY_NAME,
     MISTRAL_API_KEY_NAME,
+    OPENAI_API_KEY_NAME,
+    TOGETHER_API_KEY_NAME
 )
 
 
@@ -87,7 +88,7 @@ class SettingsFrame(ctk.CTkFrame):
         # Create a new top-level window for settings
         settings_window = ctk.CTkToplevel(self)
         settings_window.title("API Key Settings")
-        settings_window.geometry("700x280")  # Adjusted size to fit API key entries
+        settings_window.geometry("700x320")  # Adjusted size to fit API key entries
         settings_window.transient(self)  # type:ignore - Set to be on top of the main window
 
         # Configure grid layout
@@ -134,8 +135,16 @@ class SettingsFrame(ctk.CTkFrame):
             row=4, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
         )
 
+        api_key_label_6 = ctk.CTkLabel(settings_window, text="Together API Key: ")
+        api_key_label_6.grid(row=5, column=0, padx=(20, 2), pady=(10, 2), sticky="e")
+        self.api_key_entry_6 = ctk.CTkEntry(settings_window)
+        self.api_key_entry_6.insert(0, get_api_key(TOGETHER_API_KEY_NAME))
+        self.api_key_entry_6.grid(
+            row=5, column=1, padx=(2, 20), pady=(10, 2), sticky="ew"
+        )
+
         self.status_label = ctk.CTkLabel(settings_window, text="")
-        self.status_label.grid(row=5, column=0, padx=(20, 2), pady=(10, 2), sticky="w")
+        self.status_label.grid(row=6, column=0, padx=(20, 2), pady=(10, 2), sticky="w")
 
         # Add a close button to the settings window
         close = ctk.CTkButton(
@@ -145,7 +154,7 @@ class SettingsFrame(ctk.CTkFrame):
             fg_color=("#0C955A", "#106A43"),
             hover_color="#2c6e49",
         )
-        close.grid(row=5, column=1, padx=(0, 0), pady=(20, 0), sticky="w")
+        close.grid(row=6, column=1, padx=(0, 0), pady=(20, 0), sticky="w")
 
         # Add a save button to the settings window
         save = ctk.CTkButton(
@@ -155,7 +164,7 @@ class SettingsFrame(ctk.CTkFrame):
             fg_color=("#0C955A", "#106A43"),
             hover_color="#2c6e49",
         )
-        save.grid(row=5, column=1, padx=(150, 0), pady=(20, 0), sticky="w")
+        save.grid(row=6, column=1, padx=(150, 0), pady=(20, 0), sticky="w")
 
     def save_settings(self):
         set_api_key(OPENAI_API_KEY_NAME, self.api_key_entry_1.get())
@@ -163,4 +172,5 @@ class SettingsFrame(ctk.CTkFrame):
         set_api_key(COHERE_API_KEY_NAME, self.api_key_entry_3.get())
         set_api_key(GOOGLE_API_KEY_NAME, self.api_key_entry_4.get())
         set_api_key(ANTHROPIC_API_KEY_NAME, self.api_key_entry_5.get())
+        set_api_key(TOGETHER_API_KEY_NAME, self.api_key_entry_6.get())
         self.status_label.configure(text="Saved.")

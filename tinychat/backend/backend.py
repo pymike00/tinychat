@@ -8,6 +8,7 @@ from tinychat.llms.cohere import CohereHandler
 from tinychat.llms.google import GoogleAIHandler
 from tinychat.llms.mistral import MistralHandler
 from tinychat.llms.openai import OpenAIHandler
+from tinychat.llms.together import TogetherHandler
 
 
 class Backend:
@@ -18,6 +19,8 @@ class Backend:
             "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo"),
             "Claude 3 Opus": lambda: AnthropicAIHandler("claude-3-opus-20240229"),
             "Claude 3 Sonnet": lambda: AnthropicAIHandler("claude-3-sonnet-20240229"),
+            "Llama3 70B": lambda: TogetherHandler("meta-llama/Llama-3-70b-chat-hf"),
+            "Llama3 8B": lambda: TogetherHandler("meta-llama/Llama-3-8b-chat-hf"),
             "Gemini Pro 1.5": lambda: GoogleAIHandler(),
             "Mistral Large": lambda: MistralHandler("mistral-large-latest"),
             "Mistral Medium": lambda: MistralHandler("mistral-medium-latest"),
