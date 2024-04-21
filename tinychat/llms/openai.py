@@ -18,7 +18,7 @@ class OpenAIClient(BaseLLMClient):
 
     OPENAI_COMPLETION_API_URL = "https://api.openai.com/v1/chat/completions"
 
-    def __init__(self, model_name: str, temperature: float = 0.0) -> None:
+    def __init__(self, model_name: str, temperature: float) -> None:
         super().__init__(api_key_name=OPENAI_API_KEY_NAME)
         self.model_name = model_name
         self.temperature = temperature
