@@ -35,7 +35,7 @@ class TestAnthropicAIClientStreaming(unittest.TestCase):
             test_stream = iter([mock_event1, mock_event2, mock_event_done])
             mock_sse_client.return_value.events = MagicMock(return_value=test_stream)
 
-            client = AnthropicAIClient(model_name="test_model")
+            client = AnthropicAIClient(model_name="test_model", temperature=0.0)
             messages = [{"role": "user", "content": "hello"}]
             stream = client.perform_stream_request(messages)
 
@@ -58,7 +58,7 @@ class TestAnthropicAIClientStreaming(unittest.TestCase):
         mock_response.status_code = 400
         mock_post.return_value = mock_response
 
-        client = AnthropicAIClient(model_name="test_model")
+        client = AnthropicAIClient(model_name="test_model", temperature=0.0)
         messages = [{"role": "user", "content": "hello"}]
 
         with self.assertRaises(ValueError) as context:

@@ -32,7 +32,7 @@ class TestMistralClientStreaming(unittest.TestCase):
         mock_sse_client.return_value.events = MagicMock(return_value=iter(test_stream))
 
         # Execution
-        client = MistralClient(model_name="test_model")
+        client = MistralClient(model_name="test_model", temperature = 0.0)
         messages = [{"role": "user", "content": "hello"}]
         stream = client.perform_stream_request(messages)
 
@@ -58,7 +58,7 @@ class TestMistralClientStreaming(unittest.TestCase):
         mock_post.return_value = mock_response
 
         # Execution
-        client = MistralClient(model_name="test_model")
+        client = MistralClient(model_name="test_model", temperature = 0.0)
         messages = [{"role": "user", "content": "hello"}]
 
         # Verification: Expecting a ValueError on error response

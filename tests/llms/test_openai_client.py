@@ -34,7 +34,7 @@ class TestOpenAIClientStreaming(unittest.TestCase):
         test_stream = [mock_event1, mock_event2, mock_event_done]
         mock_sse_client.return_value.events = MagicMock(return_value=iter(test_stream))
 
-        client = OpenAIClient(model_name="test_model")
+        client = OpenAIClient(model_name="test_model", temperature = 0.0)
         messages = [{"role": "user", "content": "hello"}]
         stream = client.perform_stream_request(messages)
 
@@ -61,7 +61,7 @@ class TestOpenAIClientStreaming(unittest.TestCase):
         mock_response.status_code = 400
         mock_post.return_value = mock_response
 
-        client = OpenAIClient(model_name="test_model")
+        client = OpenAIClient(model_name="test_model", temperature = 0.0)
         messages = [{"role": "user", "content": "hello"}]
 
         with self.assertRaises(ValueError) as context:

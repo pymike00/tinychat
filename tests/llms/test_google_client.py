@@ -35,7 +35,7 @@ class TestGoogleAIClientStreaming(unittest.TestCase):
         test_stream = [mock_event1, mock_event2, mock_event_done]
         mock_sse_client.return_value.events = MagicMock(return_value=iter(test_stream))
 
-        client = GoogleAIClient()
+        client = GoogleAIClient(temperature = 0.0)
         messages = [{"parts": [{"text": "content"}], "role": "user"}]
         stream = client.perform_stream_request(messages)
 
@@ -61,7 +61,7 @@ class TestGoogleAIClientStreaming(unittest.TestCase):
         mock_response.status_code = 400
         mock_post.return_value = mock_response
 
-        client = GoogleAIClient()
+        client = GoogleAIClient(temperature = 0.0)
         messages = [{"parts": [{"text": "content"}], "role": "user"}]
 
         with self.assertRaises(ValueError) as context:

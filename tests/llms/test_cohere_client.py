@@ -15,7 +15,7 @@ class TestCohereClientStreaming(unittest.TestCase):
         mock_response = Mock(spec=requests.Response)
         mock_response.status_code = 200
         mock_post.return_value = mock_response
-        client = CohereClient()
+        client = CohereClient(temperature=0.0)
         chat_history = [
             {"role": "User", "message": "hello"},
             {"role": "Chatbot", "message": "hello!"},
@@ -32,7 +32,7 @@ class TestCohereClientStreaming(unittest.TestCase):
         mock_response = Mock(spec=requests.Response)
         mock_response.status_code = 400
         mock_post.return_value = mock_response
-        client = CohereClient()
+        client = CohereClient(temperature=0.0)
         chat_history = [
             {"role": "User", "message": "hello"},
             {"role": "Chatbot", "message": "hello!"},
