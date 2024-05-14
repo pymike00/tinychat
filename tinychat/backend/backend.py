@@ -17,6 +17,7 @@ class Backend:
         self.temperature: float = self.get_default_temperature()
         self._models = {
             "Language Model ": lambda: None,
+            "GPT-4o": lambda: OpenAIHandler("gpt-4o", self.temperature),
             "GPT-4 Turbo": lambda: OpenAIHandler("gpt-4-turbo-preview", self.temperature),
             "GPT-3.5 Turbo": lambda: OpenAIHandler("gpt-3.5-turbo", self.temperature),
             "Claude 3 Opus": lambda: AnthropicAIHandler("claude-3-opus-20240229", self.temperature),
