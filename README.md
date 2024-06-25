@@ -1,4 +1,4 @@
-# TinyChat
+# TinyChat (for Linux and Windows)
 
 **TinyChat is a GUI client for modern Language Models built with simplicity in mind. Its minimalistic Python code is designed for straightforward comprehension and adaptability. More features will likely come, but we are going to do our best to keep it simple.**
 
