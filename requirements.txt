@@ -7,3 +7,4 @@ packaging==23.2
 requests==2.31.0
 sseclient-py==1.8.0
 urllib3==2.1.0
+git+https://github.com/JSv4/Python-Redlines@v0.0.1

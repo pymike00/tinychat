@@ -1,7 +1,7 @@
 import os
 import threading
 import tkinter as tk
-from tkinter import PhotoImage
+from tkinter import PhotoImage, messagebox
 
 import customtkinter as ctk
 
@@ -9,6 +9,9 @@ from tinychat.settings import FONT_FAMILY, MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_T
 from tinychat.settings import get_icon_path
 from tinychat.ui.frames import SettingsFrame
 
+from pyowm import OWM
+from pyowm.utils import config
+from pyowm.utils import timestamps
 
 class ChatApp(ctk.CTk):
     def __init__(self, backend) -> None:
@@ -38,14 +41,13 @@ class ChatApp(ctk.CTk):
         )
         self.settings_frame.grid(row=0, column=0, rowspan=1, sticky="nsew")
 
-        # Create a progress bar to enable when getting data from the LLMs
-        self.progress_bar = ctk.CTkProgressBar(
+        # Add weather label
+        self.weather_label = ctk.CTkLabel(
             self,
-            height=10,
-            progress_color="#2c6e49",
+            text=self.get_weather(),
+            font=ctk.CTkFont(family=FONT_FAMILY, size=12),
         )
-        self.progress_bar.grid(row=1, column=0, padx=20, pady=(10, 0), sticky="ew")
-        self.progress_bar.set(1.0)
+        self.weather_label.grid(row=1, column=0, padx=20, pady=(5, 0), sticky="w")
 
         # Create a big text area for displaying chat
         self.chat_display = ctk.CTkTextbox(
@@ -60,16 +62,53 @@ class ChatApp(ctk.CTk):
         self.message_input.grid(row=3, column=0, padx=20, pady=(0, 0), sticky="nsew")
 
         # Create a button for sending messages
-        self.send_button = ctk.CTkButton(
+        self.analyze_button = ctk.CTkButton(
             self,
             height=40,
-            text="Get Response",
-            command=self.on_send_button,
+            text="Analyze and Revise NDA",
+            command=self.analyze_and_revise_nda,
             font=ctk.CTkFont(family=FONT_FAMILY, size=17),
             fg_color=("#0C955A", "#106A43"),
             hover_color="#2c6e49",
         )
-        self.send_button.grid(row=4, column=0, padx=20, pady=(10, 10), sticky="ew")
+        self.analyze_button.grid(row=4, column=0, padx=20, pady=(10, 10), sticky="ew")
+
+        # Create a frame for NDA-related buttons
+        self.nda_frame = ctk.CTkFrame(self)
+        self.nda_frame.grid(row=5, column=0, padx=20, pady=(10, 10), sticky="ew")
+
+        # Upload NDA button
+        self.upload_nda_button = ctk.CTkButton(
+            self.nda_frame,
+            text="Upload NDA",
+            command=self.upload_nda,
+            font=ctk.CTkFont(family=FONT_FAMILY, size=14),
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
+        )
+        self.upload_nda_button.grid(row=0, column=0, padx=5, pady=5)
+
+        # Upload Guidelines button
+        self.upload_guidelines_button = ctk.CTkButton(
+            self.nda_frame,
+            text="Upload Guidelines",
+            command=self.upload_guidelines,
+            font=ctk.CTkFont(family=FONT_FAMILY, size=14),
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
+        )
+        self.upload_guidelines_button.grid(row=0, column=1, padx=5, pady=5)
+
+        # Download Revised NDA button
+        self.download_nda_button = ctk.CTkButton(
+            self.nda_frame,
+            text="Download Revised NDA",
+            command=self.download_revised_nda,
+            font=ctk.CTkFont(family=FONT_FAMILY, size=14),
+            fg_color=("#0C955A", "#106A43"),
+            hover_color="#2c6e49",
+        )
+        self.download_nda_button.grid(row=0, column=2, padx=5, pady=5)
 
         # Set focus (cursor) to message_input automatically
         self.after(100, lambda: self.message_input.focus_set())
@@ -85,6 +124,8 @@ class ChatApp(ctk.CTk):
         # Bind (CTRL or Shift) + Return to do nothing, so we can use to add space
         self.bind("<Control-Return>", self.on_control_enter)
         self.bind("<Shift-Return>", self.on_control_enter)
+
+        self.update_weather()
 
     def set_icon(self):
         if os.name == "nt":
@@ -134,18 +175,10 @@ class ChatApp(ctk.CTk):
         self.chat_display.delete("1.0", tk.END)
         self.chat_display.configure(state="disabled")
 
-    def toggle_progress_bar(self, start: bool):
-        if start:
-            self.progress_bar.start()
-        else:
-            self.progress_bar.stop()
-            self.progress_bar.set(1.0)
-
     def send_message_thread(self) -> None:
         threading.Thread(target=self.get_response, daemon=True).start()
 
     def get_response(self) -> None:
-        self.toggle_progress_bar(True)
         self.send_button.configure(state="disabled")
         user_input = self.message_input.get("1.0", tk.END)
         self.update_chat_display(f"You: {user_input.strip()}")
@@ -159,7 +192,6 @@ class ChatApp(ctk.CTk):
             self.update_chat_display(f"\n\nError: {e}")
         self.update_chat_display("\n\n\n")
         self.send_button.configure(state="normal")
-        self.toggle_progress_bar(False)
 
     def update_chat_display(self, message) -> None:
         self.chat_display.configure(state="normal")
@@ -173,3 +205,44 @@ class ChatApp(ctk.CTk):
 
         # Start the application
         self.mainloop()
+
+    def upload_nda(self):
+        try:
+            result = self.backend.upload_nda()
+            tk.messagebox.showinfo("Upload NDA", result)
+        except ValueError as e:
+            tk.messagebox.showerror("Error", str(e))
+
+    def upload_guidelines(self):
+        try:
+            result = self.backend.upload_guidelines()
+            tk.messagebox.showinfo("Upload Guidelines", result)
+        except ValueError as e:
+            tk.messagebox.showerror("Error", str(e))
+
+    def download_revised_nda(self):
+        try:
+            result = self.backend.download_revised_nda()
+            tk.messagebox.showinfo("Download Revised NDA", result)
+        except ValueError as e:
+            tk.messagebox.showerror("Error", str(e))
+
+    def analyze_and_revise_nda(self):
+        try:
+            result = self.backend.analyze_and_revise_nda()
+            tk.messagebox.showinfo("Analyze and Revise NDA", result)
+        except ValueError as e:
+            tk.messagebox.showerror("Error", str(e))
+        except Exception as e:
+            tk.messagebox.showerror("Error", f"An unexpected error occurred: {str(e)}")
+
+    def get_weather(self):
+        owm = OWM('YOUR_API_KEY')  # Replace with your OpenWeatherMap API key
+        mgr = owm.weather_manager()
+        observation = mgr.weather_at_place('Boston,US')
+        w = observation.weather
+        return f"Boston: {w.temperature('celsius')['temp']:.1f}°C, {w.detailed_status}"
+
+    def update_weather(self):
+        self.weather_label.configure(text=self.get_weather())
+        self.after(600000, self.update_weather)  # Update every 10 minutes
