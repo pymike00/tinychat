@@ -252,6 +252,10 @@ class ChatApp(ctk.CTk):
         dialog = tk.Toplevel(self)
         dialog.title(f"Review Change")
         dialog.geometry("1000x600")
+        dialog.transient(self)  # Make dialog transient of main window
+        dialog.grab_set()  # Make dialog modal
+        dialog.overrideredirect(True)  # Remove decorations
+        dialog.geometry("+%d+%d" % (self.winfo_x() + 100, self.winfo_y() + 100))  # Set fixed position
 
         frame = ttk.Frame(dialog, padding="10")
         frame.pack(fill=tk.BOTH, expand=True)
