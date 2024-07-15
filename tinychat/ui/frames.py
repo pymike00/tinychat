@@ -32,7 +32,9 @@ class SettingsFrame(ctk.CTkFrame):
             button_color="#1E90FF",
             button_hover_color="#4169E1",
         )
-        self.model_selection.grid(row=0, column=0, padx=(20, 10), pady=(10, 10), sticky="w")
+        self.model_selection.grid(
+            row=0, column=0, padx=(20, 10), pady=(10, 10), sticky="w"
+        )
 
         # Set default model to OpenAI GPT-4
         default_model = "OpenAI GPT-4"
@@ -61,7 +63,9 @@ class SettingsFrame(ctk.CTkFrame):
             fg_color="#1E90FF",
             hover_color="#4169E1",
         )
-        self.reset_button.grid(row=0, column=2, padx=(10, 10), pady=(10, 10), sticky="e")
+        self.reset_button.grid(
+            row=0, column=2, padx=(10, 10), pady=(10, 10), sticky="e"
+        )
 
         # Create the export chat button
         self.export_button = ctk.CTkButton(
@@ -117,7 +121,9 @@ class SettingsFrame(ctk.CTkFrame):
             fg_color=("#0C955A", "#106A43"),
             hover_color="#2c6e49",
         )
-        save.grid(row=2, column=0, columnspan=2, padx=(20, 20), pady=(10, 10), sticky="ew")
+        save.grid(
+            row=2, column=0, columnspan=2, padx=(20, 20), pady=(10, 10), sticky="ew"
+        )
 
     def init_temperature_values(self):
         temperature = get_secret("temperature")
@@ -140,7 +146,9 @@ class SettingsFrame(ctk.CTkFrame):
         set_secret(OPENAI_API_KEY_NAME, self.api_key_entry.get())
         set_secret("temperature", self.temperature_slider.get() / 10)
 
+
 from tkinter import messagebox
+
 
 class MainFrame(ctk.CTkFrame):
     def __init__(self, master, backend):
@@ -153,14 +161,20 @@ class MainFrame(ctk.CTkFrame):
 
         # Add a new frame for NDA-related buttons
         self.nda_frame = ctk.CTkFrame(self)
-        self.nda_frame.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
+        self.nda_frame.grid(
+            row=4, column=0, columnspan=2, padx=20, pady=10, sticky="ew"
+        )
 
         # Upload NDA button
-        self.upload_nda_button = ctk.CTkButton(self.nda_frame, text="Upload NDA", command=self.upload_nda)
+        self.upload_nda_button = ctk.CTkButton(
+            self.nda_frame, text="Upload NDA", command=self.upload_nda
+        )
         self.upload_nda_button.grid(row=0, column=0, padx=5, pady=10)
 
         # Upload Guidelines button
-        self.upload_guidelines_button = ctk.CTkButton(self.nda_frame, text="Upload Guidelines", command=self.upload_guidelines)
+        self.upload_guidelines_button = ctk.CTkButton(
+            self.nda_frame, text="Upload Guidelines", command=self.upload_guidelines
+        )
         self.upload_guidelines_button.grid(row=0, column=1, padx=5, pady=10)
 
         # Analyze and Revise NDA button
@@ -175,7 +189,11 @@ class MainFrame(ctk.CTkFrame):
         self.analyze_button.grid(row=0, column=2, padx=5, pady=10)
 
         # Download Revised NDA button
-        self.download_nda_button = ctk.CTkButton(self.nda_frame, text="Download Revised NDA", command=self.download_revised_nda)
+        self.download_nda_button = ctk.CTkButton(
+            self.nda_frame,
+            text="Download Revised NDA",
+            command=self.download_revised_nda,
+        )
         self.download_nda_button.grid(row=0, column=3, padx=5, pady=10)
 
     def upload_nda(self):
@@ -226,10 +244,10 @@ class MainFrame(ctk.CTkFrame):
         for change in self.backend.review_changes():
             response = messagebox.askyesno(
                 "Review Change",
-                f"Paragraph {change['paragraph_number']}:\n\nOriginal: {change['original_text']}\n\nSuggested: {change['suggested_change']}\n\nAccept this change?"
+                f"Original: {change['original_text']}\n\nSuggested: {change['suggested_change']}\n\nAccept this change?",
             )
             if response:
                 approved_changes.append(change)
-        
+
         result = self.backend.apply_approved_changes(approved_changes)
         messagebox.showinfo("Changes Applied", result)

@@ -4,6 +4,7 @@ from docx import Document
 import os
 from tkinter import filedialog
 import json
+import difflib
 
 from tinychat.llms.base import LLMProtocol
 from tinychat.llms.openai import OpenAIHandler
@@ -141,9 +142,9 @@ class Backend:
         Provide your analysis and revised NDA as a list of JSON objects, where each object represents a suggested change:
         [
             {{
-                "paragraph_number": "1",
-                "original_text": "Original text from the NDA",
-                "suggested_change": "Suggested revision for this paragraph"
+                "original_text": "Full original paragraph from the NDA",
+                "suggested_change": "Full revised paragraph with suggested changes",
+                "justification": "Explanation for why this change was suggested"
             }},
             // ... more objects for other paragraphs
         ]

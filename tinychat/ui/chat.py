@@ -2,11 +2,14 @@ import os
 import threading
 import tkinter as tk
 from tkinter import messagebox
+import difflib
+from tkinter import ttk
 
 import customtkinter as ctk
 
 from tinychat.settings import FONT_FAMILY, MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
 from tinychat.ui.frames import SettingsFrame
+
 
 class ChatApp(ctk.CTk):
     def __init__(self, backend) -> None:
@@ -129,6 +132,11 @@ class ChatApp(ctk.CTk):
         # Set the default model to GPT-4
         self.set_initial_model()
 
+        # Configure styles for ttk widgets
+        style = ttk.Style()
+        style.configure("TButton", font=(FONT_FAMILY, 12))
+        style.configure("TFrame", background="white")
+
     def on_control_enter(self, event) -> None:
         # Handle Control + Enter key event
         # You can leave this empty or add some other functionality
@@ -233,15 +241,98 @@ class ChatApp(ctk.CTk):
     def review_changes(self):
         approved_changes = []
         for change in self.backend.review_changes():
-            response = tk.messagebox.askyesno(
-                "Review Change",
-                f"Paragraph {change['paragraph_number']}:\n\nOriginal: {change['original_text']}\n\nSuggested: {change['suggested_change']}\n\nAccept this change?"
-            )
-            if response:
+            dialog = self.create_change_review_dialog(change)
+            if dialog.result:
                 approved_changes.append(change)
-        
+
         result = self.backend.apply_approved_changes(approved_changes)
         tk.messagebox.showinfo("Changes Applied", result)
+
+    def create_change_review_dialog(self, change):
+        dialog = tk.Toplevel(self)
+        dialog.title(f"Review Change")
+        dialog.geometry("1000x600")
+
+        frame = ttk.Frame(dialog, padding="10")
+        frame.pack(fill=tk.BOTH, expand=True)
+
+        # Original text
+        original_label = ttk.Label(
+            frame, text="Original Text:", font=(FONT_FAMILY, 12, "bold")
+        )
+        original_label.grid(row=0, column=0, sticky="w", pady=(0, 5))
+        original_text = tk.Text(frame, wrap=tk.WORD, width=60, height=8)
+        original_text.grid(row=1, column=0, padx=(0, 5), sticky="nsew")
+        original_text.insert(tk.END, change["original_text"])
+        original_text.config(state=tk.DISABLED)
+
+        # Suggested change
+        suggested_label = ttk.Label(
+            frame, text="Suggested Change:", font=(FONT_FAMILY, 12, "bold")
+        )
+        suggested_label.grid(row=0, column=1, sticky="w", pady=(0, 5))
+        suggested_text = tk.Text(frame, wrap=tk.WORD, width=60, height=8)
+        suggested_text.grid(row=1, column=1, padx=(5, 0), sticky="nsew")
+        self.insert_with_track_changes(
+            suggested_text, change["original_text"], change["suggested_change"]
+        )
+        suggested_text.config(state=tk.DISABLED)
+
+        # Justification
+        justification_label = ttk.Label(
+            frame, text="Justification:", font=(FONT_FAMILY, 12, "bold")
+        )
+        justification_label.grid(
+            row=2, column=0, columnspan=2, sticky="w", pady=(10, 5)
+        )
+        justification_text = tk.Text(frame, wrap=tk.WORD, width=120, height=6)
+        justification_text.grid(row=3, column=0, columnspan=2, sticky="nsew")
+        justification_text.insert(tk.END, change["justification"])
+        justification_text.config(state=tk.DISABLED)
+
+        frame.grid_columnconfigure(0, weight=1)
+        frame.grid_columnconfigure(1, weight=1)
+        frame.grid_rowconfigure(1, weight=1)
+        frame.grid_rowconfigure(3, weight=1)
+
+        button_frame = ttk.Frame(frame)
+        button_frame.grid(row=4, column=0, columnspan=2, pady=(10, 0))
+
+        accept_button = ttk.Button(
+            button_frame, text="Accept", command=lambda: self.close_dialog(dialog, True)
+        )
+        accept_button.pack(side=tk.LEFT, padx=(0, 5))
+
+        reject_button = ttk.Button(
+            button_frame,
+            text="Reject",
+            command=lambda: self.close_dialog(dialog, False),
+        )
+        reject_button.pack(side=tk.LEFT)
+
+        dialog.result = None
+        dialog.wait_window()
+
+        return dialog
+
+    def insert_with_track_changes(self, text_widget, original, suggested):
+        differ = difflib.Differ()
+        diff = list(differ.compare(original.split(), suggested.split()))
+
+        for word in diff:
+            if word.startswith("  "):
+                text_widget.insert(tk.END, word[2:] + " ")
+            elif word.startswith("- "):
+                text_widget.insert(tk.END, word[2:] + " ", "deleted")
+            elif word.startswith("+ "):
+                text_widget.insert(tk.END, word[2:] + " ", "added")
+
+        text_widget.tag_configure("deleted", foreground="red", overstrike=True)
+        text_widget.tag_configure("added", foreground="green", underline=True)
+
+    def close_dialog(self, dialog, result):
+        dialog.result = result
+        dialog.destroy()
 
     def set_initial_model(self):
         initial_model = self.settings_frame.model_selection.get()
