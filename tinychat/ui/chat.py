@@ -181,20 +181,22 @@ class ChatApp(ctk.CTk):
     def send_message(self) -> None:
         user_message = self.message_input.get("1.0", tk.END).strip()
         if user_message:
-            self.update_chat_display(message=f"\nYou: {user_message}")
+            self.update_chat_display(message=f"You: {user_message}\n")
             self.message_input.delete("1.0", tk.END)
             self.send_button.configure(state="disabled")
 
             try:
                 response = self.backend.send_message(user_message)
-                self.update_chat_display(message=f"\nAssistant: {response}")
+                self.update_chat_display(message=f"\nAssistant: {response}\n")
             except Exception as e:
-                self.update_chat_display(message=f"\nError: {str(e)}")
+                self.update_chat_display(message=f"\nError: {str(e)}\n")
             finally:
                 self.send_button.configure(state="normal")
 
     def update_chat_display(self, message: str) -> None:
         self.chat_display.configure(state="normal")
+        if message.startswith('\n'):
+            message = message[1:]
         self.chat_display.insert(tk.END, message)
         self.chat_display.configure(state="disabled")
         self.chat_display.see(tk.END)
@@ -209,6 +211,8 @@ class ChatApp(ctk.CTk):
         try:
             result = self.backend.upload_nda()
             tk.messagebox.showinfo("Upload NDA", result)
+            if "successfully" in result:
+                self.upload_nda_button.configure(fg_color="#28A745", hover_color="#218838")
         except ValueError as e:
             tk.messagebox.showerror("Error", str(e))
 
@@ -216,6 +220,8 @@ class ChatApp(ctk.CTk):
         try:
             result = self.backend.upload_guidelines()
             tk.messagebox.showinfo("Upload Guidelines", result)
+            if "successfully" in result:
+                self.upload_guidelines_button.configure(fg_color="#28A745", hover_color="#218838")
         except ValueError as e:
             tk.messagebox.showerror("Error", str(e))
 
