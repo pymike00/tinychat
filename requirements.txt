@@ -8,3 +8,6 @@ requests==2.31.0
 sseclient-py==1.8.0
 urllib3==2.1.0
 git+https://github.com/JSv4/Python-Redlines@v0.0.1
+cairosvg==2.5.2
+Pillow==9.5.0
+tksvg==0.7.4

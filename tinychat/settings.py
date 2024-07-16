@@ -17,7 +17,6 @@ OPENAI_API_KEY_NAME = "OPENAI_API_KEY"
 
 import os, sys
 
-
 def get_icon_path():
     if os.name == "nt":
         icon_file_name = "tinychat.ico"

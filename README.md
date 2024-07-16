@@ -1,34 +1,34 @@
-# TinyChat (for Linux and Windows)
+# NDA Reviewer (for Linux and Windows)
 
-**TinyChat is a GUI client for modern Language Models built with simplicity in mind. Its minimalistic Python code is designed for straightforward comprehension and adaptability. More features will likely come, but we are going to do our best to keep it simple.**
+**NDA Reviewer is a GUI application designed to streamline the process of reviewing and revising Non-Disclosure Agreements (NDAs). Built with simplicity in mind, its minimalistic Python code is designed for straightforward comprehension and adaptability.**
 
-To reduce magic to a minimum, no official API client is used: it's only just post requests and Server-Sent Events handling. The program only depends on [requests](https://requests.readthedocs.io/en/latest/), [sseclient-py](https://github.com/mpetazzoni/sseclient) and [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter).
+This application leverages modern Language Models to assist in the analysis and revision of NDAs. It provides an intuitive interface for uploading NDAs and guidelines, analyzing the documents, and reviewing suggested changes.
 
-**You can talk with all major models from the OpenAI, Anthropic, Mistral, Meta, Google and Cohere cloud APIs:**
-- [x] OpenAI: GPT-4o, GPT-4 Turbo
-- [x] Anthropic: Claude 3.5 Sonnet, Claude 3 Opus
-- [x] Mistral: Large, Codestral
-- [x] Meta AI: Llama3 8B, Llama3 70B
-- [x] Google: Gemini Pro 1.5
-- [x] Cohere: Command R
+Key features include:
+- Upload and manage NDAs and guidelines
+- Automated analysis and revision suggestions
+- Interactive review of proposed changes
+- Download revised NDAs
+- Support for multiple AI models for diverse analysis capabilities
 
+### Supported AI Models:
+- OpenAI: GPT-4, GPT-4 Turbo
+- Anthropic: Claude 3.5 Sonnet, Claude 3 Opus
+- Mistral: Large, Codestral
+- Meta AI: Llama3 8B, Llama3 70B
+- Google: Gemini Pro 1.5
+- Cohere: Command R
 
-### Here is a quick demo:
-https://github.com/pymike00/tinychat/assets/32687496/9610b45f-efd8-4a4a-8b53-5ceb979a29ba
+### How to use the application:
 
+1. Upload your NDA and guidelines
+2. Select an AI model for analysis
+3. Initiate the analysis and revision process
+4. Review suggested changes interactively
+5. Apply approved changes
+6. Download the revised NDA
 
-
-
-
-
-### Notes:
-- *To use the models you will need an API Key from [OpenAI](https://platform.openai.com/api-keys) / [Anthropic](https://console.anthropic.com/settings/keys) / [Mistral](https://console.mistral.ai/api-keys/) / [Google](https://makersuite.google.com/app/apikey) / [Cohere](https://dashboard.cohere.com/api-keys/), and [Together](https://api.together.xyz/settings/api-keys) for the Meta AI models. Follow the links to get started! The keys will be saved in a "tinychat.json" file that by default is created on the same level as the tinychat package / exe file. You can change the SECRETS_FILE_PATH from the settings.py file.*
-- *I chose to use the official Mistral API to explicitly support Mistral's open weights strategy. You should however be able to easily adapt the code in llms.mistral to change the endpoint in case you feel like it.*
-
-<br>
-
-### How to use it as a Python package:
-
+### Installation and Setup:
 
 ```
 # Clone repo and enter main folder
@@ -49,9 +49,7 @@ pip install -r requirements.txt
 python -m tinychat
 ```
 
-
-### How to build an executable:
-
+### Building an Executable:
 
 ```
 # Clone repo and enter main folder
@@ -73,8 +71,9 @@ pyinstaller build.spec
 
 # You should now have a new tinychat executable file in a newly created dist folder
 ```
-<br>
 
-### Extra Notes:
-[Crystal ball icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/crystal-ball)
+### Notes:
+- To use the AI models, you will need API keys from their respective providers. Please refer to each provider's documentation for obtaining API keys.
+- API keys are securely stored in a local JSON file.
 
+This application is designed to assist in the NDA review process but should not replace professional legal advice. Always consult with a qualified legal professional for final review and approval of legal documents.

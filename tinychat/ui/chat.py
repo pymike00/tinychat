@@ -4,11 +4,11 @@ import tkinter as tk
 from tkinter import messagebox
 import difflib
 from tkinter import ttk
-
 import customtkinter as ctk
 
 from tinychat.settings import FONT_FAMILY, MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
 from tinychat.ui.frames import SettingsFrame
+from tinychat.utils.icon_loader import load_svg_icon
 
 
 class ChatApp(ctk.CTk):
@@ -24,6 +24,14 @@ class ChatApp(ctk.CTk):
         # Initialize the main window
         self.title(MAIN_WINDOW_TITLE)
         self.geometry(MAIN_WINDOW_RESOLUTION)
+
+        # Load icons
+        self.upload_icon = load_svg_icon("upload", color="#FFFFFF")
+        self.edit_icon = load_svg_icon("edit-3", color="#FFFFFF")
+        self.download_icon = load_svg_icon("download", color="#FFFFFF")
+        self.send_icon = load_svg_icon("send", color="#FFFFFF")
+        self.settings_icon = load_svg_icon("settings", color="#FFFFFF")
+        self.new_chat_icon = load_svg_icon("plus-circle", color="#FFFFFF")
 
         # Initialize choices frame with widgets for model selection
         self.settings_frame = SettingsFrame(
@@ -62,6 +70,8 @@ class ChatApp(ctk.CTk):
         self.upload_nda_button = ctk.CTkButton(
             self.bottom_frame,
             text="Upload NDA",
+            image=self.upload_icon,
+            compound="left",
             command=self.upload_nda,
             font=ctk.CTkFont(family=FONT_FAMILY, size=13),
             fg_color="#1E90FF",
@@ -73,6 +83,8 @@ class ChatApp(ctk.CTk):
         self.upload_guidelines_button = ctk.CTkButton(
             self.bottom_frame,
             text="Upload Guidelines",
+            image=self.upload_icon,
+            compound="left",
             command=self.upload_guidelines,
             font=ctk.CTkFont(family=FONT_FAMILY, size=13),
             fg_color="#1E90FF",
@@ -80,10 +92,12 @@ class ChatApp(ctk.CTk):
         )
         self.upload_guidelines_button.grid(row=0, column=1, padx=5, pady=10)
 
-        # Analyze and Revise NDA button
+        # Revise NDA button
         self.analyze_button = ctk.CTkButton(
             self.bottom_frame,
-            text="Analyze and Revise NDA",
+            text="Revise NDA",
+            image=self.edit_icon,
+            compound="left",
             command=self.analyze_and_revise_nda,
             font=ctk.CTkFont(family=FONT_FAMILY, size=13),
             fg_color="#1E90FF",
@@ -95,6 +109,8 @@ class ChatApp(ctk.CTk):
         self.download_nda_button = ctk.CTkButton(
             self.bottom_frame,
             text="Download Revised NDA",
+            image=self.download_icon,
+            compound="left",
             command=self.download_revised_nda,
             font=ctk.CTkFont(family=FONT_FAMILY, size=13),
             fg_color="#1E90FF",
@@ -105,11 +121,14 @@ class ChatApp(ctk.CTk):
         # Create a button for sending messages
         self.send_button = ctk.CTkButton(
             self.bottom_frame,
-            text="Send",
+            text="",
+            image=self.send_icon,
             command=self.send_message_thread,
             font=ctk.CTkFont(family=FONT_FAMILY, size=13),
             fg_color="#1E90FF",
             hover_color="#4169E1",
+            width=30,
+            height=30,
         )
         self.send_button.grid(row=0, column=4, padx=5, pady=5, sticky="e")
 
@@ -195,7 +214,7 @@ class ChatApp(ctk.CTk):
 
     def update_chat_display(self, message: str) -> None:
         self.chat_display.configure(state="normal")
-        if message.startswith('\n'):
+        if message.startswith("\n"):
             message = message[1:]
         self.chat_display.insert(tk.END, message)
         self.chat_display.configure(state="disabled")
@@ -212,7 +231,9 @@ class ChatApp(ctk.CTk):
             result = self.backend.upload_nda()
             tk.messagebox.showinfo("Upload NDA", result)
             if "successfully" in result:
-                self.upload_nda_button.configure(fg_color="#28A745", hover_color="#218838")
+                self.upload_nda_button.configure(
+                    fg_color="#28A745", hover_color="#218838"
+                )
         except ValueError as e:
             tk.messagebox.showerror("Error", str(e))
 
@@ -221,7 +242,9 @@ class ChatApp(ctk.CTk):
             result = self.backend.upload_guidelines()
             tk.messagebox.showinfo("Upload Guidelines", result)
             if "successfully" in result:
-                self.upload_guidelines_button.configure(fg_color="#28A745", hover_color="#218838")
+                self.upload_guidelines_button.configure(
+                    fg_color="#28A745", hover_color="#218838"
+                )
         except ValueError as e:
             tk.messagebox.showerror("Error", str(e))
 
@@ -261,7 +284,9 @@ class ChatApp(ctk.CTk):
         dialog.transient(self)  # Make dialog transient of main window
         dialog.grab_set()  # Make dialog modal
         dialog.overrideredirect(True)  # Remove decorations
-        dialog.geometry("+%d+%d" % (self.winfo_x() + 100, self.winfo_y() + 100))  # Set fixed position
+        dialog.geometry(
+            "+%d+%d" % (self.winfo_x() + 100, self.winfo_y() + 100)
+        )  # Set fixed position
 
         frame = ttk.Frame(dialog, padding="10")
         frame.pack(fill=tk.BOTH, expand=True)

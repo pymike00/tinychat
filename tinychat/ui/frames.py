@@ -1,5 +1,7 @@
 import customtkinter as ctk
-
+from PIL import Image
+import os
+from tinychat.utils.icon_loader import load_svg_icon
 from tinychat.utils.secrets import get_secret, set_secret
 from tinychat.settings import OPENAI_API_KEY_NAME, FONT_FAMILY
 
@@ -41,10 +43,17 @@ class SettingsFrame(ctk.CTkFrame):
         if default_model in available_models:
             self.model_selection.set(default_model)
 
+        # Load icons
+        self.settings_icon = load_svg_icon("settings", color="#FFFFFF")
+        self.new_chat_icon = load_svg_icon("plus-circle", color="#FFFFFF")
+        self.export_icon = load_svg_icon("download", color="#FFFFFF")
+
         # Create settings button
         self.settings_button = ctk.CTkButton(
             self,
             text="Settings",
+            image=self.settings_icon,
+            compound="left",
             command=self.open_settings_window,
             font=ctk.CTkFont(family=FONT_FAMILY, size=13),
             fg_color="#1E90FF",
@@ -58,6 +67,8 @@ class SettingsFrame(ctk.CTkFrame):
         self.reset_button = ctk.CTkButton(
             self,
             text="New Chat",
+            image=self.new_chat_icon,
+            compound="left",
             command=on_reset_callback,
             font=ctk.CTkFont(family=FONT_FAMILY, size=13),
             fg_color="#1E90FF",
@@ -71,6 +82,8 @@ class SettingsFrame(ctk.CTkFrame):
         self.export_button = ctk.CTkButton(
             self,
             text="Export Conversation",
+            image=self.export_icon,
+            compound="left",
             command=on_export_callback,
             font=ctk.CTkFont(family=FONT_FAMILY, size=13),
             fg_color="#1E90FF",
