@@ -3,9 +3,8 @@ import customtkinter
 from tinychat.backend import Backend
 from tinychat.ui.chat import ChatApp
 
-customtkinter.set_default_color_theme("green")  # Themes: "blue" (standard), "green", "dark-blue"
-customtkinter.set_appearance_mode("dark")
-
+customtkinter.set_default_color_theme("blue")
+customtkinter.set_appearance_mode("light")
 
 
 if __name__ == "__main__":

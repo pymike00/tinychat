@@ -1,91 +1,91 @@
+from openai import OpenAI
+from typing import Generator, List
 import json
-from typing import Generator
-
-import requests
-from sseclient import SSEClient
-
-from tinychat.llms.base import BaseLLMClient
+from tinychat.utils.secrets import get_secret
 from tinychat.settings import OPENAI_API_KEY_NAME
 
-
-class OpenAIClient(BaseLLMClient):
-    """
-    Simple client for interacting with the OpenAI API.
-    Currently only supports the chat completions endpoint.
-
-    :param model_name: The name of the model to be used for chat requests.
-    """
-
-    OPENAI_COMPLETION_API_URL = "https://api.openai.com/v1/chat/completions"
-
-    def __init__(self, model_name: str, temperature: float) -> None:
-        super().__init__(api_key_name=OPENAI_API_KEY_NAME)
-        self.model_name = model_name
-        self.temperature = temperature
-
-    def perform_stream_request(self, messages: list[dict]) -> SSEClient:
-        # info: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events
-        data = {
-            "model": self.model_name,
-            "messages": messages,
-            "temperature": self.temperature,
-            "stream": True,
-        }
-        response = requests.post(
-            self.OPENAI_COMPLETION_API_URL,
-            headers=self.default_headers(),  # type: ignore
-            json=data,
-            stream=True,
-        )
-        if response.status_code != 200:
-            raise ValueError(
-                f"Server responded with an error. Status Code: {response.status_code}"
-            )
-        return SSEClient(event_source=response)  # type: ignore
-
-
 class OpenAIHandler:
-    """
-    Handler class to interact with the OpenAI models.
-
-    Returns chat responses and stores the chat history.
-    """
-
-    def __init__(self, model_name: str, temperature: float = 0.0):
-        self._messages = []
-        self._client = OpenAIClient(model_name, temperature)
-
-    def export_conversation(self) -> str:
-        string_conversation = ""
-        for message in self._messages:
-            if message["role"] == "user":
-                if string_conversation != "":
-                    string_conversation += "\n\n"
-                string_conversation += f"You: {message['content']}"
-            else:
-                string_conversation += f"LLM: {message['content']}"
-        return string_conversation
+    def __init__(self, temperature: float = 0.0):
+        # Initialize the OpenAI client with the API key
+        self.client = OpenAI(api_key=get_secret(OPENAI_API_KEY_NAME))
+        # Set the temperature for generating responses
+        self.temperature = temperature
+        # Initialize an empty list to store conversation messages
+        self.messages = []
+        # Set a default system prompt
+        self.system_prompt = "You are a helpful assistant."
 
     def stream_response(self, user_input: str) -> Generator[str, None, None]:
-        """
-        Yield stream responses from the client as they are received.
+        # Add the user's input to the conversation history
+        self.messages.append({"role": "user", "content": user_input})
+        # Prepare messages for the API call, including the system prompt
+        messages_with_system = [{"role": "system", "content": self.system_prompt}] + self.messages
+        # Make a streaming API call to OpenAI
+        response = self.client.chat.completions.create(
+            model="gpt-4-turbo-preview",
+            messages=messages_with_system,
+            temperature=self.temperature,
+            stream=True
+        )
+        # Initialize a list to collect the response
+        collected_messages = []
+        # Iterate through the streaming response
+        for chunk in response:
+            if chunk.choices[0].delta.content is not None:
+                # Collect and yield each part of the response
+                collected_messages.append(chunk.choices[0].delta.content)
+                yield chunk.choices[0].delta.content
+        # Add the complete assistant's response to the conversation history
+        self.messages.append({"role": "assistant", "content": ''.join(collected_messages)})
 
-        This method sends the user input to the client and then yields each piece
-        of the language model's response as it is received in real-time. After the
-        streaming is complete, it updates the message list with the user input and
-        the full language model response.
+    def export_conversation(self) -> str:
+        # Format the conversation history as a string
+        conversation = ""
+        for message in self.messages:
+            role = "You" if message["role"] == "user" else "Assistant"
+            conversation += f"{role}: {message['content']}\n\n"
+        return conversation
 
-        :param user_input: The input string from the user to be sent to the model.
-        :return: A generator yielding the model's response in streamed parts.
-        """
-        self._messages.append({"role": "user", "content": user_input})
-        stream = self._client.perform_stream_request(self._messages)
-        lm_response = ""
-        for event in stream.events():  # type: ignore
-            if event.data != "[DONE]":
-                json_load = json.loads(event.data)["choices"][0]["delta"]
-                if "content" in json_load.keys():
-                    response_piece = json_load["content"]
-                    lm_response += response_piece
-                    yield response_piece
-        self._messages.append({"role": "assistant", "content": lm_response})
+    def analyze_documents(self, system_prompt: str, user_input: str) -> List[dict]:
+        response = self.client.chat.completions.create(
+            model="gpt-4-turbo-preview",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_input},
+            ],
+            temperature=self.temperature,
+        )
+        content = response.choices[0].message.content
+        print("Raw OpenAI response:")
+        print(content)
+
+        # Strip "```json" and brackets from the response
+        cleaned_content = content.strip().lstrip('```json').rstrip('```').strip()
+        if cleaned_content.startswith('['):
+            cleaned_content = cleaned_content[1:]
+        if cleaned_content.endswith(']'):
+            cleaned_content = cleaned_content[:-1]
+
+        try:
+            # Attempt to parse the cleaned content as JSON
+            parsed_content = json.loads(f'[{cleaned_content}]')
+            return parsed_content
+        except json.JSONDecodeError:
+            # If JSON parsing fails, return the raw content as a single item in a list
+            return [{"raw_content": content}]
+
+    def set_system_prompt(self, prompt: str):
+        # Update the system prompt
+        self.system_prompt = prompt
+
+    def get_response(self, user_input: str) -> str:
+        self.messages.append({"role": "user", "content": user_input})
+        messages_with_system = [{"role": "system", "content": self.system_prompt}] + self.messages
+        response = self.client.chat.completions.create(
+            model="gpt-4-turbo-preview",
+            messages=messages_with_system,
+            temperature=self.temperature,
+        )
+        content = response.choices[0].message.content
+        self.messages.append({"role": "assistant", "content": content})
+        return content
