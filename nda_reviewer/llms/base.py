@@ -1,7 +1,7 @@
 from typing import Generator, Protocol
 
-from tinychat.utils.secrets import get_secret
-from tinychat.settings import SECRETS_FILE_PATH
+from nda_reviewer.utils.secrets import get_secret
+from nda_reviewer.settings import SECRETS_FILE_PATH
 
 
 class LLMProtocol(Protocol):

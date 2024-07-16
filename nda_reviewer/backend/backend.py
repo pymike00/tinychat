@@ -6,9 +6,9 @@ from tkinter import filedialog
 import json
 import difflib
 
-from tinychat.llms.base import LLMProtocol
-from tinychat.llms.openai import OpenAIHandler
-from tinychat.utils.secrets import get_secret, set_secret
+from nda_reviewer.llms.base import LLMProtocol
+from nda_reviewer.llms.openai import OpenAIHandler
+from nda_reviewer.utils.secrets import get_secret, set_secret
 
 
 class Backend:
@@ -39,7 +39,7 @@ class Backend:
 
     def get_default_temperature(self):
         """
-        Get the value of temperature from tinychat.json if available
+        Get the value of temperature from nda_reviewer.json if available
         else return default_temperature.
         """      
         default_temperature = 0.7

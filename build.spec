@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['tinychat/__main__.py'],
+    ['nda_reviewer/__main__.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -18,11 +18,11 @@ pyz = PYZ(a.pure)
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries + [('tinychat.ico', './tinychat/tinychat.ico', 'DATA')],
-    a.binaries + [('tinychat.png', './tinychat/tinychat.png', 'DATA')],
+    a.binaries + [('nda_reviewer.ico', './nda_reviewer/nda_reviewer.ico', 'DATA')],
+    a.binaries + [('nda_reviewer.png', './nda_reviewer/nda_reviewer.png', 'DATA')],
     a.datas,
     [],
-    name='tinychat',
+    name='nda_reviewer',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -35,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon="tinychat/tinychat.ico"
+    icon="nda_reviewer/nda_reviewer.ico"
 )

@@ -161,4 +161,4 @@ cython_debug/
 
 secrets.json
 custom-example.py
-tinychat.json
+nda_reviewer.json

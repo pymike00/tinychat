@@ -1,6 +1,6 @@
 import json
 
-from tinychat.settings import SECRETS_FILE_PATH
+from nda_reviewer.settings import SECRETS_FILE_PATH
 
 
 def load_secrets(file_path: str) -> dict:

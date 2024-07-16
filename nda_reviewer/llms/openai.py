@@ -1,8 +1,8 @@
 from openai import OpenAI
 from typing import Generator, List
 import json
-from tinychat.utils.secrets import get_secret
-from tinychat.settings import OPENAI_API_KEY_NAME
+from nda_reviewer.utils.secrets import get_secret
+from nda_reviewer.settings import OPENAI_API_KEY_NAME
 
 class OpenAIHandler:
     def __init__(self, temperature: float = 0.0):

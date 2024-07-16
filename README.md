@@ -32,36 +32,36 @@ Key features include:
 
 ```
 # Clone repo and enter main folder
-git clone https://github.com/pymike00/tinychat.git
-cd tinychat
+git clone https://github.com/starrm/nda-reviewer.git
+cd nda-reviewer
 
 # Create Virtual Environment
 python -m venv venv
 
 # Activate Virtual Environment
-source venv/bin/activate on Linux / Mac OS
-.\venv\Scripts\Activate.ps1 on Windows Powershell
+source venv/bin/activate # on Linux / Mac OS
+.\venv\Scripts\Activate.ps1 # on Windows Powershell
 
 # Install requirements
 pip install -r requirements.txt
 
 # Run application
-python -m tinychat
+python -m nda_reviewer
 ```
 
 ### Building an Executable:
 
 ```
 # Clone repo and enter main folder
-git clone https://github.com/pymike00/tinychat.git
-cd tinychat
+git clone https://github.com/starrm/nda-reviewer.git
+cd nda-reviewer
 
 # Create Virtual Environment
 python -m venv venv
 
 # Activate Virtual Environment
-source venv/bin/activate on Linux / Mac OS
-.\venv\Scripts\Activate.ps1 on Windows Powershell
+source venv/bin/activate # on Linux / Mac OS
+.\venv\Scripts\Activate.ps1 # on Windows Powershell
 
 # Install requirements
 pip install -r requirements-build.txt
@@ -69,7 +69,7 @@ pip install -r requirements-build.txt
 # Run build commands
 pyinstaller build.spec
 
-# You should now have a new tinychat executable file in a newly created dist folder
+# You should now have a new NDA Reviewer executable file in a newly created dist folder
 ```
 
 ### Notes:
@@ -77,3 +77,5 @@ pyinstaller build.spec
 - API keys are securely stored in a local JSON file.
 
 This application is designed to assist in the NDA review process but should not replace professional legal advice. Always consult with a qualified legal professional for final review and approval of legal documents.
+
+[View the project on GitHub](https://github.com/starrm/nda-reviewer.git)

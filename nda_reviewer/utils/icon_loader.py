@@ -5,7 +5,7 @@ from PIL import Image
 import customtkinter as ctk
 
 def load_svg_icon(icon_name, size=(20, 20), color="#1E90FF"):
-    icon_path = os.path.join("tinychat", "assets", f"{icon_name}.svg")
+    icon_path = os.path.join("nda_reviewer", "assets", f"{icon_name}.svg")
     with open(icon_path, 'r') as file:
         svg_data = file.read()
     

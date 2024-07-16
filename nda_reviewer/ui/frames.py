@@ -1,9 +1,9 @@
 import customtkinter as ctk
 from PIL import Image
 import os
-from tinychat.utils.icon_loader import load_svg_icon
-from tinychat.utils.secrets import get_secret, set_secret
-from tinychat.settings import OPENAI_API_KEY_NAME, FONT_FAMILY
+from nda_reviewer.utils.icon_loader import load_svg_icon
+from nda_reviewer.utils.secrets import get_secret, set_secret
+from nda_reviewer.settings import OPENAI_API_KEY_NAME, FONT_FAMILY
 
 
 class SettingsFrame(ctk.CTkFrame):
@@ -95,7 +95,7 @@ class SettingsFrame(ctk.CTkFrame):
 
     def open_settings_window(self):
         settings_window = ctk.CTkToplevel(self)
-        settings_window.title("TinyChat - Settings")
+        settings_window.title("Settings")
         settings_window.geometry("700x360")
         settings_window.transient(self)
 

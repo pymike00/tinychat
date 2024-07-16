@@ -6,9 +6,9 @@ import difflib
 from tkinter import ttk
 import customtkinter as ctk
 
-from tinychat.settings import FONT_FAMILY, MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
-from tinychat.ui.frames import SettingsFrame
-from tinychat.utils.icon_loader import load_svg_icon
+from nda_reviewer.settings import FONT_FAMILY, MAIN_WINDOW_RESOLUTION, MAIN_WINDOW_TITLE
+from nda_reviewer.ui.frames import SettingsFrame
+from nda_reviewer.utils.icon_loader import load_svg_icon
 
 
 class ChatApp(ctk.CTk):
