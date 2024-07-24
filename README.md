@@ -8,7 +8,7 @@ To reduce magic to a minimum, no official API client is used: it's only just pos
 - [x] OpenAI: GPT-4o, GPT-4 Turbo
 - [x] Anthropic: Claude 3.5 Sonnet, Claude 3 Opus
 - [x] Mistral: Large, Codestral
-- [x] Meta AI: Llama3 8B, Llama3 70B
+- [x] Meta AI: Llama 3.1 8B, 70B, 405B (via TogetherAI)
 - [x] Google: Gemini Pro 1.5
 - [x] Cohere: Command R
 
