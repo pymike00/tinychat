@@ -1,4 +1,4 @@
-APP_VERSION = "0.8.2"
+APP_VERSION = "0.8.3"
 
 # Title for the main GUI window of the application
 MAIN_WINDOW_TITLE = f"TinyChat LLM Client - v{APP_VERSION}"
